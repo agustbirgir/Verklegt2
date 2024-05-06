@@ -1,5 +1,4 @@
 # Enviroments
-
 .env
 .venv
 env/
@@ -8,3 +7,7 @@ ENV/
 env.bak/
 venv.bak/
 .idea/
+
+# Bytecode files
+__pycache__/
+*.py[cod]
