@@ -1,6 +1,81 @@
-{%  extends 'Base/base.html' %}
+{% extends 'Base/base.html' %}
+{% block title %}Welcome to Hunter Page{% endblock %}
 {% block content %}
-    <h1> Welcome to Job Hunter Page
-    </h1>
-    <a href="sign_up.html">link</a>
+    <a href="{% url 'signup' %}">link</a>
+    <div class="filter"
+        style="
+            width: 18rem;
+            float: left;
+            border: 2px #8abccb;
+            margin-right: 2rem">
+        <div class="title" style="text-align: center">
+            <h2 class="filter">
+                Filter
+            </h2>
+        </div>
+        <div class="Filter by">
+            <div class="title">
+                <h3 class="category">Category:</h3>
+            </div>
+            <div class="filter-buttons">
+                <button type="button" class="btn btn-primary"
+                        style="
+                        background-color: #8abccb;
+                        border-radius: 4px;
+                        margin: .25rem;
+                        border: #8abccb;
+                        ">
+                    Computer Science
+                </button>
+                <button type="button" class="btn btn-primary"
+                        style="background-color: #8abccb;
+                        border-radius: 4px;
+                        margin: .25rem;
+                        border: #8abccb;">
+                    Data Science
+                </button>
+                <button type="button" class="btn btn-primary"
+                        style="background-color: #8abccb;
+                        border-radius: 4px;
+                        margin: .25rem;
+                        border: #8abccb;">
+                    Software Engineering
+                </button>
+            </div>
+        </div>
+        <div class="Filter by">
+            <div class="title">
+                <h3 class="company">Company:</h3>
+            </div>
+            <div class="filter-buttons">
+                <button type="button" class="filter-button">Arion Banki</button>
+                <button type="button" class="filter-button">Syndis</button>
+            </div>
+        </div>
+    </div>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Company - Job Title</h5>
+            <div class="job-description">
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+                    ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse...</p>
+            </div>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
