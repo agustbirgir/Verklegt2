@@ -1,10 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% load static %}
+
+<footer class="bg-dark text-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 d-flex align-items-center">
+                <img src="{% static 'Images/website_logo.png' %}" alt="Job Hunters Logo" style="width: 50px; height: 50px;">
+                <span class="ms-2" style="font-weight: bold;">Job Hunters</span>
+            </div>
+            <div class="col-md-4">
+                <h5>Authors:</h5>
+                <ul class="list-unstyled">
+                    <li>Ágúst Birgir Karlsson</li>
+                    <li>Elvar Ágúst Þorsteinsson</li>
+                    <li>Vigdís Helga Eyjólfsdóttir</li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Contact us:</h5>
+                <p>jobhunters@jobhunters.is</p>
+            </div>
+        </div>
+    </div>
+</footer>
