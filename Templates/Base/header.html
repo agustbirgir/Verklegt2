@@ -1,0 +1,35 @@
+{% load static %}
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary" style="height: 10vh; padding: 0;">
+    <!-- Container wrapper -->
+    <div class="container-fluid" style="height: 100%; margin: 0; padding: 0; background-color: cadetblue; display: flex; justify-content: space-between; align-items: center;">
+        <!-- Navbar brand -->
+        <a class="navbar-brand" href="/JobHunter" style="height: 100%; margin: 1rem; padding: 0; display: flex; align-items: center;">
+            <img
+                src="{% static 'Images/website_logo.png' %}"
+                class="img-fluid" alt="Job Hunters Logo"
+                style="height: 100%; width: auto; object-fit: cover; padding-right: 1rem"
+            />
+            <span style="color: #FFFFFF; font-size: 20px; font-weight: bold; margin-left: 0.5rem;">JobHunter</span>
+        </a>
+    
+        <!-- Centered Search form -->
+        <div class="mx-auto" style="flex-grow: 1; max-width: 30%;">
+            <form class="d-flex justify-content-center my-0 w-100">  
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1" style="border-radius: 1rem 0 0 1rem; background-color: white; border-right: none;">
+                        <img src="{% static 'Images/search_icon.png' %}" alt="Search" style="height: 1.5rem; width: 1.5em;">
+                    </span>
+                    <input type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" style="border-radius: 0 1rem 1rem 0; height: 2.5rem; border-left: none; ">
+                </div>
+            </form>
+        </div>
+
+        <!-- Sign In Button with Padding -->
+        <div style="padding-right: 3em; padding-left: 10em">
+            <a href="{% url 'login' %}" class="btn btn-primary" role="button" data-mdb-ripple-init style="background-color: cadetblue; border: none;">Sign In</a>
+        </div>
+    </div>
+    <!-- Container wrapper -->
+</nav>
