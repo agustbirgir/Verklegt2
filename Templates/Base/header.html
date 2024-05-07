@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary" style="height: 10vh; padding: 0;">
+      <!-- Container wrapper -->
+      <div class="container-fluid" style="height: 100%; margin: 0; padding: 0; background-color: cadetblue ">
+        <!-- Navbar brand -->
+        <a class="navbar-brand me-auto" href="/JobHunter" style="height: 100%; margin: 1rem; padding: 0; display: flex; align-items: center;">
+          <img
+            src="{% static '/Images/website_logo.png' %}"
+            class="img-fluid" alt="MDB Logo"
+            style="height: 100%; width: auto; object-fit: cover; padding-right: 1rem"
+          />
+            <span style="color: #FFFFFF; font-size: 20px; font-weight: bold; margin-left: 0.5rem;">JobHunter</span>
+        </a>
+    
+        <!-- Collapsible wrapper -->
+        <div class="collapse navbar-collapse" id="navbarButtonsExample">
+          <!-- Search form -->
+            <form class="d-flex mx-auto my-0" style="width: 75%; max-width: 500px;"> <!-- Adjust the max-width to control the length of the search bar -->  
+                <div class="input-group">
+                <span class="input-group-text" id="basic-addon1" style="border-radius: 1rem 0 0 1rem; background-color: white; border-right: none;">
+                  <img src="{% static 'Images/search_icon.png' %}" alt="Search" style="height: 1.5rem; width: 1.5em;">
+                </span>
+                <input type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" style="border-radius: 0 1rem 1rem 0; height: 2.5rem; border-left: none; flex-grow: 1;">
+              </div>
+            </form>
+
+            <div class="d-flex align-items-center">
+                <a href="{% url 'login' %}" class="btn btn-primary" role="button" data-mdb-ripple-init style="margin-right: 1rem; background-color: cadetblue; border: none;">Sign In</a>
+            </div>
+
+        </div>
+        <!-- Collapsible wrapper -->
+      </div>
+      <!-- Container wrapper -->
+    </nav>
+    
+    <footer class="bg-dark text-light py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 d-flex align-items-center">
+                    <img src="{% static 'Images/logo.png' %}" alt="Job Hunters Logo" style="width: 50px; height: 50px;">
+                    <span class="ms-2" style="font-weight: bold;">Job Hunters</span>
+                </div>
+                <div class="col-md-4">
+                    <h5>Authors:</h5>
+                    <ul class="list-unstyled">
+                        <li>Ágúst Birgir Karlsson</li>
+                        <li>Elvar Ágúst Þorsteinsson</li>
+                        <li>Vigdís Helga Eyjólfsdóttir</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contact us:</h5>
+                    <p>jobhunters@jobhunters.is</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+<!-- Navbar -->
+    <h1>Title</h1>
+    {% block content %}
+    {% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
+
+
+
