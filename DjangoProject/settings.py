@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'JobHunter.apps.JobhunterConfig',
+    'JobHunter.apps.JobHunterConfig',
 ]
 
 MIDDLEWARE = [
