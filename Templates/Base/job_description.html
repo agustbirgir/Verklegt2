@@ -1,0 +1,76 @@
+
+{% extends 'Base/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <!-- First Column - Approx. 60% Width -->
+        <div class="col-md-7 py-4" style="height: 45em;">
+            <!-- Rows within the column -->
+            <div class="row mb-3" style="height: 8em; background-color: #e9ecef; border: 1px solid #ced4da;">
+                <div class="col">
+                    <p>Main-Image</p>
+                </div>
+            </div>
+            <div class="row mb-4" style="height: 2em; background-color: #e9ecef; border: 1px solid #ced4da;">
+                <div class="col">
+                    <p>Categories</p>
+                </div>
+            </div>
+            <div class="row mb-4" style="height: 14em; background-color: #e9ecef; border: 1px solid #ced4da;">
+                <div class="col">
+                    <h5>Company Name - Job</h5>
+                    <p>About Job</p>
+                </div>
+            </div>
+            <div class="row mb-4" style="height: 12em; background-color: #e9ecef; border: 1px solid #ced4da;">
+                <div class="col">
+                    <h5>About Company</h5>
+                    <p>About Company</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gap Column - Approx. 10% Width -->
+        <div class="col-md-1" style="background-color: transparent;"></div>
+
+        <!-- Second Column - Approx. 30% Width -->
+        <div class="col-md-4 py-4" style="height: 35em;">
+
+            <div class="row mb-4" style="height: 6em; background-color: #e9ecef; border-radius: 0.5rem; align-items: center;">
+                <!-- Image column that takes up about 30% of the total row width -->
+                <div class="col-4 p-0" style="display: flex; align-items: center; justify-content: flex-start; overflow: hidden;">
+                    <img src="{% static 'Images/test.jpg' %}" alt="Image Description" class="rounded-start" style="width: 90%; height: auto; object-fit: cover; border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                </div>
+                <!-- Text column that takes up the remaining 70% of the row width -->
+                <div class="col-8 d-flex align-items-center justify-content-center">
+                    <p class="text-center mb-0" style="width: 100%;">Company page button</p>
+                </div>
+            </div>
+
+
+
+            <div class="row mb-0.5" style="height: 2em; background-color: #e9ecef; border-radius: 0.5rem 0.5rem 0 0">
+                <div class="col">
+                    <p>Created</p>
+                </div>
+            </div>
+            <div class="row mb-4" style="height: 2em; background-color: #e9ecef; border-radius: 0 0 0.5rem 0.5rem; border-top: 1px solid gray" >
+                <div class="col">
+                    <p>Expires</p>
+                </div>
+            </div>
+            <div class="row" style="height: 2em; background-color: #e9ecef; border-radius: 0.5rem; margin-bottom: 6em">
+                <div class="col">
+                    <p>Location</p>
+                </div>
+            </div>
+            <div class="row" style="height: 3em; border-radius: 0.5rem">
+                <a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Apply</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
