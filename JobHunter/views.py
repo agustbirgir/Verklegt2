@@ -46,6 +46,9 @@ def logout_view(request):
     print("User after logout",request.user)
     return redirect('login')
 
+def signup_choice(request):
+    return render(request, 'Base/choose_signup.html')
+
 def signup_view(request):
     if request.method == "POST":
         first_name = request.POST.get('first_name', '').strip()

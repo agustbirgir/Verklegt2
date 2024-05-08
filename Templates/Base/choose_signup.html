@@ -1,0 +1,20 @@
+{% extends 'Base/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Choose Your Signup</h2>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <!-- Company Signup Button -->
+                        <a href="{% url 'company_signup' %}" class="btn btn-primary btn-lg" style="margin-top: 20px;">Company Signup</a>
+                        <!-- JobHunter Signup Button -->
+                        <a href="{% url 'signup' %}" class="btn btn-secondary btn-lg" style="margin-top: 20px;">JobHunter Signup</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
