@@ -6,14 +6,15 @@
             <div class="card">
                 <div class="card-body">
                     <h2 class="card-title text-center">Login</h2>
-                    <form>
+                    <form method="post">
+                        {% csrf_token %}
                         <div class="mb-3">
                             <label for="emailInput" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp">
+                            <input type="email" class="form-control" name="email" id="emailInput" aria-describedby="emailHelp" required>
                         </div>
                         <div class="mb-3">
                             <label for="passwordInput" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="passwordInput">
+                            <input type="password" class="form-control" name="password" id="passwordInput" required>
                         </div>
 
                         <div class="text-center mt-3">
@@ -21,12 +22,12 @@
                         </div>
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary"
-                                    style="--bs-btn-padding-y: .25rem; background-color: #8abccb; border: #8abccb;">
+                            <button type="submit" class="btn btn-primary" style="--bs-btn-padding-y: .25rem; background-color: #8abccb; border: #8abccb;">
                                 Login
                             </button>
                         </div>
                     </form>
+
 
                 </div>
             </div>

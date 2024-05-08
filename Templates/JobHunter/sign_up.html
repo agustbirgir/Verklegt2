@@ -9,8 +9,12 @@
                     <form method="post">
                         {% csrf_token %}
                         <div class="mb-3">
-                            <label for="fullNameInput" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" name="full_name" id="fullNameInput">
+                            <label for="firstNameInput" class="form-label">First Name</label>
+                            <input type="text" class="form-control" name="first_name" id="firstNameInput" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="lastNameInput" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" name="last_name" id="lastNameInput">
                         </div>
                         <div class="mb-3">
                             <label for="emailInput" class="form-label">Email</label>
