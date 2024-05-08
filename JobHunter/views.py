@@ -67,3 +67,6 @@ def signup_view(request):
             return render(request, 'JobHunter/sign_up.html', {'error': 'Passwords do not match'})
     else:
         return render(request, 'JobHunter/sign_up.html')
+
+def job_description_view(request):
+    return render(request, 'Base/job_description.html')
