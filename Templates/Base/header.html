@@ -27,8 +27,8 @@
 
         <!-- Sign In Button with Padding -->
         <div style="padding-right: 3em; padding-left: 10em">
-            {% if user %}
-                <span>Welcome, {{ user.first_name }}!</span>
+            {% if request.user.is_authenticated %}
+                <span>Welcome, {{ request.user.first_name }}!</span>
                 <a href="{% url 'logout' %}" class="btn btn-primary" role="button" style="background-color: cadetblue; border: none;">Logout</a>
             {% else %}
                 <a href="{% url 'login' %}" class="btn btn-primary" role="button" data-mdb-ripple-init style="background-color: cadetblue; border: none;">Sign In</a>

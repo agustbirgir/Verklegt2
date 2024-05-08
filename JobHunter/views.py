@@ -5,9 +5,10 @@ from django.contrib.auth import logout
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.hashers import check_password
 from django.http import HttpResponse
+from django.views.decorators.cache import never_cache
 
 
-
+@never_cache
 def index(request):
     return render(request, 'JobHunter/index.html')
 
@@ -24,7 +25,6 @@ def login_view(request):
         if request.user.is_authenticated:
             return redirect('index')
         else:
-            print("Login failed")
             user = authenticate(email=email, password=password)
 
         # Authenticate the user
@@ -41,7 +41,9 @@ def login_view(request):
         return render(request, 'Base/login.html')
 
 def logout_view(request):
+    print("logging out: ", request.user)
     logout(request)
+    print("User after logout",request.user)
     return redirect('login')
 
 def signup_view(request):
