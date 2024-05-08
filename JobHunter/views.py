@@ -18,9 +18,11 @@ def signup_view(request):
         if password == confirm_password:
             first_name, last_name = full_name.split()
             hashed_password = make_password(password)
-            User.objects.create(first_name=first_name, last_name=last_name, email=email, password=hashed_password)
+            new_user = User.objects.create(first_name=first_name, last_name=last_name, email=email, password=hashed_password)
+            print("new user created: ",new_user)
             return redirect('login')
         else:
+            print("password mismatch ", email)
             return render(request, 'JobHunter/sign_up.html', {'error': 'Passwords do not match'})
     else:
         return render(request, 'JobHunter/sign_up.html')
