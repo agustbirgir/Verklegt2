@@ -1,0 +1,38 @@
+{% extends 'Base/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <!-- First Column - Approx. 60% Width -->
+        <div class="col py-4" style="height: 45em;">
+            <!-- Rows within the column -->
+            <div class="row mb-0.5" style="height: 8em; background-color: #e9ecef; border: 1px solid #ced4da;">
+                <div class="col">
+                    <p>Main block</p>
+                </div>
+            </div>
+
+            <div class="row mb-4" style="height: 6em; background-color: #e9ecef; border: 1px solid #ced4da;">
+                <div class="col">
+                  <h5>Information</h5>
+                  <p>text</p>
+                </div>
+            </div>
+
+            <div class="row mb-5" style="height: 14em; background-color: #e9ecef; border: 1px solid #ced4da;">
+                <div class="col">
+                    <h5>About Me</h5>
+                    <p>text</p>
+                </div>
+            </div>
+
+            <div class="row mb-4" style="height: 3em; background-color: #e9ecef; border: 1px solid #ced4da;">
+                <div class="col">
+                    <h5>Applied Jobs</h5>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
