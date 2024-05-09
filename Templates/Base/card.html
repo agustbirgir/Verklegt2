@@ -1,5 +1,17 @@
 {% extends 'Base/base.html' %}
+{% load static %}
+
 {% block content %}
+
     <a href="{% url 'new_job' %}">card link</a>
+    <div class="card" style="width: 30rem;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col">
+                    <img src="{% static 'Images/test.jpg' %}" class="img-fluid" alt="Image Description">
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
