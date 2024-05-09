@@ -4,5 +4,5 @@ from . import  views
 """register the new urls here"""
 urlpatterns = [
     path('', views.index, name="index"),
-    path('', views.index, name="index"),
+    path('sign_up/', views.company_signup, name="company_signup"),
 ]
