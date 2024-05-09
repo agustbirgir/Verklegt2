@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Company
 from django.contrib.auth.hashers import make_password
 
+
 def index(request):
     return render(request, 'Company/index.html')
 
@@ -33,3 +34,9 @@ def company_signup(request):
 
     else:
         return render(request, 'Company/sign_up.html')
+
+def new_job(request):
+    if request.method == 'POST':
+        pass
+    return render(request, 'Company/new_job.html')
+
