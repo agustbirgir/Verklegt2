@@ -12,6 +12,10 @@ from django.views.decorators.cache import never_cache
 def index(request):
     return render(request, 'JobHunter/index.html')
 
+
+def cards(request):
+    return render(request, 'JobHunter/cards.html')
+
 def login_view(request):
     if request.method == 'POST':
         email = request.POST['email']
