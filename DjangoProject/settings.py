@@ -147,3 +147,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 AUTH_USER_MODEL = 'JobHunter.User'
+
+AUTHENTICATION_BACKENDS = [
+    'JobHunter.backends.EmailBackend',  # Change path_to_your_app to your actual app directory name
+]
+
+
