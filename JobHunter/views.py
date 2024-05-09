@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import User
+from .models import User, Profile
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.hashers import make_password
@@ -12,33 +12,19 @@ from django.views.decorators.cache import never_cache
 def index(request):
     return render(request, 'JobHunter/index.html')
 
-
 def login_view(request):
     if request.method == 'POST':
-        email = request.POST.get('email')
-        print("email is: ", email)
-        password = request.POST.get('password')
-        print("password is: ", password)
-        # Debugging prints
-        print("Debug: Email received:", email)
-        print("Debug: Password received:", password)
+        email = request.POST['email']
+        password = request.POST['password']
         if request.user.is_authenticated:
             return redirect('index')
-        else:
-            user = authenticate(email=email, password=password)
-
-        # Authenticate the user
-        print("Login worked")
-        user = authenticate(request, email=email, password=password)  # Assuming username is the email
+        user = authenticate(request, username=email, password=password)
         if user is not None:
-            print("Debug: Authentication successful for user:", user.email)
             login(request, user)
             return redirect('index')
         else:
-            print("Debug: Authentication failed for email:", email)
             return HttpResponse("Invalid login", status=401)
-    else:
-        return render(request, 'Base/login.html')
+    return render(request, 'Base/login.html')
 
 def logout_view(request):
     print("logging out: ", request.user)
@@ -57,14 +43,21 @@ def signup_view(request):
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
 
-        # Check if the email is already in use
         if User.objects.filter(email=email).exists():
             print("Email already in use: ", email)
             return render(request, 'JobHunter/sign_up.html', {'error': 'Email already in use'})
 
         if password == confirm_password:
             hashed_password = make_password(password)
-            new_user = User.objects.create(first_name=first_name, last_name=last_name, email=email, password=hashed_password)
+            # Creating user
+            new_user = User.objects.create(
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                password=hashed_password
+            )
+            # Creating profile linked to the user
+            Profile.objects.create(user=new_user)
             print("new user created: ", new_user)
             return redirect('login')
         else:
