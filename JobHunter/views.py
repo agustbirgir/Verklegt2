@@ -75,3 +75,6 @@ def signup_view(request):
 
 def job_description_view(request):
     return render(request, 'Base/job_description.html')
+
+def user_profile_view(request):
+    return render(request, 'Base/user_profile.html')
