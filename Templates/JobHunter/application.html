@@ -75,7 +75,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="padding-bottom: 2rem">
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <button type="button" id="addRowBtn" class="btn btn-primary" onclick="addRow()">Add +</button>
+                                        <button type="button" id="addRowBtn" class="btn btn-primary" onclick="addRowExp()">Add +</button>
                                     </div>
                                 </div>
                             </form>
@@ -113,13 +113,65 @@
                     </div>
                 </div>
             </div>
+            <div class="row" style="padding-bottom: 2rem">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <form>
+                                <label for="recommendationForms" class="form-label" style="font-weight: bold; color: darkcyan">Recommendations</label>
+                                <div class="row mb-3" id="recommendationForms">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" id="recName" placeholder="Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" id="recRole" placeholder="Role">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <input type="email" class="form-control" id="recEmail" placeholder="Email">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="mb-3">
+                                            <input type="number" class="form-control" id="recPhoneNr" placeholder="Phone Number">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="mb-3" style="padding-top: 1rem">
+                                            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                                <input type="radio" class="btn-check" name="btnradio" id="canContact" autocomplete="off" checked>
+                                                <label class="btn btn-outline-primary" for="canContact">Can Contact</label>
+
+                                                <input type="radio" class="btn-check" name="btnradio" id="cannotContact" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="cannotContact">Can NOT Contact</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="row">
+                                    <div class="col">
+                                        <button type="button" id="addRowBtn2" class="btn btn-primary" onclick="addRowRec()">Add +</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-grid gap-2 col-2 mx-auto" style="padding: 2rem">
+                <button class="btn btn-primary" type="button">Next Page</button>
+            </div>
         </div>
     </div>
 
     <script>
         let rowCounter = 1;
 
-        function addRow() {
+        function addRowExp() {
             rowCounter++;
 
             const newRow = document.createElement("div");
@@ -149,6 +201,53 @@
             `;
 
             document.getElementById('experienceForms').appendChild(newRow);
+        }
+    </script>
+
+    <script>
+        let rowCounter = 1;
+
+        function addRowRec() {
+            rowCounter++;
+
+            const newRow = document.createElement("div");
+            newRow.className = "row mb-3";
+
+            newRow.innerHTML = `
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="recName${rowCounter}" placeholder="Name">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="recRole${rowCounter}" placeholder="Role">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <input type="email" class="form-control" id="recEmail${rowCounter}" placeholder="Email">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="mb-3">
+                        <input type="number" class="form-control" id="recPhoneNr${rowCounter}" placeholder="Phone Number">
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="mb-3" style="padding-top: 1rem">
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="btnradio" id="canContact${rowCounter}" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="canContact">Can Contact</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="cannotContact${rowCounter}" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="cannotContact">Can NOT Contact</label>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('recommendationForms').appendChild(newRow);
         }
     </script>
 {% endblock %}
