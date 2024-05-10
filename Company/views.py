@@ -6,6 +6,9 @@ from django.contrib.auth.hashers import make_password
 def index(request):
     return render(request, 'Company/index.html')
 
+def company_page(request):
+    return render(request, 'Company/company_page.html')
+
 def company_signup(request):
     if request.method == "POST":
         company_name = request.POST.get('company_name')

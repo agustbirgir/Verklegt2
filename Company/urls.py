@@ -7,5 +7,6 @@ urlpatterns = [
     path('', views.index, name="company_index"),
     path('sign_up/', views.company_signup, name="company_signup"),
     path('new_job/', views.new_job, name="new_job"),
+    path('company_page/', views.company_page, name="company_page"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
