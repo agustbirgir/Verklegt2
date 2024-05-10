@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import User, Profile
+from .models import User, Profile # Jobhunter model
+from Company.models import Company,CompanyManager
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.hashers import make_password
@@ -14,20 +15,39 @@ def index(request):
 
 
 def cards(request):
-    return render(request, 'JobHunter/cards.html')
+    return render(request, 'Base/card.html')
 
 def login_view(request):
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
-        if request.user.is_authenticated:
-            return redirect('index')
+
+        # First, try to authenticate normally
         user = authenticate(request, username=email, password=password)
-        if user is not None:
+
+        if user:
             login(request, user)
-            return redirect('index')
+            if hasattr(user, 'company_name'):
+                print("User is a company. Redirecting to company index.")
+                return redirect('company_index')
+            else:
+                print("User is a jobhunter. Redirecting to jobhunter index.")
+                return redirect('index')
         else:
-            return HttpResponse("Invalid login", status=401)
+            # If no user is found, check if it might be a Company
+            try:
+                company_user = Company.objects.get(email=email)
+                if company_user.check_password(password):
+                    login(request, company_user)
+                    print("Logged in Company user manually.")
+                    return redirect('company_index')
+                else:
+                    print("Password check failed for Company.")
+            except Company.DoesNotExist:
+                print("No company found with that email.")
+
+            return HttpResponse("Invalid login credentials", status=401)
+
     return render(request, 'Base/login.html')
 
 def logout_view(request):
