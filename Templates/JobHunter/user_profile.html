@@ -8,14 +8,17 @@
         <!-- First Column - Approx. 60% Width -->
         <div class="col py-4" style="height: 45em;">
             <!-- Rows within the column -->
-            <div class="row mb-0.5" style="height: 8em; background-color: #e9ecef; border: 1px solid #ced4da;">
-                <div class="col">
-                    <p>Main block</p>
+            <div class="row mb-0.5 align-items-center" style="height: 8em; background-color: #e9ecef; border: 1px solid #ced4da;">
+                <div class="col-2" style="height: 100%; display: flex; justify-content: center; align-items: center;">
+                    <img src="{% static 'images/test.jpg' %}" class="img-fluid" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 50%">
+                </div>
+                <div class="col-8">
+                    <h2>Jón Finnbjörn Höskuldur Geirsson</h2>
                 </div>
             </div>
 
             <div class="row mb-4" style="height: 6em; background-color: #e9ecef; border: 1px solid #ced4da;">
-                <div class="col">
+                <div class="co-1">
                   <h5>Information</h5>
                   <p>text</p>
                 </div>
@@ -34,5 +37,7 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
 {% endblock %}
