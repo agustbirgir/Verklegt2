@@ -3,6 +3,8 @@
 
     <a href="{% url 'application' %}">application link</a>
 
+
+
     <div class="container mt-5" style="padding-bottom: 2rem">
         <div class="container centered">
             <h2 style="padding-bottom: 1rem; font-weight: bold; color: darkcyan">Company name - Job Title</h2>
@@ -79,10 +81,10 @@
                         <div class="card-body">
                             <form>
                                 <label for="experienceForms" class="form-label" style="font-weight: bold; color: darkcyan">Experience</label>
-                                <div class="row" id="experienceForms">
+                                <div class="row mb-3" id="experienceForms">
                                     <div class="col-md-4">
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" id="placeOfWork1" placeholder="Place Of Work">
+                                            <input type="text" class="form-control" id="placeOfWork" placeholder="Place Of Work">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -101,6 +103,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <button type="button" id="addRowBtn" class="btn btn-primary" onclick="addRow()">Add +</button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -108,4 +115,40 @@
             </div>
         </div>
     </div>
+
+    <script>
+        let rowCounter = 1;
+
+        function addRow() {
+            rowCounter++;
+
+            const newRow = document.createElement("div");
+            newRow.className = "row mb-3";
+
+            newRow.innerHTML = `
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="placeOfWork${rowCounter}" placeholder="Place Of Work">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="role${rowCounter}" placeholder="Role">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="mb-3">
+                        <input type="date" class="form-control" id="startDate${rowCounter}" placeholder="Start Date">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="mb-3">
+                        <input type="date" class="form-control" id="endDate${rowCounter}" placeholder="End Date">
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('experienceForms').appendChild(newRow);
+        }
+    </script>
 {% endblock %}
