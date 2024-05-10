@@ -94,3 +94,6 @@ def job_description_view(request):
 
 def user_profile_view(request):
     return render(request, 'Base/user_profile.html')
+
+def application_view(request):
+    return render(request, 'JobHunter/application.html')
