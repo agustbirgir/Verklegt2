@@ -13,8 +13,8 @@ def index(request):
     return render(request, 'JobHunter/index.html')
 
 
-def cards(request):
-    return render(request, 'JobHunter/cards.html')
+def card(request):
+    return render(request, 'Base/card.html')
 
 def login_view(request):
     if request.method == 'POST':
