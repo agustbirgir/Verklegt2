@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'JobHunter.apps.JobHunterConfig',
+    'Company'
 ]
 
 MIDDLEWARE = [
@@ -134,6 +135,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
@@ -147,3 +151,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 AUTH_USER_MODEL = 'JobHunter.User'
+
+AUTHENTICATION_BACKENDS = [
+    'JobHunter.backends.EmailBackend',  # Change path_to_your_app to your actual app directory name
+]
+
+
