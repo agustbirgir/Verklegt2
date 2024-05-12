@@ -56,7 +56,7 @@ def login_view(request):
                 company_user = Company.objects.get(email=email)
                 if company_user.check_password(password):
                     login(request, company_user)
-                    print("Logged in Company user manually.")
+                    print(f"Logged in Company user manually. Company ID: {company_user.id}")
                     return redirect('company_index')
                 else:
                     print("Password check failed for Company.")
