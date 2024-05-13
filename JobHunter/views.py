@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
-from .models import User, Profile # Jobhunter model
-from Company.models import Company,CompanyManager
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import User, Profile#, Job_Application # Jobhunter model
+from Company.models import Company, CompanyManager
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.decorators import login_required
+
 from django.contrib.auth.hashers import check_password
 from django.http import HttpResponse
 from django.views.decorators.cache import never_cache
@@ -13,8 +15,24 @@ from django.views.decorators.cache import never_cache
 def index(request):
     return render(request, 'JobHunter/index.html')
 
+
 def card(request):
     return render(request, 'Base/card.html')
+
+@login_required
+def user_profile_view(request):
+    # Assuming the user is logged in, get their profile
+    user_profile = get_object_or_404(Profile, user=request.user)
+
+    # Create a context dictionary to pass to the template
+    context = {
+        'user': request.user,
+        'bio': user_profile.bio,
+        # Additional data can be included here if needed
+    }
+
+    # Pass the context to the template
+    return render(request, 'JobHunter/user_profile.html', context)
 
 def login_view(request):
     if request.method == 'POST':
@@ -38,7 +56,7 @@ def login_view(request):
                 company_user = Company.objects.get(email=email)
                 if company_user.check_password(password):
                     login(request, company_user)
-                    print("Logged in Company user manually.")
+                    print(f"Logged in Company user manually. Company ID: {company_user.id}")
                     return redirect('company_index')
                 else:
                     print("Password check failed for Company.")
@@ -65,6 +83,7 @@ def signup_view(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
+        bio = request.POST.get('bio', '').strip()  # Ensure this is captured
 
         if User.objects.filter(email=email).exists():
             print("Email already in use: ", email)
@@ -79,8 +98,9 @@ def signup_view(request):
                 email=email,
                 password=hashed_password
             )
+
             # Creating profile linked to the user
-            Profile.objects.create(user=new_user)
+            Profile.objects.create(user=new_user, bio=bio)
             print("new user created: ", new_user)
             return redirect('login')
         else:
@@ -92,5 +112,20 @@ def signup_view(request):
 def job_description_view(request):
     return render(request, 'Base/job_description.html')
 
+
+@login_required
 def user_profile_view(request):
-    return render(request, 'Base/user_profile.html')
+    # Retrieve the user's profile and check for applied jobs
+    user_profile = get_object_or_404(Profile, user=request.user)
+    #applied_jobs = JobApplication.objects.filter(user=request.user)  # Assuming there's a JobApplication model
+
+    context = {
+        'user': request.user,
+        'bio': user_profile.bio,
+        'email': request.user.email,
+        #'applied_jobs': applied_jobs,
+        # 'profile_image': user_profile.image.url if user_profile.image else 'path/to/default/image.jpg'
+    }
+
+    return render(request, 'JobHunter/user_profile.html', context)
+

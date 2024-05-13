@@ -1,0 +1,51 @@
+{% extends 'Base/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col py-4" style="height: 45em;">
+            <!-- Profile Image Section -->
+            <div class="row mb-0.5 align-items-center" style="height: 8em; background-color: #e9ecef; border: 1px solid #ced4da;">
+                <div class="col-2" style="height: 100%; display: flex; justify-content: center; align-items: center;">
+                    <!-- Placeholder for future profile image feature -->
+                    <!-- <img src="{% if user.profile_image %}{% static user.profile_image %}{% else %}{% static 'default/path/to/image.jpg' %}{% endif %}" class="img-fluid" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 50%"> -->
+                </div>
+                <div class="col-10">
+                    <h2>{{ user.first_name }} {{ user.last_name }}</h2> <!-- Updated to use first_name and last_name -->
+                </div>
+            </div>
+
+            <!-- Information Section -->
+            <div class="row mb-4" style="height: 6em; background-color: #e9ecef; border: 1px solid #ced4da;">
+                <div class="col">
+                  <h5>Information</h5>
+                  <p>Email: {{ user.email }}</p> <!-- Dynamically display user's email -->
+                </div>
+            </div>
+
+            <!-- Bio Section -->
+            <div class="row mb-5" style="height: 14em; background-color: #e9ecef; border: 1px solid #ced4da;">
+                <div class="col">
+                    <h5>About Me</h5>
+                    <p>{{ user.profile.bio }}</p> <!-- Make sure 'profile' is correctly related in your User model -->
+                </div>
+            </div>
+
+            <!-- Applied Jobs Section -->
+            <div class="row mb-4" style="height: 3em; background-color: #e9ecef; border: 1px solid #ced4da;">
+                <div class="col">
+                    <h5>Applied Jobs</h5>
+                    <ul>
+                        {% for job in user.applied_jobs %}
+                            <li>{{ job.title }}</li> <!-- Example: Assuming each job has a 'title' attribute -->
+                        {% empty %}
+                            <li>No jobs applied for yet.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
