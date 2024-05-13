@@ -15,7 +15,6 @@ from django.views.decorators.cache import never_cache
 def index(request):
     return render(request, 'JobHunter/index.html')
 
-
 def card(request):
     return render(request, 'Base/card.html')
 
@@ -98,7 +97,6 @@ def signup_view(request):
                 email=email,
                 password=hashed_password
             )
-
             # Creating profile linked to the user
             Profile.objects.create(user=new_user, bio=bio)
             print("new user created: ", new_user)
@@ -129,3 +127,6 @@ def user_profile_view(request):
 
     return render(request, 'JobHunter/user_profile.html', context)
 
+
+def application_view(request):
+    return render(request, 'JobHunter/application.html')
