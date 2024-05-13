@@ -1,62 +1,57 @@
-{% extends 'Base/base.html' %}
+
 {% load static %}
-
-{% block content %}
-
-    <a href="{% url 'new_job' %}">card link</a>
-    <div class="container centered" style="padding: 2rem">
-        <div class="card" style="width: 30rem; border-radius: 2rem; border-color: lightgray">
-            <div class="container">
-                <div class="row">
-                    <div class="col text-end" style="padding: 1rem">
-                        <p class="text">Applied or not</p>
-                    </div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col">
+<div class="card" style="width: 30rem; margin-bottom: 20px; border-radius: 2rem; border-color: lightgray">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col">
+                    <!-- Check if the company image exists before displaying -->
+                    {% if job.company.company_image %}
                         <div class="mb-3 text-center">
-                            <img src="{% static 'Images/test.jpg' %}" class="img-fluid mx-auto" alt="Image Description">
+                            <!-- Display the company image if available -->
+                            <img src="{{ job.company.company_image.url }}" class="img-fluid mx-auto" alt="{{ job.company.company_name }}">
                         </div>
+                    {% else %}
+                        <!-- Display a default image if the company image is not available -->
+                        <div class="mb-3 text-center">
+
+                            <img src="{% static 'Images/test.jpg' %}" class="img-fluid mx-auto" alt="Default Image">
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8" style="background-color: lightgray">
+                    <div class="mb-3">
+                        <h5 style="font-weight: bold">{{ job.company.company_name }} - {{ job.job_title }}</h5>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-8" style="background-color: lightgray">
-                        <div class="mb-3">
-                            <h5 style="font-weight: bold">Company Name - Job Title</h5>
-                        </div>
-                    </div>
-                    <div class="col-4 text-end" style="background-color: darkgray">
-                        <div class="mb-3">
-                            <p class="date" style="font-weight: bold; color: darkcyan">
-                                Posted: 10/05/24
-                            </p>
-                        </div>
+                <div class="col-4 text-end" style="background-color: darkgray">
+                    <div class="mb-3">
+                        <p class="date" style="font-weight: bold; color: darkcyan">
+                            Posted: {{ job.expiration_date|date:"d/m/Y" }}
+                        </p>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col" style="height: 7rem; background-color: darkgray">
-                        <div class="mb-3">
-                            <p style="text-align-all: justify">Job description</p>
-                        </div>
+            </div>
+            <div class="row">
+                <div class="col" style="height: 7rem; background-color: darkgray; text-align: justify; padding: 1rem;">
+                    {{ job.job_description|truncatechars:150 }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" style="background-color: lightgray">
+                    <div class="mb-3" style="border: darkcyan">
+                        <p>{{ job.job_type }}</p>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col" style="background-color: lightgray">
-                        <div class="mb-3" style="border: darkcyan">
-                            <p>part or full time</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col" style="background-color: darkgray">
-                        <div class="mb-3">
-                            <p>Category</p>
-                        </div>
+            </div>
+            <div class="row">
+                <div class="col" style="background-color: darkgray">
+                    <div class="mb-3">
+                        <p>{{ job.categories }}</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-
-{% endblock %}

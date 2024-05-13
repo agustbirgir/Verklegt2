@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.index, name="index"),
@@ -11,4 +13,4 @@ urlpatterns = [
     path('JobHunter/user_profile/', views.user_profile_view, name='user_profile'),
     path('card/', views.card, name='card'),
     path('application/', views.application_view, name='application'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
