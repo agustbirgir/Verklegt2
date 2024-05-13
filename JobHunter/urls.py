@@ -12,4 +12,5 @@ urlpatterns = [
     path('job_description/', views.job_description_view, name='job_description'),
     path('JobHunter/user_profile/', views.user_profile_view, name='user_profile'),
     path('card/', views.card, name='card'),
+    path('application/', views.application_view, name='application'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

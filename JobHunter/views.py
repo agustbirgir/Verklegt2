@@ -16,7 +16,6 @@ def index(request):
     jobs = Job.objects.all()
     return render(request, 'JobHunter/index.html', {'jobs': jobs})
 
-
 def card(request):
     jobs = Job.objects.all()  # Retrieve all jobs from your database
     return render(request, 'Base/card.html', {'jobs': jobs})
@@ -100,7 +99,6 @@ def signup_view(request):
                 email=email,
                 password=hashed_password
             )
-
             # Creating profile linked to the user
             Profile.objects.create(user=new_user, bio=bio)
             print("new user created: ", new_user)
@@ -131,3 +129,6 @@ def user_profile_view(request):
 
     return render(request, 'JobHunter/user_profile.html', context)
 
+
+def application_view(request):
+    return render(request, 'JobHunter/application.html')
