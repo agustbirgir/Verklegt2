@@ -12,10 +12,10 @@
             />
             <span style="color: #FFFFFF; font-size: 20px; font-weight: bold; margin-left: 0.5rem;">JobHunter</span>
         </a>
-    
+
         <!-- Centered Search form -->
-        <div class="mx-auto" style="flex-grow: 1; max-width: 30%;">
-            <form class="d-flex justify-content-center my-0 w-100">  
+        <div style="flex-grow: 1; max-width: 30%; display: flex; justify-content: center; padding-right: 1em">
+            <form class="d-flex justify-content-center my-0 w-100">
                 <div class="input-group">
                     <span class="input-group-text" id="basic-addon1" style="border-radius: 1rem 0 0 1rem; background-color: white; border-right: none;">
                         <img src="{% static 'Images/search_icon.png' %}" alt="Search" style="height: 1.5rem; width: 1.5em;">
@@ -25,16 +25,21 @@
             </form>
         </div>
 
-        <!-- Sign In Button with Padding -->
-        <div style="padding-right: 3em; padding-left: 10em">
-            {% if request.user.is_authenticated %}
-                <span>Welcome, {{ request.user.first_name }}!</span>
-                <a href="{% url 'logout' %}" class="btn btn-primary" role="button" style="background-color: cadetblue; border: none;">Logout</a>
-            {% else %}
-                <a href="{% url 'login' %}" class="btn btn-primary" role="button" data-mdb-ripple-init style="background-color: cadetblue; border: none;">Sign In</a>
-            {% endif %}
-        </div>
-
+        <!-- User Profile -->
+        {% if request.user.is_authenticated %}
+            <div style="display: flex; align-items: center; justify-self: start; margin-left: 1em;">
+                <div style="word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; max-width: 150px; margin-right: 1em;">
+                    <button style="background-color: transparent; border: none;">
+                        <a href="{% url 'user_profile' %}" style="text-decoration: none; color: inherit;">
+                            <span style="color: #FFFFFF; font-size: 15px; font-weight: bold;">{{ request.user.first_name }} {{ request.user.last_name }}</span>
+                        </a>
+                    </button>
+                </div>
+                <div>
+                    <img src="{% static 'Images/test.jpg' %}" alt="Profile Picture" style="height: 60px; width: auto; border-radius: 50%; margin-right: 1em">
+                </div>
+            </div>
+        {% endif %}
     </div>
     <!-- Container wrapper -->
 </nav>
