@@ -14,9 +14,16 @@ class User(AbstractUser):
         return self.email
 
 
+
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     bio = models.TextField()
+    phone_number = models.CharField(max_length=15, blank=True)
+    street_name = models.CharField(max_length=255, blank=True)
+    house_number = models.CharField(max_length=10, blank=True)
+    postal_code = models.CharField(max_length=10, blank=True)
+    country = models.CharField(max_length=50, blank=True)
+    profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True)  # New field for profile image
 
     def __str__(self):
         return f'Profile of {self.user.email}'

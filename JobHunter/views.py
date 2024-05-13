@@ -5,10 +5,11 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
-
+from .forms import ProfileForm
 from django.contrib.auth.hashers import check_password
 from django.http import HttpResponse
 from django.views.decorators.cache import never_cache
+from .forms import EditProfileForm
 
 
 @never_cache
@@ -115,17 +116,59 @@ def job_description_view(request):
 
 @login_required
 def user_profile_view(request):
-    # Retrieve the user's profile and check for applied jobs
+    # Retrieve the user's profile
     user_profile = get_object_or_404(Profile, user=request.user)
-    #applied_jobs = JobApplication.objects.filter(user=request.user)  # Assuming there's a JobApplication model
 
+    # Create a context dictionary to pass to the template
     context = {
         'user': request.user,
         'bio': user_profile.bio,
-        'email': request.user.email,
-        #'applied_jobs': applied_jobs,
-        # 'profile_image': user_profile.image.url if user_profile.image else 'path/to/default/image.jpg'
+        'profile_image': user_profile.profile_image.url if user_profile.profile_image else None,
+        'phone_number': user_profile.phone_number,
+        'street_name': user_profile.street_name,
+        'house_number': user_profile.house_number,
+        'postal_code': user_profile.postal_code,
+        'country': user_profile.country,
+        # Additional data can be included here if needed
     }
 
+    # Pass the context to the template
     return render(request, 'JobHunter/user_profile.html', context)
 
+@login_required
+def profile_edit_view(request):
+    # Retrieve the user's profile
+    user_profile = get_object_or_404(Profile, user=request.user)
+
+    if request.method == 'POST':
+        # If the form has been submitted, update the user's profile
+
+        # Create a form instance with the POST data
+        form = ProfileForm(request.POST, request.FILES, instance=user_profile)
+
+        if form.is_valid():
+            # If the form is valid, save the changes and redirect to the user's profile page
+            form.save()
+            return redirect('user_profile')
+
+    else:
+        # If the form has not been submitted, display the form with the user's current profile information
+        form = ProfileForm(instance=user_profile)
+
+    # Create a context dictionary to pass to the template
+    context = {
+        'form': form,
+    }
+
+    # Pass the context to the template
+    return render(request, 'JobHunter/profile_edit.html', context)
+
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = EditProfileForm(instance=request.user.profile)
+    return render(request, 'JobHunter/profile_edit.html', {'form': form})
