@@ -1,8 +1,38 @@
 {%  extends 'Base/base.html' %}
+{% load static %}
 {% block content %}
 
-    <h1> Welcome to Company Page</h1>
+    <div class="container">
+        <div class="row" style="padding-bottom: 6rem; padding-top: 2rem">
+            <div class="col-12">
+                <div class="cover-photo-container" style="position: relative; width: 100%; height: 250px">
+                    <img src="{% static 'images/download_2.jpg' %}" alt="Cover photo" style="width: 100%; height: 100%; object-fit: cover">
 
-
+                    <img src="{% static 'images/website_logo.png' %}" alt="Smaller image" style="position: absolute; top: 100%; left: .50rem; transform: translateY(-50%); width: 10rem; height: 10rem; border-radius: 50%; border: 2px solid #000000; z-index: 1">
+                </div>
+            </div>
+            <div class="col-12 text-end">
+                <p class="location" style="font-size: larger; font-weight: bolder; color: darkcyan">Location: Bessastaðavegur 1, 211 Garðabær</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h2 class="company-name" style="font-weight: bold">Company Name</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12" style="padding-top: 2rem; height: 30rem; border: 2px solid #000000">
+                <p class="about-company">
+                    About the company
+                </p>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 2rem">
+            <h4 class="all-jobs" style="font-weight: bold">All Jobs</h4>
+            <div class="container" style="padding-top: 2rem; padding-bottom: 2rem">
+                <p>All jobs will be here</p>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

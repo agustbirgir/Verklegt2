@@ -10,8 +10,10 @@ import json
 def index(request):
     return render(request, 'Company/index.html')
 
+
 def company_page(request):
     return render(request, 'Company/company_page.html')
+
 
 def company_login(request):
     if request.method == 'POST':
@@ -55,6 +57,7 @@ def company_signup(request):
 
     else:
         return render(request, 'Company/sign_up.html')
+
 
 @login_required
 def new_job(request):
