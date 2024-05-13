@@ -10,6 +10,9 @@ import json
 def index(request):
     return render(request, 'Company/index.html')
 
+def company_page(request):
+    return render(request, 'Company/company_page.html')
+
 def company_login(request):
     if request.method == 'POST':
         email = request.POST['email']
