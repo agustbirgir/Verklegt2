@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import User, Profile#, Job_Application # Jobhunter model
-from Company.models import Company, CompanyManager
+from Company.models import Company, CompanyManager, Job
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.hashers import make_password
@@ -13,11 +13,13 @@ from django.views.decorators.cache import never_cache
 
 @never_cache
 def index(request):
-    return render(request, 'JobHunter/index.html')
+    jobs = Job.objects.all()
+    return render(request, 'JobHunter/index.html', {'jobs': jobs})
 
 
 def card(request):
-    return render(request, 'Base/card.html')
+    jobs = Job.objects.all()  # Retrieve all jobs from your database
+    return render(request, 'Base/card.html', {'jobs': jobs})
 
 @login_required
 def user_profile_view(request):
