@@ -1,74 +1,70 @@
 {% extends 'Base/base.html' %}
 {% block content %}
-    <a href="{% url 'card' %}">link</a>
-    <div class="container mt-5">
-        <div class="container centered">
-            <h2 style="padding-bottom: 1rem; font-weight: bold; color: darkcyan">Create New Job</h2>
+<a href="{% url 'card' %}">link</a>
+<div class="container mt-5">
+    <div class="container centered">
+        <h2 style="padding-bottom: 1rem; font-weight: bold; color: darkcyan">Create New Job</h2>
+        <form method="post" action="{% url 'new_job' %}">
+            {% csrf_token %}
             <div class="row">
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                            <form>
-
-                                <div class="mb-3">
-                                    <label for="jobTitle" class="form-label" style="font-weight: bold; color: darkcyan">Job Title</label>
-                                    <input type="text" class="form-control" id="jobTitle" placeholder="fx. Senior Data Engineer">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="jobDescription" class="form-label" style="font-weight: bold; color: darkcyan">Job Description</label>
-                                    <textarea class="form-control" id="jobDescription" rows="3" placeholder="Type here" style="resize: none"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="address" class="form-label" style="font-weight: bold; color: darkcyan">Address</label>
-                                    <input type="text" class="form-control" id="address" placeholder="Street name 12">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="city" class="form-label" style="font-weight: bold; color: darkcyan">City</label>
-                                    <input type="text" class="form-control" id="city" placeholder="fx. Reykjavík">
-                                </div>
-                            </form>
+                            <div class="mb-3">
+                                <label for="jobTitle" class="form-label" style="font-weight: bold; color: darkcyan">Job Title</label>
+                                <input type="text" class="form-control" id="jobTitle" name="jobTitle" placeholder="fx. Senior Data Engineer">
+                            </div>
+                            <div class="mb-3">
+                                <label for="jobDescription" class="form-label" style="font-weight: bold; color: darkcyan">Job Description</label>
+                                <textarea class="form-control" id="jobDescription" name="jobDescription" rows="3" placeholder="Type here" style="resize: none"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label" style="font-weight: bold; color: darkcyan">Address</label>
+                                <input type="text" class="form-control" id="address" name="address" placeholder="Street name 12">
+                            </div>
+                            <div class="mb-3">
+                                <label for="city" class="form-label" style="font-weight: bold; color: darkcyan">City</label>
+                                <input type="text" class="form-control" id="city" name="city" placeholder="fx. Reykjavík">
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="expDate" class="form-label" style="font-weight: bold; color: darkcyan">Expiration Date</label>
-                                    <input type="date" class="form-control" id="expDate"/>
+                            <div class="mb-3">
+                                <label for="expDate" class="form-label" style="font-weight: bold; color: darkcyan">Expiration Date</label>
+                                <input type="date" class="form-control" id="expDate" name="expDate">
+                            </div>
+                            <div class="mb-3" style="padding-top: 1rem">
+                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                    <input type="radio" class="btn-check" name="jobType" id="fullTime" value="Full Time" autocomplete="off" checked>
+                                    <label class="btn btn-outline-primary" for="fullTime">Full Time</label>
+                                    <input type="radio" class="btn-check" name="jobType" id="partTime" value="Part Time" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="partTime">Part Time</label>
                                 </div>
-                                <div class="mb-3" style="padding-top: 1rem">
-                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                        <input type="radio" class="btn-check" name="btnradio" id="fullTime" autocomplete="off" checked>
-                                        <label class="btn btn-outline-primary" for="fullTime">Full Time</label>
-
-                                        <input type="radio" class="btn-check" name="btnradio" id="partTime" autocomplete="off">
-                                        <label class="btn btn-outline-primary" for="partTime">Part Time</label>
-                                    </div>
+                            </div>
+                            <div class="mb-3" style="padding-top: 1rem">
+                                <label class="form-label" style="font-weight: bold; color: darkcyan">Category</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="Computer Science" id="cmpSci" name="categories">
+                                    <label class="form-check-label" for="cmpSci">
+                                        Computer Science
+                                    </label>
                                 </div>
-                                <div class="mb-3" style="padding-top: 1rem">
-                                    <label class="form-label" style="font-weight: bold; color: darkcyan">Category</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="cmpSci">
-                                        <label class="form-check-label" for="cmpSci">
-                                            Computer Science
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="dataSci">
-                                        <label class="form-check-label" for="dataSci">
-                                            Data Science
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="softwEng">
-                                        <label class="form-check-label" for="softwEng">
-                                            Software Engineering
-                                        </label>
-                                    </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="Data Science" id="dataSci" name="categories">
+                                    <label class="form-check-label" for="dataSci">
+                                        Data Science
+                                    </label>
                                 </div>
-                            </form>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="Software Engineering" id="softwEng" name="categories">
+                                    <label class="form-check-label" for="softwEng">
+                                        Software Engineering
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -76,8 +72,8 @@
             <div class="d-grid gap-2 col-2 mx-auto" style="padding: 2rem">
                 <button class="btn btn-primary" type="submit">Create Job</button>
             </div>
-        </div>
+        </form>
     </div>
-
+</div>
 
 {% endblock %}
