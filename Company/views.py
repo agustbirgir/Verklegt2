@@ -62,11 +62,8 @@ def new_job(request):
         address = request.POST.get('address')
         city = request.POST.get('city')
         expiration_date = request.POST.get('expDate')
-        job_type = 'Full Time' if request.POST.get('fullTime') == 'on' else 'Part Time'
-        categories = [
-            cat for cat in ['Computer Science', 'Data Science', 'Software Engineering']
-            if request.POST.get(cat.replace(' ', '').lower()) == 'on'
-        ]
+        job_type = request.POST.get('jobType', 'Part Time')  # Adjusted to use correct name
+        categories = request.POST.getlist('categories')  # Adjusted to handle list of categories
 
         # Ensure categories are serialized to JSON format properly
         categories_json = json.dumps(categories, cls=DjangoJSONEncoder)
