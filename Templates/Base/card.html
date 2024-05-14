@@ -5,20 +5,20 @@
             <div class="col">
                 <!-- Check if the company image exists before displaying -->
                 {% if job.company.company_image %}
-                    <div class="mb-3 text-center">
+                    <div class="mb-3 text-center relative" style="width: 100%; max-height: 160px">
                         <!-- Display the company image if available -->
-                        <img src="{{ job.company.company_image.url }}" class="img-fluid mx-auto" alt="{{ job.company.company_name }}">
+                        <img src="{{ job.company.company_image.url }}" class="img mx-auto" height="160" alt="{{ job.company.company_name }}">
                     </div>
                 {% else %}
                     <!-- Display a default image if the company image is not available -->
-                    <div class="mb-3 text-center">
-                        <img src="{% static 'Images/test.jpg' %}" class="img-fluid mx-auto" alt="Default Image">
+                    <div class="mb-3 text-center" style="max-width: 100%; max-height: 160px">
+                        <img src="{% static 'Images/test.jpg' %}" class="img mx-auto" height="160" alt="Default Image">
                     </div>
                 {% endif %}
             </div>
         </div>
         <div class="row">
-            <div class="col-8" style="background-color: lightgray">
+            <div class="col-8">
                 <div class="mb-3">
                     <h5 style="font-weight: bold">
                         <a href="{% url 'job_description' job.id %}" style="text-decoration: none; color: inherit;">
@@ -27,28 +27,28 @@
                     </h5>
                 </div>
             </div>
-            <div class="col-4 text-end" style="background-color: darkgray">
+            <div class="col-4 text-end">
                 <div class="mb-3">
                     <p class="date" style="font-weight: bold; color: darkcyan">
-                        Posted: {{ job.expiration_date|date:"d/m/Y" }}
+                        Expires: {{ job.expiration_date|date:"d/m/Y" }}
                     </p>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col" style="height: 7rem; background-color: darkgray; text-align: justify; padding: 1rem;">
+            <div class="col" style="height: 7rem; text-align: justify; padding: 1rem;">
                 {{ job.job_description|truncatechars:150 }}
             </div>
         </div>
         <div class="row">
-            <div class="col" style="background-color: lightgray">
-                <div class="mb-3" style="border: darkcyan">
-                    <p>{{ job.job_type }}</p>
+            <div class="col">
+                <div class="mb-3">
+                    <p style="border: 2px darkcyan; border-radius: 20%; color: darkcyan">{{ job.job_type }}</p>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col" style="background-color: darkgray">
+            <div class="col">
                 <div class="mb-3">
                     <p>{{ job.categories }}</p>
                 </div>
