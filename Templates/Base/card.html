@@ -5,13 +5,13 @@
             <div class="col">
                 <!-- Check if the company image exists before displaying -->
                 {% if job.company.company_image %}
-                    <div class="mb-3 text-center">
+                    <div class="mb-3 text-center" style="width: 100%; max-height: 10rem">
                         <!-- Display the company image if available -->
                         <img src="{{ job.company.company_image.url }}" class="img-fluid mx-auto" alt="{{ job.company.company_name }}">
                     </div>
                 {% else %}
                     <!-- Display a default image if the company image is not available -->
-                    <div class="mb-3 text-center">
+                    <div class="mb-3 text-center" style="max-width: 100%; max-height: 10rem">
                         <img src="{% static 'Images/test.jpg' %}" class="img-fluid mx-auto" alt="Default Image">
                     </div>
                 {% endif %}
