@@ -8,27 +8,45 @@
             <!-- Profile Image Section -->
             <div class="row mb-0.5 align-items-center" style="height: 8em; background-color: #e9ecef; border: 1px solid #ced4da;">
                 <div class="col-2" style="height: 100%; display: flex; justify-content: center; align-items: center;">
-                    <!-- Placeholder for future profile image feature -->
-                    <!-- <img src="{% if user.profile_image %}{% static user.profile_image %}{% else %}{% static 'default/path/to/image.jpg' %}{% endif %}" class="img-fluid" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 50%"> -->
+                    <!-- Profile Image -->
+                    {% if user.profile.profile_image %}
+                        <img src="{{ user.profile.profile_image.url }}" class="img-fluid" style="max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 50%">
+                    {% else %}
+                        <!-- Display a default image if profile_image does not exist -->
+                        <img src="{% static 'Images/default_picture.jpg' %}" class="img-fluid" style="max-height: 80%; max-width: 80%; object-fit: contain; border-radius: 50%">
+                    {% endif %}
                 </div>
-                <div class="col-10">
-                    <h2>{{ user.first_name }} {{ user.last_name }}</h2> <!-- Updated to use first_name and last_name -->
+
+                <div class="col-8">
+                    <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                </div>
+                <div class="col-2" style="display: flex; justify-content: flex-end; align-items: center;">
+                    <!-- Edit Button -->
+                    <a href="{% url 'profile_edit' %}" class="btn btn-secondary">Edit</a>
+                    <!-- Logout Button -->
+                    <a href="{% url 'logout' %}" class="btn btn-primary" style="margin-left: 0.5em">Logout</a>
                 </div>
             </div>
 
             <!-- Information Section -->
-            <div class="row mb-4" style="height: 6em; background-color: #e9ecef; border: 1px solid #ced4da;">
-                <div class="col">
-                  <h5>Information</h5>
-                  <p>Email: {{ user.email }}</p> <!-- Dynamically display user's email -->
+            <div class="row mb-4" style="height: 7em; background-color: #e9ecef; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; border-left: 1px solid #ced4da;">
+                <div class="col-md-6">
+                    <h5>Information</h5>
+                    <p>Email: {{ user.email }}</p>
+                    <p>Phone: {{ user.profile.phone_number }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h5>&nbsp;</h5>
+                    <p>Address: {{ user.profile.street_name }} {{ user.profile.house_number }}, {{ user.profile.postal_code }}</p>
+                    <p>Country: {{ user.profile.country }}</p>
                 </div>
             </div>
 
             <!-- Bio Section -->
-            <div class="row mb-5" style="height: 14em; background-color: #e9ecef; border: 1px solid #ced4da;">
+            <div class="row mb-5" style="height: 18em; background-color: #e9ecef; border: 1px solid #ced4da;">
                 <div class="col">
                     <h5>About Me</h5>
-                    <p>{{ user.profile.bio }}</p> <!-- Make sure 'profile' is correctly related in your User model -->
+                    <p>{{ user.profile.bio }}</p>
                 </div>
             </div>
 
@@ -38,7 +56,7 @@
                     <h5>Applied Jobs</h5>
                     <ul>
                         {% for job in user.applied_jobs %}
-                            <li>{{ job.title }}</li> <!-- Example: Assuming each job has a 'title' attribute -->
+                            <li>{{ job.title }}</li>
                         {% empty %}
                             <li>No jobs applied for yet.</li>
                         {% endfor %}
