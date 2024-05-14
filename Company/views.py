@@ -1,19 +1,21 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Company, Job
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.core.serializers.json import DjangoJSONEncoder
 import json
+from django.views.decorators.cache import never_cache
 
 
+@login_required
 def index(request):
-    return render(request, 'Company/index.html')
+    company = request.user
+    return render(request, 'Company/company_page.html', {'company': company})
 
-
-def company_page(request):
-    return render(request, 'Company/company_page.html')
-
+def company_page(request, company_id):
+    company = get_object_or_404(Company, id=company_id)
+    return render(request, 'Company/company_page.html', {'company': company})
 
 def company_login(request):
     if request.method == 'POST':

@@ -46,10 +46,12 @@ def login_view(request):
 
         if user:
             login(request, user)
-            if hasattr(user, 'company_name'):
-                print("User is a company. Redirecting to company index.")
+            try:
+                # Check if the user is associated with a company
+                company_user = Company.objects.get(email=email)
+                print(f"User is a company. Redirecting to company index. with id: {company_user.id}")  # id here
                 return redirect('company_index')
-            else:
+            except Company.DoesNotExist:
                 print("User is a jobhunter. Redirecting to jobhunter index.")
                 return redirect('index')
         else:
@@ -112,8 +114,9 @@ def signup_view(request):
 
 def job_description_view(request, job_id):
     job = get_object_or_404(Job, id=job_id)
+    print(f"Job: {job}")  # Debugging: Check the job object
+    print(f"Company ID: {job.company.id}")  # Debugging: Check the company id
     return render(request, 'Base/job_description.html', {'job': job})
-
 
 @login_required
 def user_profile_view(request):
