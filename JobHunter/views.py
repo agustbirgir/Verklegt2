@@ -178,3 +178,6 @@ def edit_profile(request):
 
 def application_view(request):
     return render(request, 'JobHunter/application.html')
+
+def review_page(request):
+    return render(request, 'JobHunter/review_page.html')

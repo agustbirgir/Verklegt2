@@ -1,0 +1,116 @@
+{% extends 'Base/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <form>
+        <div class="col-2">
+            <button class="btn btn-link" type="button">← Back</button>
+        </div>
+    </form>
+    <div class="container mt-5" style="padding-bottom: 2rem">
+        <div class="container centered">
+            <h2 style="padding-bottom: 1rem; font-weight: bold; color: darkcyan">Company name - Job Title</h2>
+            <div class="row" style="padding-bottom: 2rem">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="name" style="font-weight: bold">Name:</p>
+                                </div>
+                                <div class="col">
+                                    <p class="name">Jón Jónsson</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="email" style="font-weight: bold">Email:</p>
+                                </div>
+                                <div class="col">
+                                    <p class="email">jonjonsson@jonjonsson.is</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="street-name" style="font-weight: bold">Street Name:</p>
+                                </div>
+                                <div class="col">
+                                    <p class="street-name">Bessastaðavegur</p>
+                                </div>
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col-1">
+                                            <img src="{% static 'Images/green_check_better.jpg' %}" alt="Green Check" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                        </div>
+                                        <div class="col">
+                                            <p class="cover-letter">Cover letter</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="house-nr" style="font-weight: bold">House Nr.:</p>
+                                </div>
+                                <div class="col">
+                                    <p class="house-nr">12</p>
+                                </div>
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col-1">
+                                            <img src="{% static 'Images/green_check_better.jpg' %}" alt="Green Check" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                        </div>
+                                        <div class="col">
+                                            <p class="Experience">Experience</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="city" style="font-weight: bold">City:</p>
+                                </div>
+                                <div class="col">
+                                    <p class="city">Álftanes</p>
+                                </div>
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col-1">
+                                            <img src="{% static 'Images/green_check_better.jpg' %}" alt="Green Check" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                        </div>
+                                        <div class="col">
+                                            <p class="recommendations">Recommendations</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="postal-code" style="font-weight: bold">Postal Code:</p>
+                                </div>
+                                <div class="col">
+                                    <p class="postal-code">123</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="country" style="font-weight: bold">Country:</p>
+                                </div>
+                                <div class="col">
+                                    <p class="country">Iceland</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form>
+                <div class="d-grid gap-2 col-2 mx-auto">
+                    <button class="btn btn-primary" type="submit">Submit Application</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
