@@ -109,8 +109,9 @@ def signup_view(request):
     else:
         return render(request, 'JobHunter/sign_up.html')
 
-def job_description_view(request):
-    return render(request, 'Base/job_description.html')
+def job_description_view(request, job_id):
+    job = get_object_or_404(Job, id=job_id)
+    return render(request, 'Base/job_description.html', {'job': job})
 
 
 @login_required
