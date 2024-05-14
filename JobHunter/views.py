@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import User, Profile #, Job_Application # Jobhunter model
+from .models import Profile #, Job_Application # Jobhunter model
 from Company.models import Company, CompanyManager, Job
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm
@@ -10,6 +10,7 @@ from django.http import HttpResponse
 from django.views.decorators.cache import never_cache
 from .forms import EditProfileForm
 
+User = get_user_model()
 
 @never_cache
 def index(request):

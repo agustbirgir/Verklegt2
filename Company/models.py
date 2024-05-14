@@ -4,6 +4,7 @@ from django.utils import timezone
 
 class CompanyManager(BaseUserManager):
     print("Starting to load Company models")
+
     def create_company(self, email, password, company_name, address, about_company, company_image=None, cover_image=None):
         if not email:
             raise ValueError("Companies must have an email address")
@@ -33,6 +34,9 @@ class Company(AbstractBaseUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['company_name']
+
+    def isCompany(self):
+        return True
 
     def __str__(self):
         return self.company_name

@@ -10,6 +10,9 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []  # No need for email in REQUIRED_FIELDS since it's the USERNAME_FIELD
 
+    def is_jobHunter(self):
+        return True
+
     def __str__(self):
         return self.email
 
