@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import User, Profile#, Job_Application # Jobhunter model
+from .models import User, Profile #, Job_Application # Jobhunter model
 from Company.models import Company, CompanyManager, Job
-from django.contrib.auth import authenticate, login
-from django.contrib.auth import logout
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm
-from django.contrib.auth.hashers import check_password
 from django.http import HttpResponse
 from django.views.decorators.cache import never_cache
 from .forms import EditProfileForm
@@ -85,7 +84,7 @@ def signup_view(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
-        bio = request.POST.get('bio', '').strip()  # Ensure this is captured
+        bio = request.POST.get('bio', '').strip()
 
         if User.objects.filter(email=email).exists():
             print("Email already in use: ", email)
@@ -130,7 +129,6 @@ def user_profile_view(request):
         'house_number': user_profile.house_number,
         'postal_code': user_profile.postal_code,
         'country': user_profile.country,
-        # Additional data can be included here if needed
     }
 
     # Pass the context to the template
@@ -149,8 +147,11 @@ def profile_edit_view(request):
 
         if form.is_valid():
             # If the form is valid, save the changes and redirect to the user's profile page
+            print(form.cleaned_data)  # Add this line
             form.save()
             return redirect('user_profile')
+        else:
+            print(form.errors)
 
     else:
         # If the form has not been submitted, display the form with the user's current profile information
@@ -164,6 +165,8 @@ def profile_edit_view(request):
     # Pass the context to the template
     return render(request, 'JobHunter/profile_edit.html', context)
 
+
+@login_required
 def edit_profile(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user.profile)

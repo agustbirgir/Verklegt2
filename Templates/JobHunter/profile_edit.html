@@ -2,83 +2,60 @@
 {% load static %}
 
 {% block content %}
-
 <div class="container" style="margin-bottom: 3em">
     <div class="row">
-        <div class="col py-4" style="height: 45em;">
-            <!-- Profile Image Section -->
-            <div class="row mb-0.5 align-items-center" style="height: 8em; background-color: #e9ecef; border: 1px solid #ced4da;">
-                <div class="col-2" style="height: 100%; display: flex; justify-content: center; align-items: center;">
-                    <!-- Profile Image -->
-                    <div style="position: relative; width: 50%; max-width: 75px;">
-                        <label for="profile_image" style="display: block; cursor: pointer; width: 100%; height: 100%;">
-                            {% if user.profile.profile_image %}
-                                <img src="{{ user.profile.profile_image.url }}" alt="Profile Image" class="img-fluid" style="width: 100%; height: auto; border-radius: 50%; object-fit: cover;">
-                            {% else %}
-                                <!-- Display a default image if profile_image does not exist -->
-                                <img src="{% static 'Images/default_picture.jpg' %}" alt="Default Profile Image" class="img-fluid" style="width: 100%; height: auto; border-radius: 50%; object-fit: cover;">
-                            {% endif %}
-                            <!-- Overlay Image -->
-                            <img src="{% static 'Images/test.jpg' %}" alt="Hover Image" class="img-fluid" style="position: absolute; top: 0; left: 0; width: 100%; height: auto; border-radius: 50%; opacity: 0; transition: opacity 0.3s;">
-                        </label>
-                        <input type="file" id="profile_image" name="profile_image" accept="image/*" style="position: absolute; top: 0; left: 0; width: 50%; height: 50%; opacity: 0; cursor: pointer; border-radius: 50%;">
-                    </div>
-                </div>
-                <div class="col-8">
-                    <h2>{{ user.first_name }} {{ user.last_name }}</h2>
-                </div>
-            </div>
-
-            <!-- Information Section -->
+        <div class="col py-4" style="height: 50em;">
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
+                <div class="row mb-0.5 align-items-center" style="height: 10em; background-color: #e9ecef; border: 1px solid #ced4da;">
+                    <div class="col-2" style="height: 100%; display: flex; justify-content: center; align-items: center;">
+                        <div style="position: relative; margin-left: 1em">
+                            <div style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden;">
+                                <img id="profileImage1" src="{% if user.profile.profile_image and user.profile.profile_image.url %}{{ user.profile.profile_image.url }}{% else %}{% static 'Images/default_picture.jpg' %}{% endif %}" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <input type="file" id="imageInput" name="profile_image" accept="image/*" style="display: none;">
+                            <label for="imageInput" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: gray; color: white; padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 0.8em;">Upload Image</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                    </div>
+                    <div class="col-2 text-right">
+                        <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+                    </div>
+                </div>
                 <div class="row mb-4" style="height: 8em; background-color: #e9ecef; border: 1px solid #ced4da;">
                     <div class="col-md-6">
                       <h5>Information</h5>
-                      <p>Email: <input type="text" name="email" value="{{ user.email }}" placeholder="Email" class="form-control"></p>
-                      <p>Phone: <input type="text" name="phone_number" value="{{ profile_form.phone_number.value }}" placeholder="Phone number" class="form-control"></p>
+                      <p>Email: <input type="text" name="email" value="{{ user.email }}" placeholder="Email"></p>
+                      <p>Phone: <input type="text" name="phone_number" value="{{ form.phone_number.value }}" placeholder="Phone number"></p>
                     </div>
                     <div class="col-md-6">
-                      <h5>Address</h5>
-                      <p>Address: <input type="text" name="address" value="{{ profile_form.street_name.value }} {{ profile_form.house_number.value }}, {{ profile_form.postal_code.value }}" placeholder="Street, House number, Postal code" class="form-control"></p>
-                      <p>Country: <input type="text" name="country" value="{{ profile_form.country.value }}" placeholder="Country" class="form-control"></p>
+                      <h5 style="visibility: hidden;">Header</h5>
+                      <p>Address: <input type="text" name="address" value="{{ form.street_name.value }}{{ form.house_number.value }}{{ form.postal_code.value }}" placeholder="Street, Number, Postal code"></p>
+                      <p>Country: <input type="text" name="country" value="{{ form.country.value }}" placeholder="Country"></p>
                     </div>
                 </div>
-
-                <!-- Bio Section -->
                 <div class="row mb-5" style="height: 20em; background-color: #e9ecef; border: 1px solid #ced4da; width: 102%;">
                     <div class="col">
                         <h5>About Me</h5>
-                        <textarea name="bio" id="bio" style="width: 100%; height: 60%; resize: none;" placeholder="Bio" class="form-control">{{ profile_form.bio.value }}</textarea>
+                        <textarea name="bio" id="bio" style="width: 100%; height: 80%; resize: none;" placeholder="Bio">{% if form.bio.value %}{{ form.bio.value }}{% endif %}</textarea>
                     </div>
                 </div>
-
                 <button type="submit" class="btn btn-primary" style="visibility: visible; margin-bottom: 4em">Save changes</button>
             </form>
         </div>
     </div>
-
-    <!-- Applied Jobs Section -->
-    <div class="row mb-4" style="height: 10em; background-color: #e9ecef; border: 1px solid #ced4da; margin-top: 2em">
-        <div class="col">
-            <h5>Applied Jobs</h5>
-            <ul>
-                {% for job in user.applied_jobs %}
-                    <li>{{ job.title }}</li>
-                {% empty %}
-                    <li>No jobs applied for yet.</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-
 </div>
 
-<!-- Add this CSS to your base CSS file or within a <style> tag in the base template -->
-<style>
-    label:hover img:nth-child(3) {
-        opacity: 1;
+<script>
+document.getElementById('imageInput').addEventListener('change', function(e) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('profileImage1').src = e.target.result;
+        document.getElementById('imageUploadInfo').style.display = 'block';
     }
-</style>
-
+    reader.readAsDataURL(e.target.files[0]);
+});
+</script>
 {% endblock %}
