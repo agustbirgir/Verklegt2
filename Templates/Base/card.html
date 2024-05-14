@@ -30,7 +30,7 @@
             <div class="col-4 text-end">
                 <div class="mb-3">
                     <p class="date" style="font-weight: bold; color: darkcyan">
-                        Posted: {{ job.expiration_date|date:"d/m/Y" }}
+                        Expires: {{ job.expiration_date|date:"d/m/Y" }}
                     </p>
                 </div>
             </div>
@@ -42,8 +42,8 @@
         </div>
         <div class="row">
             <div class="col">
-                <div class="mb-3" style="border: darkcyan">
-                    <p>{{ job.job_type }}</p>
+                <div class="mb-3">
+                    <p style="border: 2px darkcyan; border-radius: 20%; color: darkcyan">{{ job.job_type }}</p>
                 </div>
             </div>
         </div>
