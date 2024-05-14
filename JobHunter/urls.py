@@ -3,7 +3,6 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 
-
 urlpatterns = [
     path('', views.index, name="index"),
     path('login/', views.login_view, name='login'),
@@ -13,6 +12,7 @@ urlpatterns = [
     path('job_description/', views.job_description_view, name='job_description'),
     path('JobHunter/user_profile/', views.user_profile_view, name='user_profile'),
     path('card/', views.card, name='card'),
+    path('application/', views.application_view, name='application'),
     path('profile_edit/', views.profile_edit_view, name='profile_edit'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

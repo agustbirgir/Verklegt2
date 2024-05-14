@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'JobHunter.apps.JobHunterConfig',
-    'Company'
+    'Company',
 ]
 
 MIDDLEWARE = [
@@ -133,8 +133,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+LOGIN_URL = '/login/'
+
+
 STATIC_URL = 'static/'
 
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
@@ -153,7 +158,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 AUTH_USER_MODEL = 'JobHunter.User'
 
 AUTHENTICATION_BACKENDS = [
-    'JobHunter.backends.EmailBackend',  # Change path_to_your_app to your actual app directory name
+    'JobHunter.backends.EmailBackend',  # Handles JobHunter user authentication
+    'Company.backends.CompanyAuthenticationBackend',  # Handles Company user authentication
 ]
-
 

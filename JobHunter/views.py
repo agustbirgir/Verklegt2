@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import User, Profile#, Job_Application # Jobhunter model
-from Company.models import Company, CompanyManager
+from Company.models import Company, CompanyManager, Job
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.hashers import make_password
@@ -14,11 +14,12 @@ from .forms import EditProfileForm
 
 @never_cache
 def index(request):
-    return render(request, 'JobHunter/index.html')
-
+    jobs = Job.objects.all()
+    return render(request, 'JobHunter/index.html', {'jobs': jobs})
 
 def card(request):
-    return render(request, 'Base/card.html')
+    jobs = Job.objects.all()  # Retrieve all jobs from your database
+    return render(request, 'Base/card.html', {'jobs': jobs})
 
 @login_required
 def user_profile_view(request):
@@ -57,7 +58,7 @@ def login_view(request):
                 company_user = Company.objects.get(email=email)
                 if company_user.check_password(password):
                     login(request, company_user)
-                    print("Logged in Company user manually.")
+                    print(f"Logged in Company user manually. Company ID: {company_user.id}")
                     return redirect('company_index')
                 else:
                     print("Password check failed for Company.")
@@ -99,7 +100,6 @@ def signup_view(request):
                 email=email,
                 password=hashed_password
             )
-
             # Creating profile linked to the user
             Profile.objects.create(user=new_user, bio=bio)
             print("new user created: ", new_user)
@@ -116,8 +116,9 @@ def job_description_view(request):
 
 @login_required
 def user_profile_view(request):
-    # Retrieve the user's profile
+    # Retrieve the user's profile and check for applied jobs
     user_profile = get_object_or_404(Profile, user=request.user)
+    #applied_jobs = JobApplication.objects.filter(user=request.user)  # Assuming there's a JobApplication model
 
     # Create a context dictionary to pass to the template
     context = {
@@ -172,3 +173,7 @@ def edit_profile(request):
     else:
         form = EditProfileForm(instance=request.user.profile)
     return render(request, 'JobHunter/profile_edit.html', {'form': form})
+
+
+def application_view(request):
+    return render(request, 'JobHunter/application.html')
