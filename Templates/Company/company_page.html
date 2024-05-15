@@ -6,23 +6,39 @@
         <div class="col-12">
             <div class="cover-photo-container" style="position: relative; width: 100%; height: 250px">
                 {% if company.cover_image %}
-                    <img src="{{ company.cover_image.url }}" alt="{{ company.company_name }}" class="img-fluid">
+                    <img src="{{ company.cover_image.url }}" alt="Cover photo" style="width: 100%; height: 100%; object-fit: cover">
+                    <!--<div class="col" style="height: 250px; width: 100%; background: url('{{ company.cover_image.url }}') no-repeat; background-size: contain; background-position: center;"></div>-->
                 {% else %}
-                    <img src="{% static 'Images/test.jpg' %}" alt="Default Image" class="img-fluid">
+                    <img src="{ static Images/test.jpg }" alt="Cover photo" style="width: 100%; height: 100%; object-fit: cover">
+
+                    <!--<div class="col" style="height: 250px; width: 100%; background: url({% static 'Images/test.jpg' %}) no-repeat;  background-size: contain; background-position: center;"></div>-->
+                {% endif %}
+
+                {% if company.company_image %}
+                    <img src="{{ company.company_image.url }}" alt="Smaller image" style="position: absolute; top: 100%; left: .50rem; transform: translateY(-50%); width: 10rem; height: 10rem; border-radius: 50%; border: 2px solid #000000; z-index: 1">
+                {% else %}
+                    <img src="{% static 'Images/red_x.jpg' %}" alt="company image" style="position: absolute; top: 100%; left: .50rem; transform: translateY(-50%); width: 10rem; height: 10rem; border-radius: 50%; border: 2px solid #000000; z-index: 1">
                 {% endif %}
             </div>
         </div>
-        <div class="col-12 text-end">
-            <p class="location" style="font-size: larger; font-weight: bolder; color: darkcyan">Location: {{ company.address }}, {{ company.city }}</p>
+        <div class="col text-end">
+            <div class="row">
+                <div class="col-9">
+                    <p class="location" style="font-size: larger; font-weight: bolder; color: darkcyan">Location:</p>
+                </div>
+                <div class="col">
+                    <p class="location" style="font-size: larger; color: darkcyan">{{ company.address }}, {{ company.postal_code }} {{ company.city }}</p>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <h2 class="company-name" style="font-weight: bold">{{ company.company_name }} - {{ company.company_title }}</h2>
+            <h2 class="company-name" style="font-weight: bold">{{ company.company_name }}<!-- - {{ company.company_title }}--></h2>
         </div>
     </div>
     <div class="row">
-        <div class="col-12" style="padding-top: 2rem; height: 30rem; border: 2px solid #000000">
+        <div class="col-12" style="padding-top: 1rem">
             <p class="about-company">
                 {{ company.company_description }}
                 {{ company.about_company }}
@@ -31,7 +47,7 @@
     </div>
     <div class="row" style="padding-top: 2rem">
         <h4 class="all-jobs" style="font-weight: bold">All Jobs</h4>
-        <div class="container" style="padding-top: 2rem; padding-bottom: 2rem">
+        <div class="container" style="padding-top: 1rem; padding-bottom: 2rem">
             <p>All jobs will be here</p>
         </div>
     </div>

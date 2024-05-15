@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseBadRequest
-from .models import User,Profile, Application, Experience, Recommendation #, Job_Application # Jobhunter model
-from Company.models import Company, CompanyManager, Job
+from .models import User, Profile, Application, Experience, Recommendation
+from Company.models import Company, Job, Category
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password, check_password
@@ -11,13 +10,41 @@ from django.http import HttpResponse
 from django.views.decorators.cache import never_cache
 from .forms import EditProfileForm
 from django.utils import timezone
+from django.db.models import Q
 
 User = get_user_model()
 
 @never_cache
 def index(request):
+    query = request.GET.get('search', '')
+    category_filter = request.GET.getlist('category')
+    company_filter = request.GET.getlist('company')
+
     jobs = Job.objects.all()
-    return render(request, 'JobHunter/index.html', {'jobs': jobs})
+
+    if query:
+        jobs = jobs.filter(
+            Q(company__company_name__icontains=query) |
+            Q(job_title__icontains=query)
+        )
+
+    if category_filter:
+        jobs = jobs.filter(categories__id__in=category_filter).distinct()
+
+    if company_filter:
+        jobs = jobs.filter(company__id__in=company_filter)
+
+    categories = Category.objects.all()
+    companies = Company.objects.all()
+
+    return render(request, 'JobHunter/index.html', {
+        'jobs': jobs,
+        'query': query,
+        'categories': categories,
+        'companies': companies,
+        'category_filter': category_filter,
+        'company_filter': company_filter,
+    })
 
 def card(request):
     jobs = Job.objects.all()  # Retrieve all jobs from your database
@@ -266,6 +293,7 @@ def review_page(request):
         request.session.pop('form_data', None)
         return redirect('index')  # Redirect to index after final submission
 
+    # For GET requests, render the form
     context = {
         'company_name': 'Company name',
         'job_title': 'Job Title',
@@ -279,3 +307,15 @@ def review_page(request):
         'cover_letter': form_data.get('cover_letter')
     }
     return render(request, 'JobHunter/review_page.html', context)
+
+def search(request):
+    query = request.GET.get('search', '')
+    if query:
+        jobs = Job.objects.filter(
+            Q(company__company_name__icontains=query) |
+            Q(job_title__icontains=query)
+        )
+    else:
+        jobs = Job.objects.all()
+
+    return render(request, 'JobHunter/index.html', {'jobs': jobs, 'query': query})

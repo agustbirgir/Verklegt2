@@ -1,34 +1,27 @@
+<!-- header.html -->
+
 {% load static %}
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary" style="height: 10vh; padding: 0;">
-    <!-- Container wrapper -->
     <div class="container-fluid" style="height: 100%; margin: 0; padding: 0; background-color: cadetblue; display: flex; justify-content: space-between; align-items: center;">
-        <!-- Navbar brand -->
         <a class="navbar-brand" href="/" style="height: 100%; margin: 1rem; padding: 0; display: flex; align-items: center;">
-            <img
-                src="{% static 'Images/website_logo.png' %}"
-                class="img-fluid" alt="Job Hunters Logo"
-                style=" height: 80%; width: auto; object-fit: cover; padding-right: 1rem"
-            />
+            <img src="{% static 'Images/website_logo.png' %}" class="img-fluid" alt="Job Hunters Logo" style=" height: 80%; width: auto; object-fit: cover; padding-right: 1rem" />
             <span style="color: #FFFFFF; font-size: 20px; font-weight: bold; margin-left: 0.5rem;">JobHunter</span>
         </a>
 
         <!-- Centered Search form -->
         <div style="flex-grow: 1; max-width: 30%; display: flex; justify-content: center; padding-right: 1em">
-            <form class="d-flex justify-content-center my-0 w-100">
+            <form class="d-flex justify-content-center my-0 w-100" method="GET" action="{% url 'index' %}">
                 <div class="input-group">
                     <span class="input-group-text" id="basic-addon1" style="border-radius: 1rem 0 0 1rem; background-color: white; border-right: none;">
                         <img src="{% static 'Images/search_icon.png' %}" alt="Search" style="height: 1.5rem; width: 1.5em;">
                     </span>
-                    <input type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" style="border-radius: 0 1rem 1rem 0; height: 2.5rem; border-left: none; ">
+                    <input type="search" class="form-control" name="search" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" style="border-radius: 0 1rem 1rem 0; height: 2.5rem; border-left: none;">
                 </div>
             </form>
         </div>
 
-        <!-- User Profile or Login Button -->
         {% if request.user.is_authenticated %}
             {% if request.user.is_jobHunter %}
-                <!-- User is a job hunter -->
                 <a href="{% url 'user_profile' %}" style="text-decoration: none; color: inherit;">
                     <div style="display: flex; align-items: center; justify-self: start; margin-left: 1em;">
                         <div style="word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; max-width: 150px; margin-right: 1em;">
@@ -50,15 +43,11 @@
                         </div>
                     </div>
                 </a>
+            {% endif %}
+        {% else %}
+            <div style="display: flex; align-items: center; justify-self: start; margin-left: 1em; padding-right: 1em">
+                <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+            </div>
         {% endif %}
-
-    {% else %}
-        <!-- User is not logged in, display login button -->
-        <div style="display: flex; align-items: center; justify-self: start; margin-left: 1em; padding-right: 1em">
-            <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
-        </div>
-    {% endif %}
     </div>
-    <!-- Container wrapper -->
 </nav>
-    <!-- Container wrapper -->
