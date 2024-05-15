@@ -1,252 +1,173 @@
-{%  extends 'Base/base.html' %}
+{% extends 'Base/base.html' %}
 {% block content %}
 
-    <a href="{% url 'application' %}">application link</a>
-    <a href="{% url 'review_page' %}">review page</a>
 
+<a href="{% url 'review_page' %}">review page</a>
 
-
-    <div class="container mt-5" style="padding-bottom: 2rem">
-        <div class="container centered">
-            <h2 style="padding-bottom: 1rem; font-weight: bold; color: darkcyan">Company name - Job Title</h2>
+<div class="container mt-5" style="padding-bottom: 2rem">
+    <div class="container centered">
+        <h2 style="padding-bottom: 1rem; font-weight: bold; color: darkcyan">{{ company_name }} - {{ job_title }}</h2>
+        <form method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="job_id" value="{{ job.id }}">
             <div class="row" style="padding-bottom: 2rem">
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="fullName" class="form-label" style="font-weight: bold; color: darkcyan">Full Name</label>
-                                    <input type="text" class="form-control" id="fullName" placeholder="Enter your name here">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label" style="font-weight: bold; color: darkcyan">Email</label>
-                                    <input type="email" class="form-control" id="email" placeholder="fx. example@example.com">
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <div class="mb-3">
-                                            <label for="streetName" class="form-label" style="font-weight: bold; color: darkcyan">Street Name</label>
-                                            <input type="text" class="form-control" id="streetName" placeholder="Enter here">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="houseNr" class="form-label" style="font-weight: bold; color: darkcyan">House Number</label>
-                                            <input type="number" class="form-control" id="houseNr" placeholder="fx. 122">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <div class="mb-3">
-                                            <label for="city" class="form-label" style="font-weight: bold; color: darkcyan">City</label>
-                                            <input type="text" class="form-control" id="city" placeholder="Enter here">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="postalCode" class="form-label" style="font-weight: bold; color: darkcyan">Postal Code</label>
-                                            <input type="number" class="form-control" id="postalCode" placeholder="fx. 122">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="country" class="form-label" style="font-weight: bold; color: darkcyan">Country</label>
-                                    <select class="form-select" id="country" aria-label="Default select example">
-                                        <option selected>Select country</option>
-                                        <option value="England">England</option>
-                                        <option value="Iceland">Iceland</option>
-                                        <option value="United States">United States</option>
-                                    </select>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <div class="card-body">
-                            <form>
-                                <div class="mb-3" style="padding-bottom: .80rem">
-                                    <label for="coverLetter" class="form-label" style="font-weight: bold; color: darkcyan">Cover Letter</label>
-                                    <textarea class="form-control" id="coverLetter" rows="14" placeholder="Type here" style="resize: none"></textarea>
-                                </div>
-                            </form>
+                            <!-- Personal Details -->
+                            <div class="mb-3">
+                                <label for="fullName" class="form-label" style="font-weight: bold; color: darkcyan">Full Name</label>
+                                <input type="text" class="form-control" name="fullName" id="fullName" placeholder="Enter your name here">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label" style="font-weight: bold; color: darkcyan">Email</label>
+                                <input type="email" class="form-control" name="email" id="email" placeholder="fx. example@example.com">
+                            </div>
+                            <!-- Address Details -->
+                            <div class="mb-3">
+                                <label for="streetName" class="form-label" style="font-weight: bold; color: darkcyan">Street Name</label>
+                                <input type="text" class="form-control" name="streetName" id="streetName" placeholder="Enter here">
+                            </div>
+                            <div class="mb-3">
+                                <label for="houseNr" class="form-label" style="font-weight: bold; color: darkcyan">House Number</label>
+                                <input type="number" class="form-control" name="houseNr" id="houseNr" placeholder="fx. 122">
+                            </div>
+                            <div class="mb-3">
+                                <label for="city" class="form-label" style="font-weight: bold; color: darkcyan">City</label>
+                                <input type="text" class="form-control" name="city" id="city" placeholder="Enter here">
+                            </div>
+                            <div class="mb-3">
+                                <label for="postalCode" class="form-label" style="font-weight: bold; color: darkcyan">Postal Code</label>
+                                <input type="number" class="form-control" name="postalCode" id="postalCode" placeholder="fx. 122">
+                            </div>
+                            <div class="mb-3">
+                                <label for="country" class="form-label" style="font-weight: bold; color: darkcyan">Country</label>
+                                <select class="form-select" name="country" id="country" aria-label="Default select example">
+                                    <option selected>Select country</option>
+                                    <option value="England">England</option>
+                                    <option value="Iceland">Iceland</option>
+                                    <option value="United States">United States</option>
+                                </select>
+                            </div>
+                            <!-- Cover Letter -->
+                            <div class="mb-3" style="padding-bottom: .80rem">
+                                <label for="coverLetter" class="form-label" style="font-weight: bold; color: darkcyan">Cover Letter</label>
+                                <textarea class="form-control" name="coverLetter" id="coverLetter" rows="14" placeholder="Type here" style="resize: none"></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- Experience -->
             <div class="row" style="padding-bottom: 2rem">
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                            <form>
-                                <label for="experienceForms" class="form-label" style="font-weight: bold; color: darkcyan">Experience</label>
-                                <div id="experienceForms">
-                                    <div class="row mb-3">
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-                                                <input type="text" class="form-control" id="placeOfWork" placeholder="Place Of Work">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-                                                <input type="text" class="form-control" id="role1" placeholder="Role">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <input type="date" class="form-control" id="startDate1" placeholder="Start Date">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <input type="date" class="form-control" id="EndDate1" placeholder="End Date">
-                                            </div>
-                                        </div>
-                                    </div>
+                            <label for="experienceForms" class="form-label" style="font-weight: bold; color: darkcyan">Experience</label>
+                            <div id="experienceForms">
+                                <!-- Dynamic experience fields added by JavaScript -->
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button type="button" id="addRowBtn" class="btn btn-primary" onclick="addRowExp()">Add +</button>
                                 </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <button type="button" id="addRowBtn" class="btn btn-primary" onclick="addRowExp()">Add +</button>
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- Recommendations -->
             <div class="row" style="padding-bottom: 2rem">
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                            <form>
-                                <label for="recommendationForms" class="form-label" style="font-weight: bold; color: darkcyan">Recommendations</label>
-                                <div id="recommendationForms">
-                                    <div class="row mb-3">
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-                                                <input type="text" class="form-control" id="recName" placeholder="Name">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <input type="text" class="form-control" id="recRole" placeholder="Role">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <input type="email" class="form-control" id="recEmail" placeholder="Email">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <input type="number" class="form-control" id="recPhoneNr" placeholder="Phone Number">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <div class="mb-3" style="padding-top: 1rem">
-                                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                                    <input type="radio" class="btn-check" name="btnradio" id="canContact" autocomplete="off" checked>
-                                                    <label class="btn btn-outline-primary" for="canContact">Can Contact</label>
-
-                                                    <input type="radio" class="btn-check" name="btnradio" id="cannotContact" autocomplete="off">
-                                                    <label class="btn btn-outline-primary" for="cannotContact">Can NOT Contact</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <label for="recommendationForms" class="form-label" style="font-weight: bold; color: darkcyan">Recommendations</label>
+                            <div id="recommendationForms">
+                                <!-- Dynamic recommendation fields added by JavaScript -->
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button type="button" id="addRowBtn2" class="btn btn-primary" onclick="addRowRec()">Add +</button>
                                 </div>
-                                 <div class="row">
-                                    <div class="col">
-                                        <button type="button" id="addRowBtn2" class="btn btn-primary" onclick="addRowRec()">Add +</button>
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- Submission Button -->
             <div class="d-grid gap-2 col-2 mx-auto" style="padding: 2rem">
-                <button class="btn btn-primary" type="button">Next Page</button>
+                <button type="submit" class="btn btn-primary">Submit Application</button>
             </div>
-        </div>
+        </form>
     </div>
+</div>
 
     <script>
         let rowCounter = 1;
 
         function addRowExp() {
             rowCounter++;
-
             const newRow = document.createElement("div");
             newRow.className = "row mb-3";
-
             newRow.innerHTML = `
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <input type="text" class="form-control" id="placeOfWork${rowCounter}" placeholder="Place Of Work">
+                        <input type="text" class="form-control" name="placeOfWork[]" placeholder="Place Of Work">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <input type="text" class="form-control" id="role${rowCounter}" placeholder="Role">
+                        <input type="text" class="form-control" name="role[]" placeholder="Role">
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="mb-3">
-                        <input type="date" class="form-control" id="startDate${rowCounter}" placeholder="Start Date">
+                        <input type="date" class="form-control" name="startDate[]" placeholder="Start Date">
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="mb-3">
-                        <input type="date" class="form-control" id="endDate${rowCounter}" placeholder="End Date">
+                        <input type="date" class="form-control" name="endDate[]" placeholder="End Date">
                     </div>
                 </div>
             `;
-
             document.getElementById('experienceForms').appendChild(newRow);
         }
 
-        let rowCounter2 = 1;
-
         function addRowRec() {
-            console.log("click");
-            rowCounter2++;
+            console.log('fuc called');
+            let rowCounter2 = parseInt(document.getElementById('rowCounter2').value, 10) || 1; // Ensure the counter is initialized properly
+            console.log('row2: ', rowCounter2);
+            rowCounter2++; // Increment the counter
+            document.getElementById('rowCounter2').value = rowCounter2; // Update the counter in the form
 
             const newRow = document.createElement("div");
             newRow.className = "row mb-3";
-
             newRow.innerHTML = `
                 <div class="col-md-3">
                     <div class="mb-3">
-                        <input type="text" class="form-control" id="recName${rowCounter2}" placeholder="Name">
+                        <input type="text" class="form-control" name="name[]" placeholder="Name">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="mb-3">
-                        <input type="text" class="form-control" id="recRole${rowCounter2}" placeholder="Role">
+                        <input type="text" class="form-control" name="role[]" placeholder="Role">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="mb-3">
-                        <input type="email" class="form-control" id="recEmail${rowCounter2}" placeholder="Email">
+                        <input type="email" class="form-control" name="email[]" placeholder="Email">
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="mb-3">
-                        <input type="number" class="form-control" id="recPhoneNr${rowCounter2}" placeholder="Phone Number">
+                        <input type="number" class="form-control" name="phone_number[]" placeholder="Phone Number">
                     </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-1">
                     <div class="mb-3" style="padding-top: 1rem">
-                        <div id="radioBtn${rowCounter2}" class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                            <input type="radio" class="btn-check" name="btnradio${rowCounter2}" id="canContact${rowCounter2}" autocomplete="off" checked>
-                            <label class="btn btn-outline-primary" for="canContact${rowCounter2}">Can Contact</label>
-
-                            <input type="radio" class="btn-check" name="btnradio${rowCounter2}" id="cannotContact${rowCounter2}" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="cannotContact${rowCounter2}">Can NOT Contact</label>
-                        </div>
+                        <input type="checkbox" class="btn-check" name="can_contact[]" value="true" checked>
+                        <label class="btn btn-outline-primary">Can Contact</label>
                     </div>
                 </div>
             `;
