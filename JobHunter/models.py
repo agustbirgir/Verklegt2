@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
-from Company.models import Job
+from Company.models import Job  # Import Job model from Company app
 
 class User(AbstractUser):
     username = None  # Disable the username field
@@ -30,10 +30,9 @@ class Profile(models.Model):
     def __str__(self):
         return f'Profile of {self.user.email}'
 
-
 class Application(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='applications')
-    job = models.ForeignKey('Company.Job', on_delete=models.CASCADE)
+    #job = models.ForeignKey(Job, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
     street_name = models.CharField(max_length=255, null=True, blank=True)
@@ -46,7 +45,7 @@ class Application(models.Model):
     applied_on = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.full_name} - {self.job.job_title}'
+        return f'{self.full_name} - {self.job.title}'
 
 class Experience(models.Model):
     application = models.ForeignKey(Application, on_delete=models.CASCADE, related_name='experiences')
@@ -57,7 +56,6 @@ class Experience(models.Model):
 
     def __str__(self):
         return f'{self.place_of_work} - {self.role}'
-
 
 class Recommendation(models.Model):
     application = models.ForeignKey(Application, on_delete=models.CASCADE, related_name='recommendations')

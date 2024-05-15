@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import User, Profile, Application, Experience, Recommendation
-from Company.models import Company, Job, Category
+from Company.models import Company, Job, JobCategory
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password, check_password
@@ -12,41 +12,29 @@ from .forms import EditProfileForm
 from django.utils import timezone
 from django.db.models import Q
 import logging
+from django.shortcuts import render
+from Company.models import Job, JobCategory
 
 
 User = get_user_model()
 
-@never_cache
 def index(request):
-    query = request.GET.get('search', '')
+    query = request.GET.get('q')
     category_filter = request.GET.getlist('category')
-    company_filter = request.GET.getlist('company')
 
     jobs = Job.objects.all()
-
     if query:
-        jobs = jobs.filter(
-            Q(company__company_name__icontains=query) |
-            Q(job_title__icontains=query)
-        )
+        jobs = jobs.filter(Q(title__icontains=query) | Q(company__company_name__icontains=query))
 
     if category_filter:
         jobs = jobs.filter(categories__id__in=category_filter).distinct()
 
-    if company_filter:
-        jobs = jobs.filter(company__id__in=company_filter)
+    categories = JobCategory.objects.all()
 
-    categories = Category.objects.all()
-    companies = Company.objects.all()
+    return render(request, 'JobHunter/index.html', {'jobs': jobs, 'categories': categories, 'query': query, 'category_filter': category_filter})
 
-    return render(request, 'JobHunter/index.html', {
-        'jobs': jobs,
-        'query': query,
-        'categories': categories,
-        'companies': companies,
-        'category_filter': category_filter,
-        'company_filter': company_filter,
-    })
+
+
 
 def card(request):
     jobs = Job.objects.all()  # Retrieve all jobs from your database
@@ -147,6 +135,7 @@ def job_description_view(request, job_id):
     job = get_object_or_404(Job, id=job_id)
     print(f"Job: {job}")  # Debugging: Check the job object
     print(f"Company ID: {job.company.id}")  # Debugging: Check the company id
+    print(f"Categories: {[category.name for category in job.categories.all()]}")  # Debugging: Check the job's categories
     return render(request, 'Base/job_description.html', {'job': job})
 
 @login_required

@@ -3,14 +3,11 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col">
-                <!-- Check if the company image exists before displaying -->
                 {% if job.company.company_image %}
                     <div class="mb-3 text-center relative" style="width: 100%; max-height: 160px">
-                        <!-- Display the company image if available -->
                         <img src="{{ job.company.company_image.url }}" class="img mx-auto" height="160" alt="{{ job.company.company_name }}">
                     </div>
                 {% else %}
-                    <!-- Display a default image if the company image is not available -->
                     <div class="mb-3 text-center" style="max-width: 100%; max-height: 160px">
                         <img src="{% static 'Images/test.jpg' %}" class="img mx-auto" height="160" alt="Default Image">
                     </div>
@@ -22,7 +19,7 @@
                 <div class="mb-3">
                     <h5 style="font-weight: bold">
                         <a href="{% url 'job_description' job.id %}" style="text-decoration: none; color: inherit;">
-                            {{ job.company.company_name }} - {{ job.job_title }}
+                            {{ job.company.company_name }} - {{ job.title }}
                         </a>
                     </h5>
                 </div>
@@ -30,14 +27,14 @@
             <div class="col-4 text-end">
                 <div class="mb-3">
                     <p class="date" style="font-weight: bold; color: darkcyan">
-                        Expires: {{ job.expiration_date|date:"d/m/Y" }}
+                        Expires: {{ job.exp_date|date:"d/m/Y" }}
                     </p>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col" style="height: 7rem; text-align: justify; padding: 1rem;">
-                {{ job.job_description|truncatechars:150 }}
+                {{ job.description }}
             </div>
         </div>
         <div class="row">
@@ -50,7 +47,18 @@
         <div class="row">
             <div class="col">
                 <div class="mb-3">
-                    <p>{{ job.categories }}</p>
+                    <p>{{ job.address }}, {{ job.city }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                    <p>Categories:
+                        {% for category in job.categories.all %}
+                            <span>{{ category.name }}</span>{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
                 </div>
             </div>
         </div>

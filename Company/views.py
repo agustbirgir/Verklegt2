@@ -1,17 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Company, Job
+from .models import Company, Job, JobCategory
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.core.serializers.json import DjangoJSONEncoder
 import json
 from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_exempt
 
 
 @login_required
 def index(request):
     company = request.user
-    return render(request, 'Company/company_page.html', {'company': company})
+    jobs = Job.objects.all()
+    return render(request, 'Company/company_page.html', {'company': company,  'jobs': jobs})
 
 def company_page(request, company_id):
     company = get_object_or_404(Company, id=company_id)
@@ -61,33 +63,33 @@ def company_signup(request):
         return render(request, 'Company/sign_up.html')
 
 
+@csrf_exempt
 @login_required
 def new_job(request):
     if request.method == 'POST':
-        print("user authenticated: ", request.user.is_authenticated)
-        job_title = request.POST.get('jobTitle')
-        job_description = request.POST.get('jobDescription')
+        title = request.POST.get('jobTitle')
+        description = request.POST.get('jobDescription')
         address = request.POST.get('address')
         city = request.POST.get('city')
-        expiration_date = request.POST.get('expDate')
-        job_type = request.POST.get('jobType', 'Part Time')  # Adjusted to use correct name
-        categories = request.POST.getlist('categories')  # Adjusted to handle list of categories
-
-        # Ensure categories are serialized to JSON format properly
-        categories_json = json.dumps(categories, cls=DjangoJSONEncoder)
+        exp_date = request.POST.get('expDate')
+        job_type = request.POST.get('jobType', 'Part Time')
+        categories_ids = request.POST.getlist('categories')  # Get the categories from the form
+        categories = JobCategory.objects.filter(id__in=categories_ids)  # Get the category objects from the database
 
         job = Job(
-            company=request.user,  # Directly use request.user here since it is the Company instance
-            job_title=job_title,
-            job_description=job_description,
+            company=request.user,
+            title=title,
+            description=description,
             address=address,
             city=city,
-            expiration_date=expiration_date,
-            job_type=job_type,
-            categories=categories_json  # Ensure this is properly formatted JSON
+            exp_date=exp_date,
+            job_type=job_type
         )
         job.save()
+        job.categories.set(categories)  # Save the categories to the job
 
-        return redirect('index')  # Redirect to a success page after saving
+        return redirect('index')
 
-    return render(request, 'Company/new_job.html')
+    else:
+        categories = JobCategory.objects.all()
+        return render(request, 'Company/new_job.html', {'categories': categories})
