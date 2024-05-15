@@ -4,45 +4,39 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <!-- First Column - Approx. 60% Width -->
-        <div class="col-md-7 py-4" style="height: 45em;">
-            <!-- Rows within the column -->
-            <div class="row mb-3" style="height: 8em; background-color: #e9ecef; border: 1px solid #ced4da;">
+        <div class="col-md-7 py-4">
+            <div class="row mb-3">
+                {% if job.company.cover_image %}
+                    <div class="col" style="height: 160px; width: 100%; background: url('{{ job.company.cover_image.url }}') no-repeat; background-size: contain; background-position: center;"></div>
+                {% else %}
+                        <div class="col" style="height: 160px; width: 100%; background: url({% static 'Images/test.jpg' %}) no-repeat;  background-size: contain; background-position: center;"></div>
+                {% endif %}
+
+            </div>
+            <div class="row mb-4">
                 <div class="col">
-                    {% if job.company.cover_image %}
-                        <img src="{{ job.company.cover_image.url }}" alt="{{ job.company.company_name }}" class="img-fluid">
-                    {% else %}
-                        <img src="{% static 'Images/test.jpg' %}" alt="Default Image" class="img-fluid">
-                    {% endif %}
+                    <p class="d-inline-block border border-2 border-info" style="color: #0dcaf0; border-radius: 5rem; font-weight: bold; background-color: #FFFFFF">{{ job.categories }}</p>
                 </div>
             </div>
-            <div class="row mb-4" style="height: 2em; background-color: #e9ecef; border: 1px solid #ced4da;">
+            <div class="row mb-4">
+                <h2 style="font-weight: bold">{{ job.company.company_name }} - {{ job.job_title }}</h2>
                 <div class="col">
-                    <p>{{ job.categories }}</p>
-                </div>
-            </div>
-            <div class="row mb-4" style="height: 14em; background-color: #e9ecef; border: 1px solid #ced4da;">
-                <div class="col">
-                    <h5>{{ job.company.company_name }} - {{ job.job_title }}</h5>
                     <p>{{ job.job_description }}</p>
                 </div>
             </div>
-            <div class="row mb-4" style="height: 12em; background-color: #e9ecef; border: 1px solid #ced4da;">
+            <div class="row mb-4">
                 <div class="col">
-                    <h5>About {{ job.company.company_name }}</h5>
+                    <h4 style="font-weight: bold">About {{ job.company.company_name }}</h4>
                     <p>{{ job.company.about_company }}</p>
                 </div>
             </div>
         </div>
 
-        <!-- Gap Column - Approx. 10% Width -->
         <div class="col-md-1" style="background-color: transparent;"></div>
 
-        <!-- Second Column - Approx. 30% Width -->
-        <div class="col-md-4 py-4" style="height: 35em;">
-            <div class="row mb-4" style="height: 6em; background-color: #e9ecef; border-radius: 0.5rem; align-items: center;">
-                <!-- Image column that takes up about 30% of the total row width -->
-                <div class="col-4 p-0" style="display: flex; align-items: center; justify-content: flex-start; overflow: hidden;">
+        <div class="col-md-4 py-4">
+            <div class="row mb-4" style="height: 6em; border: 1px solid #0dcaf0; border-radius: 0.5rem; align-items: center; background-color: #FFFFFF">
+                <div class="col-5 p-0" style="display: flex; align-items: center; justify-content: flex-start; overflow: hidden;">
                     {% if job.company.company_image %}
                         <img src="{{ job.company.company_image.url }}" alt="{{ job.company.company_name }}" class="rounded-start" style="width: 76%; height: auto; object-fit: cover; border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
                     {% else %}
@@ -50,23 +44,37 @@
                     {% endif %}
                 </div>
                 <!-- Text column that takes up the remaining 70% of the row width -->
-                <div class="col-8 d-flex align-items-center justify-content-center">
-                    <p class="text-center mb-0" style="width: 100%;">
-                        <a href="{% url 'company_page' job.company.id %}" class="btn btn-primary">Company Page</a>
+                <div class="col-7 d-flex align-items-end justify-content-end">
+                    <p class="text-end mb-0" style="width: 100%;">
+                        <a href="{% url 'company_page' job.company.id %}" class="btn btn-outline-info" style="border-radius: 5rem">Company Page ></a>
                     </p>
                 </div>
             </div>
-            <div class="row mb-0.5" style="height: 2em; background-color: #e9ecef; border-radius: 0.5rem 0.5rem 0 0">
+            <div class="row mb-1" style="padding-bottom: 1rem">
                 <div class="col">
-                    <p>Expires on: {{ job.expiration_date|date:"d/m/Y" }}</p>
+                    <div class="row align-items-center" style="height: 2rem; border: 1px solid #0dcaf0; border-radius: 0.5rem; background-color: #FFFFFF">
+                        <div class="col-2">
+                            <p style="font-weight: bold">Expires:</p>
+                        </div>
+                        <div class="col">
+                            <p>{{ job.expiration_date|date:"d/m/Y" }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row" style="height: 2em; background-color: #e9ecef; border-radius: 0.5rem; margin-bottom: 6em">
+            <div class="row" style="height: 2em; border-radius: 0.5rem; border: 1px solid #0dcaf0; background-color: #FFFFFF">
                 <div class="col">
-                    <p>Location: {{ job.address }}, {{ job.city }}</p>
+                    <div class="row">
+                        <div class="col-2">
+                            <p style="font-weight: bold">Location:</p>
+                        </div>
+                        <div class="col">
+                            <p>{{ job.address }}, {{ job.city }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row" style="height: 3em; border-radius: 0.5rem">
+            <div class="row" style="height: 3em; border-radius: 0.5rem; padding-top: 6rem">
                 <a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Apply</a>
             </div>
         </div>
