@@ -27,33 +27,30 @@
 
         <!-- User Profile or Login Button -->
         {% if request.user.is_authenticated %}
-        {% if request.user.is_jobHunter %}
-            <!-- User is a job hunter -->
-            <div style="display: flex; align-items: center; justify-self: start; margin-left: 1em;">
-                <div style="word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; max-width: 150px; margin-right: 1em;">
-                    <button style="background-color: transparent; border: none;">
-                        <a href="{% url 'user_profile' %}" style="text-decoration: none; color: inherit;">
+            {% if request.user.is_jobHunter %}
+                <!-- User is a job hunter -->
+                <a href="{% url 'user_profile' %}" style="text-decoration: none; color: inherit;">
+                    <div style="display: flex; align-items: center; justify-self: start; margin-left: 1em;">
+                        <div style="word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; max-width: 150px; margin-right: 1em;">
                             <span style="color: #FFFFFF; font-size: 15px; font-weight: bold;">{{ request.user.first_name }} {{ request.user.last_name }}</span>
-                        </a>
-                    </button>
-                </div>
-                <div style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; margin-right: 1em">
-                    <img src="{% if user.profile.profile_image and user.profile.profile_image.url %}{{ user.profile.profile_image.url }}{% else %}{% static 'Images/default_picture.jpg' %}{% endif %}" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
-                </div>
-            </div>
-        {% else %}
+                        </div>
+                        <div style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; margin-right: 1em">
+                            <img src="{% if user.profile.profile_image and user.profile.profile_image.url %}{{ user.profile.profile_image.url }}{% else %}{% static 'Images/default_picture.jpg' %}{% endif %}" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                </a>
+            {% else %}
+                <a href="{% url 'company_page' request.user.id %}" style="text-decoration: none; color: inherit;">
+                    <div style="display: flex; align-items: center; justify-self: start; margin-left: 1em;">
+                        <div style="word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; max-width: 150px; margin-right: 1em;">
+                            <span style="color: #FFFFFF; font-size: 15px; font-weight: bold;">{{ request.user.company_name }}</span>
+                        </div>
+                        <div style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; margin-right: 1em">
+                            <img src="{% if user.company_image and user.company_image.url %}{{ user.company_image.url }}{% else %}{% static 'Images/default_picture.jpg' %}{% endif %}" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                </a>
         {% endif %}
-        <!-- User is a company -->
-        <a href="{% url 'company_page' request.user.id %}" style="text-decoration: none; color: inherit;">
-            <div style="display: flex; align-items: center; justify-self: start; margin-left: 1em;">
-                <div style="word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; max-width: 150px; margin-right: 1em;">
-                    <span style="color: #FFFFFF; font-size: 15px; font-weight: bold;">{{ request.user.company_name }}</span>
-                </div>
-                <div style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; margin-right: 1em">
-                    <img src="{% if user.company_image and user.company_image.url %}{{ user.company_image.url }}{% else %}{% static 'Images/default_picture.jpg' %}{% endif %}" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
-                </div>
-            </div>
-        </a>
 
     {% else %}
         <!-- User is not logged in, display login button -->
@@ -64,3 +61,4 @@
     </div>
     <!-- Container wrapper -->
 </nav>
+    <!-- Container wrapper -->
