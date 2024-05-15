@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Profile #, Job_Application # Jobhunter model
+from django.http import HttpResponseBadRequest
+from .models import User,Profile, Application, Experience, Recommendation #, Job_Application # Jobhunter model
 from Company.models import Company, CompanyManager, Job
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import get_user_model
@@ -9,6 +10,7 @@ from .forms import ProfileForm
 from django.http import HttpResponse
 from django.views.decorators.cache import never_cache
 from .forms import EditProfileForm
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -183,8 +185,65 @@ def edit_profile(request):
     return render(request, 'JobHunter/profile_edit.html', {'form': form})
 
 
-def application_view(request):
-    return render(request, 'JobHunter/application.html')
+@login_required
+def application_view(request, job_id):
+    job = get_object_or_404(Job, id=job_id)  # Ensure the job exists
+    if request.method == 'POST':
+        # Handle form submission
+        cover_letter = request.POST.get('coverLetter', '')
+        resume = request.FILES.get('resume', None)
 
+        # Create the application instance
+        application = Application(
+            user=request.user,
+            job=job,
+            cover_letter=cover_letter,
+            resume=resume,
+            status='pending',  # Default status
+            notes=request.POST.get('notes', '')
+        )
+        application.save()
+
+        # Handle multiple experiences
+        places_of_work = request.POST.getlist('placeOfWork[]')
+        roles = request.POST.getlist('role[]')
+        start_dates = request.POST.getlist('startDate[]')
+        end_dates = request.POST.getlist('endDate[]')
+
+        for i in range(len(places_of_work)):
+            Experience(
+                application=application,
+                place_of_work=places_of_work[i],
+                role=roles[i],
+                start_date=start_dates[i],
+                end_date=end_dates[i]
+            ).save()
+
+        # Handle multiple recommendations
+        names = request.POST.getlist('name[]')
+        roles = request.POST.getlist('role[]')
+        emails = request.POST.getlist('email[]')
+        phone_numbers = request.POST.getlist('phone_number[]')
+        can_contacts = request.POST.getlist('can_contact[]')  # expecting 'true' or 'false' string values
+
+        for i in range(len(names)):
+            Recommendation(
+                application=application,
+                name=names[i],
+                role=roles[i],
+                email=emails[i],
+                phone_number=phone_numbers[i],
+                can_contact=(can_contacts[i].lower() == 'true')
+            ).save()
+
+        return redirect('index')  # Redirect after successful form submission
+
+    # For GET requests, just render the form
+    context = {
+        'job': job,
+        'company_name': job.company.company_name,
+        'job_title': job.job_title
+    }
+    return render(request, 'JobHunter/application.html', context)
 def review_page(request):
     return render(request, 'JobHunter/review_page.html')
