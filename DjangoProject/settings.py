@@ -136,7 +136,7 @@ USE_TZ = True
 LOGIN_URL = '/login/'
 
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

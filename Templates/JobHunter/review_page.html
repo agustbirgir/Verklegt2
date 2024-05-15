@@ -2,91 +2,116 @@
 {% load static %}
 
 {% block content %}
-    <form method="POST" action="{% url 'index' %}">
-        {% csrf_token %}
-        <div class="col-2">
-            <button class="btn btn-link" type="button" onclick="window.history.back()">← Back</button>
-        </div>
-        <div class="container mt-5" style="padding-bottom: 2rem">
-            <div class="container centered">
-                <h2 style="padding-bottom: 1rem; font-weight: bold; color: darkcyan">{{ company_name }} - {{ job_title }}</h2>
-                <div class="row" style="padding-bottom: 2rem">
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-3">
-                                        <p class="name" style="font-weight: bold">Name:</p>
-                                    </div>
-                                    <div class="col">
-                                        <p class="name">{{ full_name }}</p>
-                                    </div>
+<form method="POST" action="{% url 'review_page' %}">
+    {% csrf_token %}
+    <div class="col-2">
+        <button class="btn btn-link" type="button" onclick="window.history.back()">← Back</button>
+    </div>
+    <div class="container mt-5" style="padding-bottom: 2rem">
+        <div class="container centered">
+            <h2 style="padding-bottom: 1rem; font-weight: bold; color: darkcyan">{{ company_name }} - {{ job_title }}</h2>
+            <div class="row" style="padding-bottom: 2rem">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Personal Details -->
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="name" style="font-weight: bold">Name:</p>
                                 </div>
-                                <div class="row">
-                                    <div class="col-3">
-                                        <p class="email" style="font-weight: bold">Email:</p>
-                                    </div>
-                                    <div class="col">
-                                        <p class="email">{{ email }}</p>
-                                    </div>
+                                <div class="col">
+                                    <p class="name">{{ full_name }}</p>
                                 </div>
-                                <div class="row">
-                                    <div class="col-3">
-                                        <p class="street-name" style="font-weight: bold">Street Name:</p>
-                                    </div>
-                                    <div class="col">
-                                        <p class="street-name">{{ street_name }}</p>
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="email" style="font-weight: bold">Email:</p>
                                 </div>
-                                <div class="row">
-                                    <div class="col-3">
-                                        <p class="house-nr" style="font-weight: bold">House Nr.:</p>
-                                    </div>
-                                    <div class="col">
-                                        <p class="house-nr">{{ house_number }}</p>
-                                    </div>
+                                <div class="col">
+                                    <p class="email">{{ email }}</p>
                                 </div>
-                                <div class="row">
-                                    <div class="col-3">
-                                        <p class="city" style="font-weight: bold">City:</p>
-                                    </div>
-                                    <div class="col">
-                                        <p class="city">{{ city }}</p>
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="street-name" style="font-weight: bold">Street Name:</p>
                                 </div>
-                                <div class="row">
-                                    <div class="col-3">
-                                        <p class="postal-code" style="font-weight: bold">Postal Code:</p>
-                                    </div>
-                                    <div class="col">
-                                        <p class="postal-code">{{ postal_code }}</p>
-                                    </div>
+                                <div class="col">
+                                    <p class="street-name">{{ street_name }}</p>
                                 </div>
-                                <div class="row">
-                                    <div class="col-3">
-                                        <p class="country" style="font-weight: bold">Country:</p>
-                                    </div>
-                                    <div class="col">
-                                        <p class="country">{{ country }}</p>
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="house-nr" style="font-weight: bold">House Nr.:</p>
                                 </div>
-                                <div class="row">
-                                    <div class="col-3">
-                                        <p class="cover-letter" style="font-weight: bold">Cover Letter:</p>
-                                    </div>
-                                    <div class="col">
-                                        <p class="cover-letter">{{ cover_letter }}</p>
-                                    </div>
+                                <div class="col">
+                                    <p class="house-nr">{{ house_number }}</p>
                                 </div>
-                                <!-- Add similar sections for experience and recommendations -->
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="city" style="font-weight: bold">City:</p>
+                                </div>
+                                <div class="col">
+                                    <p class="city">{{ city }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="postal-code" style="font-weight: bold">Postal Code:</p>
+                                </div>
+                                <div class="col">
+                                    <p class="postal-code">{{ postal_code }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="country" style="font-weight: bold">Country:</p>
+                                </div>
+                                <div class="col">
+                                    <p class="country">{{ country }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="cover-letter" style="font-weight: bold">Cover Letter:</p>
+                                </div>
+                                <div class="col">
+                                    <p class="cover-letter">{{ cover_letter }}</p>
+                                </div>
+                            </div>
+                            <!-- Experience and Recommendations -->
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="experience" style="font-weight: bold">Experience:</p>
+                                </div>
+                                <div class="col">
+                                    {% if has_experience %}
+                                        <img src="{% static 'Images/green_check_better.jpg' %}" alt="Green Check" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                    {% else %}
+                                        <img src="{% static 'Images/red_x.jpg' %}" alt="Red Cross" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="recommendations" style="font-weight: bold">Recommendations:</p>
+                                </div>
+                                <div class="col">
+                                    {% if has_recommendations %}
+                                        <img src="{% static 'Images/green_check_better.jpg' %}" alt="Green Check" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                    {% else %}
+                                        <img src="{% static 'Images/red_x.jpg' %}" alt="Red Cross" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="d-grid gap-2 col-2 mx-auto">
-                    <button class="btn btn-primary" type="submit">Submit Application</button>
-                </div>
+            </div>
+            <div class="d-grid gap-2 col-2 mx-auto">
+                <button class="btn btn-primary" type="submit">Submit Application</button>
             </div>
         </div>
-    </form>
+    </div>
+</form>
 {% endblock %}
