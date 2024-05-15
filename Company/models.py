@@ -41,6 +41,12 @@ class Company(AbstractBaseUser):
     def __str__(self):
         return self.company_name
 
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
 class Job(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="jobs")
     job_title = models.CharField(max_length=255)
@@ -49,8 +55,8 @@ class Job(models.Model):
     city = models.CharField(max_length=100)
     expiration_date = models.DateField()
     job_type = models.CharField(max_length=20)  # Full Time or Part Time
-    categories = models.TextField()  # Could be serialized list of categories or many-to-many field
+    categories = models.ManyToManyField(Category)  # Could be serialized list of categories or many-to-many field
 
     def __str__(self):
         return self.job_title
-    print("finished loading company models")
+
