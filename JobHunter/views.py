@@ -18,15 +18,13 @@ from Company.models import Job, JobCategory
 
 User = get_user_model()
 
-
-
 def index(request):
     query = request.GET.get('q')
     category_filter = request.GET.getlist('category')
 
     jobs = Job.objects.all()
     if query:
-        jobs = jobs.filter(title__icontains=query)
+        jobs = jobs.filter(Q(title__icontains=query) | Q(company__company_name__icontains=query))
 
     if category_filter:
         jobs = jobs.filter(categories__id__in=category_filter).distinct()
@@ -137,6 +135,7 @@ def job_description_view(request, job_id):
     job = get_object_or_404(Job, id=job_id)
     print(f"Job: {job}")  # Debugging: Check the job object
     print(f"Company ID: {job.company.id}")  # Debugging: Check the company id
+    print(f"Categories: {[category.name for category in job.categories.all()]}")  # Debugging: Check the job's categories
     return render(request, 'Base/job_description.html', {'job': job})
 
 @login_required
