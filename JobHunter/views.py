@@ -232,11 +232,11 @@ def application_view(request, job_id):
             'roles': request.POST.getlist('role[]'),
             'start_dates': request.POST.getlist('startDate[]'),
             'end_dates': request.POST.getlist('endDate[]'),
-            'names': request.POST.getlist('name[]'),
-            'recommendation_roles': request.POST.getlist('role[]'),
-            'emails': request.POST.getlist('email[]'),
-            'phone_numbers': request.POST.getlist('phone_number[]'),
-            'can_contacts': request.POST.getlist('can_contact[]')
+            'rec_names': request.POST.getlist('rec_name[]'),
+            'rec_roles': request.POST.getlist('rec_role[]'),
+            'rec_emails': request.POST.getlist('rec_email[]'),
+            'rec_phone_numbers': request.POST.getlist('rec_phone_number[]'),
+            'rec_can_contacts': request.POST.getlist('rec_can_contact[]')
         }
         request.session['form_data'] = form_data
         return redirect('review_page')
@@ -249,16 +249,14 @@ def application_view(request, job_id):
     return render(request, 'JobHunter/application.html', context)
 
 logger = logging.getLogger(__name__)
-
-
 @login_required
 def review_page(request):
     form_data = request.session.get('form_data', None)
     if not form_data:
-        return redirect('index')  # Correctly redirect to index if no form data is found
+        return redirect('index')  # Redirect to index if no form data is found
 
-    has_experience = bool(form_data['places_of_work']) and any(form_data['places_of_work'])
-    has_recommendations = bool(form_data['names']) and any(form_data['names'])
+    has_experience = bool(form_data.get('places_of_work')) and any(form_data.get('places_of_work'))
+    has_recommendations = bool(form_data.get('rec_names')) and any(form_data.get('rec_names'))
 
     if request.method == 'POST':
         job_id = form_data.get('job_id')
@@ -299,15 +297,14 @@ def review_page(request):
                 logger.debug("Experience saved: %s", experience)
 
             # Save recommendations
-            for i in range(len(form_data['names'])):
+            for i in range(len(form_data['rec_names'])):
                 recommendation = Recommendation(
                     application=application,
-                    name=form_data['names'][i],
-                    role=form_data['recommendation_roles'][i],
-                    email=form_data['emails'][i],
-                    phone_number=form_data['phone_numbers'][i] if i < len(form_data['phone_numbers']) else "",
-                    can_contact=(form_data['can_contacts'][i] == 'true') if i < len(
-                        form_data['can_contacts']) else False
+                    name=form_data['rec_names'][i],
+                    role=form_data['rec_roles'][i],
+                    email=form_data['rec_emails'][i],
+                    phone_number=form_data['rec_phone_numbers'][i] if i < len(form_data['rec_phone_numbers']) else "",
+                    can_contact=(form_data['rec_can_contacts'][i] == 'true') if i < len(form_data['rec_can_contacts']) else False
                 )
                 recommendation.save()
                 logger.debug("Recommendation saved: %s", recommendation)
