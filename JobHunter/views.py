@@ -11,6 +11,8 @@ from django.views.decorators.cache import never_cache
 from .forms import EditProfileForm
 from django.utils import timezone
 from django.db.models import Q
+import logging
+
 
 User = get_user_model()
 
@@ -246,54 +248,77 @@ def application_view(request, job_id):
     }
     return render(request, 'JobHunter/application.html', context)
 
+logger = logging.getLogger(__name__)
+
+
 @login_required
 def review_page(request):
     form_data = request.session.get('form_data', None)
     if not form_data:
         return redirect('index')  # Correctly redirect to index if no form data is found
 
+    has_experience = bool(form_data['places_of_work']) and any(form_data['places_of_work'])
+    has_recommendations = bool(form_data['names']) and any(form_data['names'])
+
     if request.method == 'POST':
         job_id = form_data.get('job_id')
         job = get_object_or_404(Job, id=job_id)
-        application = Application(
-            user=request.user,
-            job=job,
-            full_name=form_data.get('full_name'),
-            email=form_data.get('email'),
-            street_name=form_data.get('street_name'),
-            house_number=form_data.get('house_number'),
-            city=form_data.get('city'),
-            postal_code=form_data.get('postal_code'),
-            country=form_data.get('country'),
-            cover_letter=form_data.get('cover_letter'),
-            status='pending',
-            applied_on=timezone.now()
-        )
-        application.save()
 
-        for i in range(len(form_data['places_of_work'])):
-            Experience(
-                application=application,
-                place_of_work=form_data['places_of_work'][i],
-                role=form_data['roles'][i],
-                start_date=form_data['start_dates'][i],
-                end_date=form_data['end_dates'][i]
-            ).save()
+        # Log form data
+        logger.debug("Form data received: %s", form_data)
 
-        for i in range(len(form_data['names'])):
-            Recommendation(
-                application=application,
-                name=form_data['names'][i],
-                role=form_data['recommendation_roles'][i],
-                email=form_data['emails'][i],
-                phone_number=form_data['phone_numbers'][i] if i < len(form_data['phone_numbers']) else "",
-                can_contact=(form_data['can_contacts'][i] == 'true') if i < len(form_data['can_contacts']) else False
-            ).save()
+        try:
+            # Create and save the application
+            application = Application(
+                user=request.user,
+                job=job,
+                full_name=form_data.get('full_name'),
+                email=form_data.get('email'),
+                street_name=form_data.get('street_name'),
+                house_number=form_data.get('house_number'),
+                city=form_data.get('city'),
+                postal_code=form_data.get('postal_code'),
+                country=form_data.get('country'),
+                cover_letter=form_data.get('cover_letter'),
+                status='pending',
+                applied_on=timezone.now()
+            )
+            application.save()
+            logger.debug("Application saved: %s", application)
 
-        request.session.pop('form_data', None)
-        return redirect('index')  # Redirect to index after final submission
+            # Save experiences
+            for i in range(len(form_data['places_of_work'])):
+                experience = Experience(
+                    application=application,
+                    place_of_work=form_data['places_of_work'][i],
+                    role=form_data['roles'][i],
+                    start_date=form_data['start_dates'][i],
+                    end_date=form_data['end_dates'][i]
+                )
+                experience.save()
+                logger.debug("Experience saved: %s", experience)
 
-    # For GET requests, render the form
+            # Save recommendations
+            for i in range(len(form_data['names'])):
+                recommendation = Recommendation(
+                    application=application,
+                    name=form_data['names'][i],
+                    role=form_data['recommendation_roles'][i],
+                    email=form_data['emails'][i],
+                    phone_number=form_data['phone_numbers'][i] if i < len(form_data['phone_numbers']) else "",
+                    can_contact=(form_data['can_contacts'][i] == 'true') if i < len(
+                        form_data['can_contacts']) else False
+                )
+                recommendation.save()
+                logger.debug("Recommendation saved: %s", recommendation)
+
+            request.session.pop('form_data', None)
+            return redirect('index')  # Redirect to index after final submission
+
+        except Exception as e:
+            logger.error("Error saving application: %s", e)
+            # Handle the error appropriately, e.g., show an error message to the user
+
     context = {
         'company_name': 'Company name',
         'job_title': 'Job Title',
@@ -304,7 +329,9 @@ def review_page(request):
         'city': form_data.get('city'),
         'postal_code': form_data.get('postal_code'),
         'country': form_data.get('country'),
-        'cover_letter': form_data.get('cover_letter')
+        'cover_letter': form_data.get('cover_letter'),
+        'has_experience': has_experience,
+        'has_recommendations': has_recommendations,
     }
     return render(request, 'JobHunter/review_page.html', context)
 

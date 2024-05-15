@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-    <form method="POST" action="{% url 'index' %}">
+    <form method="POST" action="{% url 'review_page' %}">
         {% csrf_token %}
         <div class="col-2">
             <button class="btn btn-link" type="button" onclick="window.history.back()">← Back</button>
@@ -14,6 +14,7 @@
                     <div class="col">
                         <div class="card">
                             <div class="card-body">
+                                <!-- Personal Details -->
                                 <div class="row">
                                     <div class="col-3">
                                         <p class="name" style="font-weight: bold">Name:</p>
@@ -78,7 +79,31 @@
                                         <p class="cover-letter">{{ cover_letter }}</p>
                                     </div>
                                 </div>
-                                <!-- Add similar sections for experience and recommendations -->
+                                <!-- Experience and Recommendations -->
+                                <div class="row">
+                                    <div class="col-3">
+                                        <p class="experience" style="font-weight: bold">Experience:</p>
+                                    </div>
+                                    <div class="col">
+                                        {% if has_experience %}
+                                            <img src="{% static 'Images/green_check_better.jpg' %}" alt="Green Check" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                        {% else %}
+                                            <img src="{% static 'Images/red_x.jpg' %}" alt="Red Cross" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <p class="recommendations" style="font-weight: bold">Recommendations:</p>
+                                    </div>
+                                    <div class="col">
+                                        {% if has_recommendations %}
+                                            <img src="{% static 'Images/green_check_better.jpg' %}" alt="Green Check" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                        {% else %}
+                                            <img src="{% static 'Images/red_x.jpg' %}" alt="Red Cross" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                        {% endif %}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
