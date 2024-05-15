@@ -8,8 +8,8 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Company', '0002_job'),
         ('JobHunter', '0005_user_profile_image'),
+        ('Company', '0001_initial'),
     ]
 
     operations = [

@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Company, Job
+from .models import Company, Job, JobCategory
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.core.serializers.json import DjangoJSONEncoder
 import json
 from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_exempt
 
 
 @login_required
@@ -62,6 +63,8 @@ def company_signup(request):
 
 
 @login_required
+@csrf_exempt
+@login_required
 def new_job(request):
     if request.method == 'POST':
         print("user authenticated: ", request.user.is_authenticated)
@@ -71,10 +74,6 @@ def new_job(request):
         city = request.POST.get('city')
         expiration_date = request.POST.get('expDate')
         job_type = request.POST.get('jobType', 'Part Time')  # Adjusted to use correct name
-        categories = request.POST.getlist('categories')  # Adjusted to handle list of categories
-
-        # Ensure categories are serialized to JSON format properly
-        categories_json = json.dumps(categories, cls=DjangoJSONEncoder)
 
         job = Job(
             company=request.user,  # Directly use request.user here since it is the Company instance
@@ -83,8 +82,7 @@ def new_job(request):
             address=address,
             city=city,
             expiration_date=expiration_date,
-            job_type=job_type,
-            categories=categories_json  # Ensure this is properly formatted JSON
+            job_type=job_type
         )
         job.save()
 

@@ -3,8 +3,6 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
 
 class CompanyManager(BaseUserManager):
-    print("Starting to load Company models")
-
     def create_company(self, email, password, company_name, address, about_company, company_image=None, cover_image=None):
         if not email:
             raise ValueError("Companies must have an email address")
@@ -35,28 +33,30 @@ class Company(AbstractBaseUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['company_name']
 
-    def isCompany(self):
+    def is_company(self):
         return True
 
     def __str__(self):
         return self.company_name
 
-class Category(models.Model):
-    name = models.CharField(max_length=255)
+class JobCategory(models.Model):
+    name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
 
 class Job(models.Model):
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="jobs")
-    job_title = models.CharField(max_length=255)
-    job_description = models.TextField()
+    title = models.CharField(max_length=255)
+    description = models.TextField()
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
-    expiration_date = models.DateField()
-    job_type = models.CharField(max_length=20)  # Full Time or Part Time
-    categories = models.ManyToManyField(Category)  # Could be serialized list of categories or many-to-many field
+    exp_date = models.DateField()
+    job_type = models.CharField(max_length=50, choices=[('Full Time', 'Full Time'), ('Part Time', 'Part Time')])
+    categories = models.ManyToManyField(JobCategory)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'company_job'
 
     def __str__(self):
-        return self.job_title
-
+        return self.title

@@ -1,10 +1,11 @@
 {% extends 'Base/base.html' %}
 {% block title %}Welcome to Hunter Page{% endblock %}
 {% block content %}
+{% if request.user.is_jobHunter %}
 <div class="container-fluid">
     <div class="row">
         <!-- Filter Section -->
-        <div class="col-md-3"> <!-- Adjust width of filter column as needed -->
+        <div class="col-md-3">
             <div class="filter" style="margin-right: 2rem;">
                 <div class="title" style="text-align: center">
                     <h2 class="filter">Filter</h2>
@@ -40,6 +41,14 @@
                             {% endfor %}
                         </div>
                     </div>
+                    <div class="Filter by">
+                        <div class="title">
+                            <h3 class="category">Search:</h3>
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="q" placeholder="Search for jobs" value="{{ query }}">
+                        </div>
+                    </div>
                     <div class="mt-3">
                         <button type="submit" class="btn btn-primary" style="background-color: #8abccb; border-radius: 4px; border: #8abccb;">Apply Filters</button>
                     </div>
@@ -48,13 +57,13 @@
         </div>
 
         <!-- Cards Section -->
-        <div class="col-md-9"> <!-- Remaining space for cards -->
+        <div class="col-md-9">
             <div class="row">
                 {% if query %}
                     <h4>Results for "{{ query }}"</h4>
                 {% endif %}
                 {% for job in jobs %}
-                <div class="col-md-6 mb-4"> <!-- Each card takes up half the width on medium to large devices -->
+                <div class="col-md-6 mb-4">
                     {% with job=job %}
                         {% include "Base/card.html" %}
                     {% endwith %}
@@ -64,4 +73,5 @@
         </div>
     </div>
 </div>
+{% endif %}
 {% endblock %}
