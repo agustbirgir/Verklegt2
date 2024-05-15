@@ -41,8 +41,12 @@
         </div>
 
         <!-- Cards Section -->
+                <!-- Cards Section -->
         <div class="col-md-9"> <!-- Remaining space for cards -->
             <div class="row">
+                {% if query %}
+                    <h4>Results for "{{ query }}"</h4>
+                {% endif %}
                 {% for job in jobs %}
                 <div class="col-md-6 mb-4"> <!-- Each card takes up half the width on medium to large devices -->
                     {% with job=job %}
