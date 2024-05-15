@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import User, Profile, Application, Experience, Recommendation
 from Company.models import Company, Job, Category
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm
 from django.http import HttpResponse
@@ -11,7 +12,7 @@ from .forms import EditProfileForm
 from django.utils import timezone
 from django.db.models import Q
 
-
+User = get_user_model()
 
 @never_cache
 def index(request):
@@ -215,58 +216,29 @@ def edit_profile(request):
 def application_view(request, job_id):
     job = get_object_or_404(Job, id=job_id)  # Ensure the job exists
     if request.method == 'POST':
-        # Create the application instance
-        application = Application(
-            user=request.user,
-            job=job,
-            full_name=request.POST.get('fullName'),
-            email=request.POST.get('email'),
-            street_name=request.POST.get('streetName'),
-            house_number=request.POST.get('houseNr'),
-            city=request.POST.get('city'),
-            postal_code=request.POST.get('postalCode'),
-            country=request.POST.get('country'),
-            cover_letter=request.POST.get('coverLetter'),
-            status='pending',  # Default status
-            applied_on=timezone.now()  # Using timezone to handle date properly
-        )
-        application.save()
+        form_data = {
+            'job_id': job_id,
+            'full_name': request.POST.get('fullName'),
+            'email': request.POST.get('email'),
+            'street_name': request.POST.get('streetName'),
+            'house_number': request.POST.get('houseNr'),
+            'city': request.POST.get('city'),
+            'postal_code': request.POST.get('postalCode'),
+            'country': request.POST.get('country'),
+            'cover_letter': request.POST.get('coverLetter'),
+            'places_of_work': request.POST.getlist('placeOfWork[]'),
+            'roles': request.POST.getlist('role[]'),
+            'start_dates': request.POST.getlist('startDate[]'),
+            'end_dates': request.POST.getlist('endDate[]'),
+            'names': request.POST.getlist('name[]'),
+            'recommendation_roles': request.POST.getlist('role[]'),
+            'emails': request.POST.getlist('email[]'),
+            'phone_numbers': request.POST.getlist('phone_number[]'),
+            'can_contacts': request.POST.getlist('can_contact[]')
+        }
+        request.session['form_data'] = form_data
+        return redirect('review_page')
 
-        # Handling multiple experiences
-        places_of_work = request.POST.getlist('placeOfWork[]')
-        roles = request.POST.getlist('role[]')
-        start_dates = request.POST.getlist('startDate[]')
-        end_dates = request.POST.getlist('endDate[]')
-
-        for i in range(len(places_of_work)):
-            Experience(
-                application=application,
-                place_of_work=places_of_work[i],
-                role=roles[i],
-                start_date=start_dates[i],
-                end_date=end_dates[i]
-            ).save()
-
-        # Handling multiple recommendations
-        names = request.POST.getlist('name[]')
-        roles = request.POST.getlist('role[]')
-        emails = request.POST.getlist('email[]')
-        phone_numbers = request.POST.getlist('phone_number[]')
-        can_contacts = request.POST.getlist('can_contact[]')
-
-        for i in range(len(names)):
-            Recommendation(
-                application=application,
-                name=names[i],
-                role=roles[i],
-                email=emails[i],
-                phone_number=phone_numbers[i] if i < len(phone_numbers) else "",
-                can_contact=(can_contacts[i] == 'true') if i < len(can_contacts) else False
-            ).save()
-
-        return redirect('index')  # Redirect to a confirmation page
-
-    # For GET requests, render the form
     context = {
         'job': job,
         'company_name': job.company.company_name,
@@ -274,8 +246,67 @@ def application_view(request, job_id):
     }
     return render(request, 'JobHunter/application.html', context)
 
+@login_required
 def review_page(request):
-    return render(request, 'JobHunter/review_page.html')
+    form_data = request.session.get('form_data', None)
+    if not form_data:
+        return redirect('index')  # Correctly redirect to index if no form data is found
+
+    if request.method == 'POST':
+        job_id = form_data.get('job_id')
+        job = get_object_or_404(Job, id=job_id)
+        application = Application(
+            user=request.user,
+            job=job,
+            full_name=form_data.get('full_name'),
+            email=form_data.get('email'),
+            street_name=form_data.get('street_name'),
+            house_number=form_data.get('house_number'),
+            city=form_data.get('city'),
+            postal_code=form_data.get('postal_code'),
+            country=form_data.get('country'),
+            cover_letter=form_data.get('cover_letter'),
+            status='pending',
+            applied_on=timezone.now()
+        )
+        application.save()
+
+        for i in range(len(form_data['places_of_work'])):
+            Experience(
+                application=application,
+                place_of_work=form_data['places_of_work'][i],
+                role=form_data['roles'][i],
+                start_date=form_data['start_dates'][i],
+                end_date=form_data['end_dates'][i]
+            ).save()
+
+        for i in range(len(form_data['names'])):
+            Recommendation(
+                application=application,
+                name=form_data['names'][i],
+                role=form_data['recommendation_roles'][i],
+                email=form_data['emails'][i],
+                phone_number=form_data['phone_numbers'][i] if i < len(form_data['phone_numbers']) else "",
+                can_contact=(form_data['can_contacts'][i] == 'true') if i < len(form_data['can_contacts']) else False
+            ).save()
+
+        request.session.pop('form_data', None)
+        return redirect('index')  # Redirect to index after final submission
+
+    # For GET requests, render the form
+    context = {
+        'company_name': 'Company name',
+        'job_title': 'Job Title',
+        'full_name': form_data.get('full_name'),
+        'email': form_data.get('email'),
+        'street_name': form_data.get('street_name'),
+        'house_number': form_data.get('house_number'),
+        'city': form_data.get('city'),
+        'postal_code': form_data.get('postal_code'),
+        'country': form_data.get('country'),
+        'cover_letter': form_data.get('cover_letter')
+    }
+    return render(request, 'JobHunter/review_page.html', context)
 
 def search(request):
     query = request.GET.get('search', '')

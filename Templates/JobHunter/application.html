@@ -1,7 +1,6 @@
 {% extends 'Base/base.html' %}
 {% block content %}
 
-
 <a href="{% url 'review_page' %}">review page</a>
 
 <div class="container mt-5" style="padding-bottom: 2rem">
@@ -102,77 +101,77 @@
     </div>
 </div>
 
-    <script>
-        let rowCounter = 1;
+<script>
+    let rowCounter = 1;
 
-        function addRowExp() {
-            rowCounter++;
-            const newRow = document.createElement("div");
-            newRow.className = "row mb-3";
-            newRow.innerHTML = `
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <input type="text" class="form-control" name="placeOfWork[]" placeholder="Place Of Work">
-                    </div>
+    function addRowExp() {
+        rowCounter++;
+        const newRow = document.createElement("div");
+        newRow.className = "row mb-3";
+        newRow.innerHTML = `
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="placeOfWork[]" placeholder="Place Of Work">
                 </div>
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <input type="text" class="form-control" name="role[]" placeholder="Role">
-                    </div>
+            </div>
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="role[]" placeholder="Role">
                 </div>
-                <div class="col-md-2">
-                    <div class="mb-3">
-                        <input type="date" class="form-control" name="startDate[]" placeholder="Start Date">
-                    </div>
+            </div>
+            <div class="col-md-2">
+                <div class="mb-3">
+                    <input type="date" class="form-control" name="startDate[]" placeholder="Start Date">
                 </div>
-                <div class="col-md-2">
-                    <div class="mb-3">
-                        <input type="date" class="form-control" name="endDate[]" placeholder="End Date">
-                    </div>
+            </div>
+            <div class="col-md-2">
+                <div class="mb-3">
+                    <input type="date" class="form-control" name="endDate[]" placeholder="End Date">
                 </div>
-            `;
-            document.getElementById('experienceForms').appendChild(newRow);
-        }
+            </div>
+        `;
+        document.getElementById('experienceForms').appendChild(newRow);
+    }
 
-        function addRowRec() {
-            console.log('fuc called');
-            let rowCounter2 = parseInt(document.getElementById('rowCounter2').value, 10) || 1; // Ensure the counter is initialized properly
-            console.log('row2: ', rowCounter2);
-            rowCounter2++; // Increment the counter
-            document.getElementById('rowCounter2').value = rowCounter2; // Update the counter in the form
+    function addRowRec() {
+        console.log('fuc called');
+        let rowCounter2 = parseInt(document.getElementById('rowCounter2').value, 10) || 1; // Ensure the counter is initialized properly
+        console.log('row2: ', rowCounter2);
+        rowCounter2++; // Increment the counter
+        document.getElementById('rowCounter2').value = rowCounter2; // Update the counter in the form
 
-            const newRow = document.createElement("div");
-            newRow.className = "row mb-3";
-            newRow.innerHTML = `
-                <div class="col-md-3">
-                    <div class="mb-3">
-                        <input type="text" class="form-control" name="name[]" placeholder="Name">
-                    </div>
+        const newRow = document.createElement("div");
+        newRow.className = "row mb-3";
+        newRow.innerHTML = `
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="name[]" placeholder="Name">
                 </div>
-                <div class="col-md-3">
-                    <div class="mb-3">
-                        <input type="text" class="form-control" name="role[]" placeholder="Role">
-                    </div>
+            </div>
+            <div class="col-md3">
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="role[]" placeholder="Role">
                 </div>
-                <div class="col-md-3">
-                    <div class="mb-3">
-                        <input type="email" class="form-control" name="email[]" placeholder="Email">
-                    </div>
+            </div>
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <input type="email" class="form-control" name="email[]" placeholder="Email">
                 </div>
-                <div class="col-md-2">
-                    <div class="mb-3">
-                        <input type="number" class="form-control" name="phone_number[]" placeholder="Phone Number">
-                    </div>
+            </div>
+            <div class="col-md-2">
+                <div class="mb-3">
+                    <input type="number" class="form-control" name="phone_number[]" placeholder="Phone Number">
                 </div>
-                <div class="col-md-1">
-                    <div class="mb-3" style="padding-top: 1rem">
-                        <input type="checkbox" class="btn-check" name="can_contact[]" value="true" checked>
-                        <label class="btn btn-outline-primary">Can Contact</label>
-                    </div>
+            </div>
+            <div class="col-md-1">
+                <div class="mb-3" style="padding-top: 1rem">
+                    <input type="checkbox" class="btn-check" name="can_contact[]" value="true" checked>
+                    <label class="btn btn-outline-primary">Can Contact</label>
                 </div>
-            `;
+            </div>
+        `;
 
-            document.getElementById('recommendationForms').appendChild(newRow);
-        }
-    </script>
+        document.getElementById('recommendationForms').appendChild(newRow);
+    }
+</script>
 {% endblock %}
