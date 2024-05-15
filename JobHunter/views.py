@@ -11,13 +11,23 @@ from django.http import HttpResponse
 from django.views.decorators.cache import never_cache
 from .forms import EditProfileForm
 from django.utils import timezone
+from django.db.models import Q
+
 
 User = get_user_model()
 
 @never_cache
 def index(request):
-    jobs = Job.objects.all()
-    return render(request, 'JobHunter/index.html', {'jobs': jobs})
+    query = request.GET.get('search', '')
+    if query:
+        jobs = Job.objects.filter(
+            Q(company__company_name__icontains=query) |
+            Q(job_title__icontains=query)
+        )
+    else:
+        jobs = Job.objects.all()
+
+    return render(request, 'JobHunter/index.html', {'jobs': jobs, 'query': query})
 
 def card(request):
     jobs = Job.objects.all()  # Retrieve all jobs from your database
@@ -250,3 +260,15 @@ def application_view(request, job_id):
 
 def review_page(request):
     return render(request, 'JobHunter/review_page.html')
+
+def search(request):
+    query = request.GET.get('search', '')
+    if query:
+        jobs = Job.objects.filter(
+            Q(company__company_name__icontains=query) |
+            Q(job_title__icontains=query)
+        )
+    else:
+        jobs = Job.objects.all()
+
+    return render(request, 'JobHunter/index.html', {'jobs': jobs, 'query': query})
