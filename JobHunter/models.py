@@ -33,16 +33,20 @@ class Profile(models.Model):
 
 class Application(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='applications')
-    job = models.ForeignKey('Company.Job', on_delete=models.CASCADE)  # Assuming 'Company.Job' is your Job model path
+    job = models.ForeignKey('Company.Job', on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=255, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
+    street_name = models.CharField(max_length=255, null=True, blank=True)
+    house_number = models.CharField(max_length=20, null=True, blank=True)
+    city = models.CharField(max_length=100, default='Reykjavik')
+    postal_code = models.CharField(max_length=20, null=True, blank=True)
+    country = models.CharField(max_length=100, default='Iceland')
     cover_letter = models.TextField()
-    resume = models.FileField(upload_to='resumes/', null=True, blank=True)
     status = models.CharField(max_length=20, default='pending')
     applied_on = models.DateField(auto_now_add=True)
-    notes = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return f'{self.user.email} - {self.job.job_title}'
-
+        return f'{self.full_name} - {self.job.job_title}'
 
 class Experience(models.Model):
     application = models.ForeignKey(Application, on_delete=models.CASCADE, related_name='experiences')
