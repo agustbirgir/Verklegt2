@@ -4,19 +4,38 @@
 <div class="container-fluid">
     <div class="row">
         <!-- Filter Section -->
-        <div class="col-md-3">
-            <div class="filter" style="margin-right: 2rem;">
-                <div class="title" style="text-align: center">
+        <div class="col-md-3" style="border-right: 2px solid gray; padding-right: 1rem; margin-right: 2rem;">
+            <div class="filter">
+                <div class="title" style="text-align: center;">
                     <h2 class="filter">Filter</h2>
                 </div>
                 <form method="GET" action="{% url 'index' %}">
-                    <div class="Filter by">
-                        <div class="title">
+                    <!-- Sort By Section -->
+                    <div class="filter-section" style="margin-bottom: 1rem; border-bottom: 1px solid lightgray; padding-bottom: 1rem;">
+                        <div class="title" style="text-align: center;">
+                            <h3 class="sort-by">Sort By:</h3>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort" value="oldest" id="sort-newest" {% if 'oldest' in sort_filter %}checked{% endif %}>
+                            <label class="form-check-label" for="sort-newest">
+                                Expiring Soon
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort" value="newest" id="sort-oldest" {% if 'newest' in sort_filter %}checked{% endif %}>
+                            <label class="form-check-label" for="sort-oldest">
+                                Expiring Last
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Category Section -->
+                    <div class="filter-section" style="margin-bottom: 1rem; border-bottom: 1px solid lightgray; padding-bottom: 1rem;">
+                        <div class="title" style="text-align: center;">
                             <h3 class="category">Category:</h3>
                         </div>
-                        <div class="filter-buttons">
+                        <div class="filter-buttons row">
                             {% for category in categories %}
-                            <div class="form-check">
+                            <div class="form-check col-6">
                                 <input class="form-check-input" type="checkbox" name="category" value="{{ category.id }}" id="category-{{ forloop.counter }}" {% if category.id|stringformat:"s" in category_filter %}checked{% endif %}>
                                 <label class="form-check-label" for="category-{{ forloop.counter }}">
                                     {{ category.name }}
@@ -25,13 +44,34 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="Filter by">
-                        <div class="title">
+                    <!-- Job Type Section -->
+                    <div class="filter-section" style="margin-bottom: 1rem; border-bottom: 1px solid lightgray; padding-bottom: 1rem;">
+                        <div class="title" style="text-align: center;">
+                            <h3 class="job-type">Job Type:</h3>
+                        </div>
+                        <div class="filter-buttons row">
+                            <div class="form-check col-6">
+                                <input class="form-check-input" type="checkbox" name="job_type" value="Part Time" id="job_type-part_time" {% if 'Part Time' in job_type_filter %}checked{% endif %}>
+                                <label class="form-check-label" for="job_type-part_time">
+                                    Part Time
+                                </label>
+                            </div>
+                            <div class="form-check col-6">
+                                <input class="form-check-input" type="checkbox" name="job_type" value="Full Time" id="job_type-full_time" {% if 'Full Time' in job_type_filter %}checked{% endif %}>
+                                <label class="form-check-label" for="job_type-full_time">
+                                    Full Time
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Company Section -->
+                    <div class="filter-section" style="margin-bottom: 1rem; border-bottom: 1px solid lightgray; padding-bottom: 1rem;">
+                        <div class="title" style="text-align: center;">
                             <h3 class="company">Company:</h3>
                         </div>
-                        <div class="filter-buttons">
+                        <div class="filter-buttons row">
                             {% for company in companies %}
-                            <div class="form-check">
+                            <div class="form-check col-6">
                                 <input class="form-check-input" type="checkbox" name="company" value="{{ company.id }}" id="company-{{ forloop.counter }}" {% if company.id|stringformat:"s" in company_filter %}checked{% endif %}>
                                 <label class="form-check-label" for="company-{{ forloop.counter }}">
                                     {{ company.company_name }}
@@ -40,12 +80,13 @@
                             {% endfor %}
                         </div>
                     </div>
+                    <button type="submit" class="btn btn-primary">Apply Filters</button>
                 </form>
             </div>
         </div>
 
         <!-- Cards Section -->
-        <div class="col-md-9">
+        <div class="col-md-8" style="padding-left: 2rem;">
             <div class="row">
                 {% if query %}
                     <h4>Results for "{{ query }}"</h4>
