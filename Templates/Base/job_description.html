@@ -76,10 +76,11 @@
                     </div>
                 </div>
             </div>
-
-            <div class="row" style="height: 3em; border-radius: 0.5rem; padding-top: 6rem">
-                <a href="{% url 'application' job.id %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Apply</a>
-            </div>
+            {% if request.user.is_jobHunter %}
+                <div class="row" style="height: 3em; border-radius: 0.5rem; padding-top: 6rem">
+                    <a href="{% url 'application' job.id %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Apply</a>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
