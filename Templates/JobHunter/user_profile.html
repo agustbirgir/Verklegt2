@@ -4,9 +4,9 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col py-4" style="height: 45em;">
+        <div class="col py-4">
             <!-- Profile Image Section -->
-            <div class="row mb-0.5 align-items-center" style="height: 8em; background-color: #e9ecef; border: 1px solid #ced4da;">
+            <div class="row mb-0.5 align-items-center " style="padding: 1rem; background-color: #FFFFFF; border: 1px solid #ced4da; border-top-left-radius: 1rem; border-top-right-radius: 1rem">
                 <div class="col-2" style="height: 100%; display: flex; justify-content: center; align-items: center;">
                     <div style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden;">
                         {% if user.profile.profile_image %}
@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="col-8">
-                    <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                    <h2 style="font-weight: bold">{{ user.first_name }} {{ user.last_name }}</h2>
                 </div>
                 <div class="col-2" style="display: flex; justify-content: flex-end; align-items: center;">
                     <!-- Edit Button -->
@@ -30,29 +30,28 @@
             </div>
 
             <!-- Information Section -->
-            <div class="row mb-4" style="height: 7em; background-color: #e9ecef; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; border-left: 1px solid #ced4da;">
+            <div class="row mb-4" style="background-color: #FFFFFF; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem; padding: 1rem">
+                <h5 style="font-weight: bold">Information</h5>
                 <div class="col-md-6">
-                    <h5>Information</h5>
                     <p>Email: {{ user.email }}</p>
                     <p>Phone: {{ user.profile.phone_number }}</p>
                 </div>
                 <div class="col-md-6">
-                    <h5>&nbsp;</h5>
-                    <p>Address: {{ user.profile.street_name }}{{ user.profile.house_number }}{{ user.profile.postal_code }}</p>
+                    <p>Address: {{ user.profile.street_name }} {{ user.profile.house_number }}, {{ user.profile.postal_code }} {{ user.profile.city }}</p>
                     <p>Country: {{ user.profile.country }}</p>
                 </div>
             </div>
 
             <!-- Bio Section -->
-            <div class="row mb-5" style="height: 18em; background-color: #e9ecef; border: 1px solid #ced4da;">
+            <div class="row mb-5" style="background-color: #FFFFFF; border: 1px solid #ced4da; border-radius: 1rem; padding: 1rem">
                 <div class="col">
-                    <h5>About Me</h5>
+                    <h5 style="font-weight: bold">About Me</h5>
                     <p>{{ user.profile.bio }}</p>
                 </div>
             </div>
 
             <!-- Applied Jobs Section -->
-            <div class="row mb-4" style="height: 3em; background-color: #e9ecef; border: 1px solid #ced4da;">
+            <div class="row mb-4" style="background-color: #FFFFFF; border: 1px solid #ced4da; border-radius: 1rem; padding: 1rem">
                 <div class="col">
                     <h5>Applied Jobs</h5>
                     <ul>
