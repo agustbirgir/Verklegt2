@@ -67,8 +67,8 @@ def login_view(request):
             try:
                 # Check if the user is associated with a company
                 company_user = Company.objects.get(email=email)
-                print(f"User is a company. Redirecting to company index. with id: {company_user.id}")  # id here
-                return redirect('company_index')
+                print(f"User is a company. Redirecting to company page with id: {company_user.id}")  # id here
+                return redirect('company_page', company_id=company_user.id)
             except Company.DoesNotExist:
                 print("User is a jobhunter. Redirecting to jobhunter index.")
                 return redirect('index')
@@ -79,7 +79,7 @@ def login_view(request):
                 if company_user.check_password(password):
                     login(request, company_user)
                     print(f"Logged in Company user manually. Company ID: {company_user.id}")
-                    return redirect('company_index')
+                    return redirect('company_page', company_id=company_user.id)
                 else:
                     print("Password check failed for Company.")
             except Company.DoesNotExist:

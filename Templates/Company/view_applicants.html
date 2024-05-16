@@ -1,0 +1,11 @@
+{% extends 'Base/base.html' %}
+{% load static %}
+{% block content %}
+    <h1>Applicants for {{ job.title }}</h1>
+    <p>This is the company applicants view for {{ company.company_name }}</p>
+    <ul>
+        {% for applicant in applicants %}
+            <li>{{ applicant.full_name }} - {{ applicant.email }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
