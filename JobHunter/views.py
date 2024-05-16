@@ -155,9 +155,6 @@ def signup_view(request):
 
 def job_description_view(request, job_id):
     job = get_object_or_404(Job, id=job_id)
-    print(f"Job: {job}")  # Debugging: Check the job object
-    print(f"Company ID: {job.company.id}")  # Debugging: Check the company id
-    print(f"Categories: {[category.name for category in job.categories.all()]}")  # Debugging: Check the job's categories
     return render(request, 'Base/job_description.html', {'job': job})
 
 @login_required
