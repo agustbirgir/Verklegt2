@@ -16,28 +16,28 @@
                             <!-- Personal Details -->
                             <div class="mb-3">
                                 <label for="fullName" class="form-label" style="font-weight: bold; color: darkcyan">Full Name</label>
-                                <input type="text" class="form-control" name="fullName" id="fullName" placeholder="Enter your name here" value="{{request.user.first_name}} {{request.user.last_name}}">
+                                <input type="text" class="form-control" name="fullName" id="fullName" placeholder="Enter your name here" value="{{user.first_name}} {{user.last_name}}">
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label" style="font-weight: bold; color: darkcyan">Email</label>
-                                <input type="email" class="form-control" name="email" id="email" placeholder="fx. example@example.com" value="{{request.user.email}}">
+                                <input type="email" class="form-control" name="email" id="email" placeholder="fx. example@example.com" value="{{user.email}}">
                             </div>
                             <!-- Address Details -->
                             <div class="mb-3">
                                 <label for="streetName" class="form-label" style="font-weight: bold; color: darkcyan">Street Name</label>
-                                <input type="text" class="form-control" name="streetName" id="streetName" placeholder="Enter here" value="{{request.user.street_name}}">
+                                <input type="text" class="form-control" name="streetName" id="streetName" placeholder="Enter here" value="{{profile.street_name}}">
                             </div>
                             <div class="mb-3">
                                 <label for="houseNr" class="form-label" style="font-weight: bold; color: darkcyan">House Number</label>
-                                <input type="number" class="form-control" name="houseNr" id="houseNr" placeholder="fx. 122" value="{{request.user.house_number}}">
+                                <input type="number" class="form-control" name="houseNr" id="houseNr" placeholder="fx. 122" value="{{profile.house_number}}">
                             </div>
                             <div class="mb-3">
                                 <label for="city" class="form-label" style="font-weight: bold; color: darkcyan">City</label>
-                                <input type="text" class="form-control" name="city" id="city" placeholder="Enter here" value="{{request.user.city}}">
+                                <input type="text" class="form-control" name="city" id="city" placeholder="Enter here" value="{{profile.city}}">
                             </div>
                             <div class="mb-3">
                                 <label for="postalCode" class="form-label" style="font-weight: bold; color: darkcyan">Postal Code</label>
-                                <input type="number" class="form-control" name="postalCode" id="postalCode" placeholder="fx. 122" value="{{request.user.postal_code}}">
+                                <input type="number" class="form-control" name="postalCode" id="postalCode" placeholder="fx. 122" value="{{profile.postal_code}}">
                             </div>
                             <div class="mb-3">
                                 <label for="country" class="form-label" style="font-weight: bold; color: darkcyan">Country</label>
