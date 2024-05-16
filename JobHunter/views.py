@@ -13,7 +13,6 @@ from django.utils import timezone
 from django.db.models import Q
 import logging
 from django.shortcuts import render
-from Company.models import Job, JobCategory
 
 
 User = get_user_model()
@@ -233,7 +232,7 @@ def application_view(request, job_id):
     context = {
         'job': job,
         'company_name': job.company.company_name,
-        'job_title': job.job_title
+        'title': job.title
     }
     return render(request, 'JobHunter/application.html', context)
 
@@ -244,16 +243,14 @@ def review_page(request):
     if not form_data:
         return redirect('index')  # Redirect to index if no form data is found
 
+    job_id = form_data.get('job_id')
+    job = get_object_or_404(Job, id=job_id)
+
+    has_cover = bool(form_data.get('cover_letter'))
     has_experience = bool(form_data.get('places_of_work')) and any(form_data.get('places_of_work'))
     has_recommendations = bool(form_data.get('rec_names')) and any(form_data.get('rec_names'))
 
     if request.method == 'POST':
-        job_id = form_data.get('job_id')
-        job = get_object_or_404(Job, id=job_id)
-
-        # Log form data
-        logger.debug("Form data received: %s", form_data)
-
         try:
             # Create and save the application
             application = Application(
@@ -306,8 +303,8 @@ def review_page(request):
             # Handle the error appropriately, e.g., show an error message to the user
 
     context = {
-        'company_name': 'Company name',
-        'job_title': 'Job Title',
+        'company_name': job.company.company_name,
+        'title': job.title,
         'full_name': form_data.get('full_name'),
         'email': form_data.get('email'),
         'street_name': form_data.get('street_name'),
@@ -316,10 +313,12 @@ def review_page(request):
         'postal_code': form_data.get('postal_code'),
         'country': form_data.get('country'),
         'cover_letter': form_data.get('cover_letter'),
+        'has_cover': has_cover,
         'has_experience': has_experience,
         'has_recommendations': has_recommendations,
     }
     return render(request, 'JobHunter/review_page.html', context)
+
 
 def search(request):
     query = request.GET.get('search', '')

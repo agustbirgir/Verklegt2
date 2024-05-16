@@ -5,7 +5,7 @@
 
 <div class="container mt-5" style="padding-bottom: 2rem">
     <div class="container centered">
-        <h2 style="padding-bottom: 1rem; font-weight: bold; color: darkcyan">{{ company_name }} - {{ job_title }}</h2>
+        <h2 style="padding-bottom: 1rem; font-weight: bold; color: darkcyan">{{ company_name }} - {{ title }}</h2>
         <form method="POST" action="" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="hidden" name="job_id" value="{{ job.id }}">

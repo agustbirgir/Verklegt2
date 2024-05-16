@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
-from Company.models import Job  # Import Job model from Company app
+from Company.models import Job
 
 class User(AbstractUser):
     username = None  # Disable the username field
@@ -32,7 +32,7 @@ class Profile(models.Model):
 
 class Application(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='applications')
-    #job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, null=True, blank=True)
     full_name = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
     street_name = models.CharField(max_length=255, null=True, blank=True)

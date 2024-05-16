@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
 
 class CompanyManager(BaseUserManager):
-    def create_company(self, email, password, company_name, address, about_company, company_image=None, cover_image=None):
+    def create_company(self, email, password, company_name, address, about_company, postal_code=None, city=None, company_image=None, cover_image=None):
         if not email:
             raise ValueError("Companies must have an email address")
         email = self.normalize_email(email)
@@ -12,6 +12,8 @@ class CompanyManager(BaseUserManager):
             company_name=company_name,
             address=address,
             about_company=about_company,
+            postal_code=postal_code,
+            city=city,
             company_image=company_image,
             cover_image=cover_image
         )
@@ -24,6 +26,8 @@ class Company(AbstractBaseUser):
     company_name = models.CharField(max_length=255)
     address = models.TextField(null=True, blank=True)
     about_company = models.TextField(null=True, blank=True)
+    postal_code = models.CharField(max_length=20, null=True, blank=True)
+    city = models.CharField(max_length=100, null=True, blank=True)
     company_image = models.ImageField(upload_to='company_images/', null=True, blank=True)
     cover_image = models.ImageField(upload_to='cover_images/', null=True, blank=True)
     last_login = models.DateTimeField(default=timezone.now, verbose_name='last login')

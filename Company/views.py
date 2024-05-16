@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.core.serializers.json import DjangoJSONEncoder
 import json
+from django.contrib.auth import get_user_model
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 
@@ -39,6 +40,8 @@ def company_signup(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         address = request.POST.get('address')
+        postal_code = request.POST.get('postal_code')
+        city = request.POST.get('city')
         about_company = request.POST.get('about_company')
         company_image = request.FILES.get('company_image')
         cover_image = request.FILES.get('cover_image')
@@ -51,6 +54,8 @@ def company_signup(request):
             password=password,
             company_name=company_name,
             address=address,
+            postal_code=postal_code,
+            city=city,
             about_company=about_company,
             company_image=company_image,
             cover_image=cover_image

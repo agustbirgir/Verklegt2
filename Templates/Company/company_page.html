@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 <div class="container">
+    <a href="{% url 'new_job' %}">New Job</a>
     <div class="row" style="padding-bottom: 6rem; padding-top: 2rem">
         <div class="col-12">
             <div class="cover-photo-container" style="position: relative; width: 100%; height: 250px">
@@ -23,11 +24,11 @@
         </div>
         <div class="col text-end">
             <div class="row">
-                <div class="col-9">
-                    <p class="location" style="font-size: larger; font-weight: bolder; color: darkcyan">Location:</p>
-                </div>
+                <!-- <div class="col-9">
+                    <p class="location" style="font-size: larger; font-weight: bolder; color: darkcyan">Location: {{ company.address }}, {{ company.postal_code }} {{ company.city }}</p>
+                </div> -->
                 <div class="col">
-                    <p class="location" style="font-size: larger; color: darkcyan">{{ company.address }}, {{ company.postal_code }} {{ company.city }}</p>
+                   <p class="location" style="font-size: larger; color: darkcyan">Location: {{ company.address }}, {{ company.postal_code }} {{ company.city }}</p>
                 </div>
             </div>
         </div>

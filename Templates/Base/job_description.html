@@ -9,20 +9,21 @@
                 {% if job.company.cover_image %}
                     <div class="col" style="height: 160px; width: 100%; background: url('{{ job.company.cover_image.url }}') no-repeat; background-size: contain; background-position: center;"></div>
                 {% else %}
-                        <div class="col" style="height: 160px; width: 100%; background: url({% static 'Images/test.jpg' %}) no-repeat;  background-size: contain; background-position: center;"></div>
+                    <div class="col" style="height: 160px; width: 100%; background: url({% static 'Images/test.jpg' %}) no-repeat; background-size: contain; background-position: center;"></div>
                 {% endif %}
-
             </div>
             <div class="row mb-4">
                 <div class="col">
-                    <p class="d-inline-block border border-2 border-info" style="margin-right: 1rem; padding-right: .50rem; padding-left: .50rem; color: #0dcaf0; border-radius: 5rem; font-weight: bold; background-color: #FFFFFF">{{ job.categories }}</p>
+                    {% for category in job.categories.all %}
+                        <p class="d-inline-block border border-2 border-info" style="margin-right: 1rem; padding-right: .50rem; padding-left: .50rem; color: #0dcaf0; border-radius: 5rem; font-weight: bold; background-color: #FFFFFF">{{ category.name }}</p>
+                    {% endfor %}
                     <p class="d-inline-block border border-2 border-info" style="margin-right: 1rem; padding-right: .50rem; padding-left: .50rem; color: #0dcaf0; border-radius: 5rem; font-weight: bold; background-color: #FFFFFF">{{ job.job_type }}</p>
                 </div>
             </div>
             <div class="row mb-4">
-                <h2 style="font-weight: bold">{{ job.company.company_name }} - {{ job.job_title }}</h2>
+                <h2 style="font-weight: bold">{{ job.company.company_name }} - {{ job.title }}</h2>
                 <div class="col">
-                    <p>{{ job.job_description }}</p>
+                    <p>{{ job.description }}</p>
                 </div>
             </div>
             <div class="row mb-4">
@@ -58,7 +59,7 @@
                             <p style="font-weight: bold">Expires:</p>
                         </div>
                         <div class="col">
-                            <p>{{ job.expiration_date|date:"d/m/Y" }}</p>
+                            <p>{{ job.exp_date|date:"d/m/Y" }}</p>
                         </div>
                     </div>
                 </div>
@@ -77,8 +78,7 @@
             </div>
 
             <div class="row" style="height: 3em; border-radius: 0.5rem; padding-top: 6rem">
-                <a href="{% url 'application' job.id%}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Apply</a>
-
+                <a href="{% url 'application' job.id %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Apply</a>
             </div>
         </div>
     </div>
