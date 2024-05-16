@@ -13,33 +13,35 @@
                     <!-- Sort By Section -->
                     <div class="filter-section" style="margin-bottom: 1rem; border-bottom: 1px solid lightgray; padding-bottom: 1rem;">
                         <div class="title" style="text-align: center;">
-                            <h3 class="sort-by">Sort By:</h3>
+                            <h5 class="sort-by">Sort By:</h5>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="sort" value="oldest" id="sort-newest" {% if 'oldest' in sort_filter %}checked{% endif %}>
-                            <label class="form-check-label" for="sort-newest">
-                                Expiring Soon
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="sort" value="newest" id="sort-oldest" {% if 'newest' in sort_filter %}checked{% endif %}>
-                            <label class="form-check-label" for="sort-oldest">
-                                Expiring Last
-                            </label>
+                        <div class="d-flex justify-content-around">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="sort" value="oldest" id="sort-newest" {% if 'oldest' in sort_filter %}checked{% endif %}>
+                                <label class="form-check-label" for="sort-newest">
+                                    Expiring Soon
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="sort" value="newest" id="sort-oldest" {% if 'newest' in sort_filter %}checked{% endif %}>
+                                <label class="form-check-label" for="sort-oldest">
+                                    Expiring Last
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <!-- Category Section -->
                     <div class="filter-section" style="margin-bottom: 1rem; border-bottom: 1px solid lightgray; padding-bottom: 1rem;">
                         <div class="title" style="text-align: center;">
-                            <h3 class="category">Category:</h3>
+                            <h5 class="category">Category:</h5>
                         </div>
                         <div class="filter-buttons row">
                             {% for category in categories %}
-                            <div class="form-check col-6">
-                                <input class="form-check-input" type="checkbox" name="category" value="{{ category.id }}" id="category-{{ forloop.counter }}" {% if category.id|stringformat:"s" in category_filter %}checked{% endif %}>
-                                <label class="form-check-label" for="category-{{ forloop.counter }}">
+                            <div class="col-6 mb-2">
+                                <button type="button" class="btn filter-btn {% if category.id|stringformat:"s" in category_filter %}active{% endif %}" onclick="toggleCheckbox('category-{{ forloop.counter }}')">
                                     {{ category.name }}
-                                </label>
+                                </button>
+                                <input type="checkbox" name="category" value="{{ category.id }}" id="category-{{ forloop.counter }}" class="d-none" {% if category.id|stringformat:"s" in category_filter %}checked{% endif %}>
                             </div>
                             {% endfor %}
                         </div>
@@ -47,40 +49,42 @@
                     <!-- Job Type Section -->
                     <div class="filter-section" style="margin-bottom: 1rem; border-bottom: 1px solid lightgray; padding-bottom: 1rem;">
                         <div class="title" style="text-align: center;">
-                            <h3 class="job-type">Job Type:</h3>
+                            <h5 class="job-type">Job Type:</h5>
                         </div>
                         <div class="filter-buttons row">
-                            <div class="form-check col-6">
-                                <input class="form-check-input" type="checkbox" name="job_type" value="Part Time" id="job_type-part_time" {% if 'Part Time' in job_type_filter %}checked{% endif %}>
-                                <label class="form-check-label" for="job_type-part_time">
+                            <div class="col-6 mb-2">
+                                <button type="button" class="btn filter-btn {% if 'Part Time' in job_type_filter %}active{% endif %}" onclick="toggleCheckbox('job_type-part_time')">
                                     Part Time
-                                </label>
+                                </button>
+                                <input type="checkbox" name="job_type" value="Part Time" id="job_type-part_time" class="d-none" {% if 'Part Time' in job_type_filter %}checked{% endif %}>
                             </div>
-                            <div class="form-check col-6">
-                                <input class="form-check-input" type="checkbox" name="job_type" value="Full Time" id="job_type-full_time" {% if 'Full Time' in job_type_filter %}checked{% endif %}>
-                                <label class="form-check-label" for="job_type-full_time">
+                            <div class="col-6 mb-2">
+                                <button type="button" class="btn filter-btn {% if 'Full Time' in job_type_filter %}active{% endif %}" onclick="toggleCheckbox('job_type-full_time')">
                                     Full Time
-                                </label>
+                                </button>
+                                <input type="checkbox" name="job_type" value="Full Time" id="job_type-full_time" class="d-none" {% if 'Full Time' in job_type_filter %}checked{% endif %}>
                             </div>
                         </div>
                     </div>
                     <!-- Company Section -->
                     <div class="filter-section" style="margin-bottom: 1rem; border-bottom: 1px solid lightgray; padding-bottom: 1rem;">
                         <div class="title" style="text-align: center;">
-                            <h3 class="company">Company:</h3>
+                            <h5 class="company">Company:</h5>
                         </div>
                         <div class="filter-buttons row">
                             {% for company in companies %}
-                            <div class="form-check col-6">
-                                <input class="form-check-input" type="checkbox" name="company" value="{{ company.id }}" id="company-{{ forloop.counter }}" {% if company.id|stringformat:"s" in company_filter %}checked{% endif %}>
-                                <label class="form-check-label" for="company-{{ forloop.counter }}">
+                            <div class="col-6 mb-2">
+                                <button type="button" class="btn filter-btn {% if company.id|stringformat:"s" in company_filter %}active{% endif %}" onclick="toggleCheckbox('company-{{ forloop.counter }}')">
                                     {{ company.company_name }}
-                                </label>
+                                </button>
+                                <input type="checkbox" name="company" value="{{ company.id }}" id="company-{{ forloop.counter }}" class="d-none" {% if company.id|stringformat:"s" in company_filter %}checked{% endif %}>
                             </div>
                             {% endfor %}
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Apply Filters</button>
+                    <div style="text-align: center; padding-bottom: 4em">
+                        <button type="submit" class="btn btn-primary">Apply Filters</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -102,4 +106,33 @@
         </div>
     </div>
 </div>
+
+<script>
+    function toggleCheckbox(id) {
+        var checkbox = document.getElementById(id);
+        checkbox.checked = !checkbox.checked;
+        var button = checkbox.previousElementSibling;
+        button.classList.toggle('active', checkbox.checked);
+    }
+</script>
+
+<style>
+    .filter-btn {
+        width: 100%;
+        white-space: nowrap;
+        text-align: center;
+        background-color: white;
+        border: 1px solid gray;
+        color: black;
+    }
+    .filter-btn.active {
+        background-color: darkcyan;
+        color: white;
+        border-color: darkcyan;
+    }
+    .filter-section .form-check-inline label {
+        display: block;
+        margin-bottom: 0;
+    }
+</style>
 {% endblock %}

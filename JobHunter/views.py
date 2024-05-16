@@ -18,19 +18,42 @@ from django.shortcuts import render
 User = get_user_model()
 
 def index(request):
-    query = request.GET.get('q')
-    category_filter = request.GET.getlist('category')
-
     jobs = Job.objects.all()
-    if query:
-        jobs = jobs.filter(Q(title__icontains=query) | Q(company__company_name__icontains=query))
+    categories = JobCategory.objects.all()
+    companies = Company.objects.all()
+
+    category_filter = request.GET.getlist('category')
+    company_filter = request.GET.getlist('company')
+    job_type_filter = request.GET.getlist('job_type')
+    sort_filter = request.GET.get('sort')
 
     if category_filter:
-        jobs = jobs.filter(categories__id__in=category_filter).distinct()
+        jobs = jobs.filter(categories__id__in=category_filter)
 
-    categories = JobCategory.objects.all()
+    if company_filter:
+        jobs = jobs.filter(company__id__in=company_filter)
 
-    return render(request, 'JobHunter/index.html', {'jobs': jobs, 'categories': categories, 'query': query, 'category_filter': category_filter})
+    if job_type_filter:
+        jobs = jobs.filter(job_type__in=job_type_filter)
+
+    if sort_filter:
+        if sort_filter == 'newest':
+            jobs = jobs.order_by('-exp_date')
+        elif sort_filter == 'oldest':
+            jobs = jobs.order_by('exp_date')
+
+    context = {
+        'jobs': jobs,
+        'categories': categories,
+        'companies': companies,
+        'category_filter': category_filter,
+        'company_filter': company_filter,
+        'job_type_filter': job_type_filter,
+        'sort_filter': sort_filter,
+    }
+
+    return render(request, 'JobHunter/index.html', context)
+
 
 
 
