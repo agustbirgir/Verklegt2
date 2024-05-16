@@ -5,9 +5,11 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.core.serializers.json import DjangoJSONEncoder
 import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from JobHunter.models import Application
 from django.contrib.auth import get_user_model
 from django.views.decorators.cache import never_cache
-from django.views.decorators.csrf import csrf_exempt
 
 
 @login_required
@@ -117,3 +119,25 @@ def view_applicants(request, job_id):
     company = job.company
     applicants = job.applications.all()  # Use the related_name here
     return render(request, 'Company/view_applicants.html', {'job': job, 'company': company, 'applicants': applicants})
+
+
+@csrf_exempt
+def update_status(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            print("Received data:", data)
+            applicant_id = data.get('applicant_id')
+            status = data.get('status')
+
+            application = get_object_or_404(Application, id=applicant_id)
+            application.status = status
+            application.save()
+            return JsonResponse({'success': True})
+        except Application.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Application not found'})
+        except Exception as e:
+            print("Error:", e)
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    return JsonResponse({'success': False, 'error': 'Invalid request'})
