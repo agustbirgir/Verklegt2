@@ -32,7 +32,7 @@ class Company(AbstractBaseUser):
     cover_image = models.ImageField(upload_to='cover_images/', null=True, blank=True)
     last_login = models.DateTimeField(default=timezone.now, verbose_name='last login')
 
-    objects = CompanyManager()  # Ensure the custom manager is used
+    objects = CompanyManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['company_name']
