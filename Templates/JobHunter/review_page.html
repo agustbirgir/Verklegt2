@@ -9,7 +9,7 @@
     </div>
     <div class="container mt-5" style="padding-bottom: 2rem">
         <div class="container centered">
-            <h2 style="padding-bottom: 1rem; font-weight: bold; color: darkcyan">{{ company_name }} - {{ job_title }}</h2>
+            <h2 style="padding-bottom: 1rem; font-weight: bold; color: darkcyan">{{ company_name }} - {{ title }}</h2>
             <div class="row" style="padding-bottom: 2rem">
                 <div class="col">
                     <div class="card">
@@ -76,7 +76,11 @@
                                     <p class="cover-letter" style="font-weight: bold">Cover Letter:</p>
                                 </div>
                                 <div class="col">
-                                    <p class="cover-letter">{{ cover_letter }}</p>
+                                    {% if has_cover %}
+                                        <img src="{% static 'Images/green_check_better.jpg' %}" alt="Green Check" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                    {% else %}
+                                        <img src="{% static 'Images/red_x.jpg' %}" alt="Red Cross" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                    {% endif %}
                                 </div>
                             </div>
                             <!-- Experience and Recommendations -->
