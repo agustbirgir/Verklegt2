@@ -16,9 +16,21 @@ def index(request):
     jobs = Job.objects.all()
     return render(request, 'Company/company_page.html', {'company': company,  'jobs': jobs})
 
+
 def company_page(request, company_id):
     company = get_object_or_404(Company, id=company_id)
-    return render(request, 'Company/company_page.html', {'company': company})
+    jobs = Job.objects.filter(company=company)
+
+    user_type = None
+    if request.user.is_authenticated:
+        if hasattr(request.user, 'is_company') and request.user.is_company():
+            user_type = 'company'
+        elif hasattr(request.user, 'is_jobhunter') and request.user.is_jobhunter():
+            user_type = 'jobhunter'
+
+    return render(request, 'Company/company_page.html', {'company': company, 'jobs': jobs, 'user_type': user_type})
+
+
 
 def company_login(request):
     if request.method == 'POST':
@@ -28,7 +40,7 @@ def company_login(request):
         if user is not None:
             print(f"User id: {user.id} logged in")
             login(request, user)
-            return redirect('company_index')  # Redirect to a dashboard or appropriate page
+            return redirect('company_page')  # Redirect to a dashboard or appropriate page
         else:
             return render(request, 'Base/comp_login.html', {'error': 'Invalid login credentials'})
     return render(request, 'Base/comp_login.html')
@@ -98,3 +110,10 @@ def new_job(request):
     else:
         categories = JobCategory.objects.all()
         return render(request, 'Company/new_job.html', {'categories': categories})
+
+
+def view_applicants(request, job_id):
+    job = get_object_or_404(Job, id=job_id)
+    company = job.company
+    applicants = job.applications.all()  # Use the related_name here
+    return render(request, 'Company/view_applicants.html', {'job': job, 'company': company, 'applicants': applicants})
