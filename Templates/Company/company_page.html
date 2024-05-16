@@ -25,10 +25,10 @@
         <div class="col text-end">
             <div class="row">
                 <div class="col-9">
-                    <p class="location" style="font-size: larger; font-weight: bolder; color: darkcyan">Location:</p>
+                    <p class="location" style="font-size: larger; font-weight: bolder; color: darkcyan">Location: {{ company.address }}, {{ company.postal_code }} {{ company.city }}</p>
                 </div>
                 <div class="col">
-                    <p class="location" style="font-size: larger; color: darkcyan">{{ company.address }}, {{ company.postal_code }} {{ company.city }}</p>
+                   <!-- svona var þetta <p class="location" style="font-size: larger; color: darkcyan">{{ company.address }}, {{ company.postal_code }} {{ company.city }}</p> -->
                 </div>
             </div>
         </div>
