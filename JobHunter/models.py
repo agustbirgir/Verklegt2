@@ -25,6 +25,7 @@ class Profile(models.Model):
     house_number = models.CharField(max_length=10, blank=True)
     postal_code = models.CharField(max_length=10, blank=True)
     country = models.CharField(max_length=50, blank=True)
+    city = models.CharField(max_length=50, blank=True)
     profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
 
     def __str__(self):
