@@ -50,11 +50,14 @@
             <div class="col">
                 <div class="mb-3">
                     {% if job.categories.all %}
-                        <p style="color: darkcyan"><strong>Categories:</strong>
+                        {% for category in job.categories.all %}
+                            <p class="d-inline-block" style="margin-right: 1rem; padding-right: .50rem; padding-left: .50rem; color: darkcyan; border-radius: 5rem; background-color: #FFFFFF; border: 1px solid darkcyan">{{ category.name }}</p>
+                        {% endfor %}
+                        <!--<p style="color: darkcyan"><strong>Categories:</strong>
                             {% for category in job.categories.all %}
                                 <span>{{ category.name }}</span>{% if not forloop.last %}, {% endif %}
                             {% endfor %}
-                        </p>
+                        </p>-->
                     {% else %}
                         <p style="color: darkcyan"><strong>Categories:</strong> No categories to show</p>
                     {% endif %}

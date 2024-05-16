@@ -15,9 +15,9 @@
             <div class="row mb-4">
                 <div class="col">
                     {% for category in job.categories.all %}
-                        <p class="d-inline-block border border-2 border-info" style="margin-right: 1rem; padding-right: .50rem; padding-left: .50rem; color: #0dcaf0; border-radius: 5rem; font-weight: bold; background-color: #FFFFFF">{{ category.name }}</p>
+                        <p class="d-inline-block" style="margin-right: 1rem; padding-right: .50rem; padding-left: .50rem; color: darkcyan; border-radius: 5rem; background-color: #FFFFFF; border: 1px solid darkcyan">{{ category.name }}</p>
                     {% endfor %}
-                    <p class="d-inline-block border border-2 border-info" style="margin-right: 1rem; padding-right: .50rem; padding-left: .50rem; color: #0dcaf0; border-radius: 5rem; font-weight: bold; background-color: #FFFFFF">{{ job.job_type }}</p>
+                    <p class="d-inline-block" style="margin-right: 1rem; padding-right: .50rem; padding-left: .50rem; color: darkcyan; border-radius: 5rem; background-color: #FFFFFF; border: 1px solid darkcyan">{{ job.job_type }}</p>
                 </div>
             </div>
             <div class="row mb-4">
@@ -40,9 +40,9 @@
             <div class="row mb-4" style="height: 6em; border: 1px solid #0dcaf0; border-radius: 0.5rem; align-items: center; background-color: #FFFFFF">
                 <div class="col-5 p-0" style="display: flex; align-items: center; justify-content: flex-start; overflow: hidden;">
                     {% if job.company.company_image %}
-                        <img src="{{ job.company.company_image.url }}" alt="{{ job.company.company_name }}" class="rounded-start" style="width: 76%; height: auto; object-fit: cover; border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                        <img src="{{ job.company.company_image.url }}" alt="{{ job.company.company_name }}" class="rounded-start" style="width: 76%; height: 94px; object-fit: cover; border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
                     {% else %}
-                        <img src="{% static 'Images/test.jpg' %}" alt="Default Image" class="rounded-start" style="width: 76%; height: auto; object-fit: cover; border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                        <img src="{% static 'Images/test.jpg' %}" alt="Default Image" class="rounded-start" style="width: 76%; height: 94px; object-fit: cover; border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
                     {% endif %}
                 </div>
                 <!-- Text column that takes up the remaining 70% of the row width -->
