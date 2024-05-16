@@ -13,7 +13,6 @@ from django.utils import timezone
 from django.db.models import Q
 import logging
 from django.shortcuts import render
-from Company.models import Job, JobCategory
 
 
 User = get_user_model()
@@ -233,7 +232,7 @@ def application_view(request, job_id):
     context = {
         'job': job,
         'company_name': job.company.company_name,
-        'job_title': job.job_title
+        'title': job.title
     }
     return render(request, 'JobHunter/application.html', context)
 
