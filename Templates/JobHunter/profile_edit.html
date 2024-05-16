@@ -66,13 +66,18 @@
                             </div>
                         </div>
                     </div>
-                <div class="row mb-5" style="background-color: #FFFFFF; padding: 1rem;">
+                </div>
+                <div class="row mb-5" style="background-color: #FFFFFF; padding: 1rem; border: 1px solid #ced4da; border-radius: 1rem">
                     <div class="col">
                         <label for="bio" class="form-label" style="color: darkcyan; font-weight: bold">About Me</label>
                         <textarea class="form-control" name="bio" id="bio" placeholder="Bio" rows="10" style="resize: none">{% if form.bio.value %}{{ form.bio.value }}{% endif %}</textarea>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary" style="visibility: visible; margin-bottom: 4em">Save changes</button>
+                <div class="row">
+                    <div class="d-grid gap-2 col-2 mx-auto">
+                        <button type="submit" class="btn btn-primary" style="visibility: visible; margin-bottom: 4em; width: fit-content">Save changes</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

@@ -21,11 +21,7 @@ class EditProfileForm(forms.ModelForm):
             raise forms.ValidationError("This field cannot be empty.")
         return bio
 
-    def clean_phone_number(self):
-        phone_number = self.cleaned_data.get('phone_number')
-        if not phone_number:
-            raise forms.ValidationError("This field cannot be empty.")
-        return phone_number
+
 
     def clean_street_name(self):
         street_name = self.cleaned_data.get('street_name')

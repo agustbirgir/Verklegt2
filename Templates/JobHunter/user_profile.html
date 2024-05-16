@@ -33,12 +33,16 @@
             <div class="row mb-4" style="background-color: #FFFFFF; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem; padding: 1rem">
                 <h5 style="font-weight: bold">Information</h5>
                 <div class="col-md-6">
-                    <p>Email: {{ user.email }}</p>
-                    <p>Phone: {{ user.profile.phone_number }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Phone:</strong> {{ user.profile.phone_number }}</p>
                 </div>
                 <div class="col-md-6">
-                    <p>Address: {{ user.profile.street_name }} {{ user.profile.house_number }}, {{ user.profile.postal_code }} {{ user.profile.city }}</p>
-                    <p>Country: {{ user.profile.country }}</p>
+                    {% if user.profile.street_name and user.profile.house_number and user.profile.postal_code and user.profile.city %}
+                        <p><strong>Address:</strong> {{ user.profile.street_name }} {{ user.profile.house_number }}, {{ user.profile.postal_code }} {{ user.profile.city }}</p>
+                    {% else %}
+                        <p style="font-weight: bold">Address:</p>
+                    {% endif %}
+                    <p><strong>Country:</strong> {{ user.profile.country }}</p>
                 </div>
             </div>
 
