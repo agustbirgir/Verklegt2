@@ -225,9 +225,12 @@ def edit_profile(request):
 @login_required
 def application_view(request, job_id):
     job = get_object_or_404(Job, id=job_id)  # Ensure the job exists
+    user = get_object_or_404(User, email=request.user.email)
+    profile = get_object_or_404(Profile, user_id=user.id)
     if request.method == 'POST':
         form_data = {
             'job_id': job_id,
+            'user_id': profile.id,
             'full_name': request.POST.get('fullName'),
             'email': request.POST.get('email'),
             'street_name': request.POST.get('streetName'),
@@ -252,7 +255,9 @@ def application_view(request, job_id):
     context = {
         'job': job,
         'company_name': job.company.company_name,
-        'title': job.title
+        'title': job.title,
+        'user': user,
+        'profile': profile
     }
     return render(request, 'JobHunter/application.html', context)
 
