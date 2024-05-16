@@ -1,5 +1,5 @@
 {% load static %}
-<div class="card" style="width: 30rem; margin-bottom: 20px; border-radius: 2rem; border-color: lightgray">
+<div class="card" style="height: 29em; width: 30rem; margin-bottom: 20px; border-radius: 2rem; border-color: lightgray">
     <div class="container">
         <div class="row align-items-center">
             <div class="col">
@@ -15,50 +15,43 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-8">
-                <div class="mb-3">
-                    <h5 style="font-weight: bold">
-                        <a href="{% url 'job_description' job.id %}" style="text-decoration: none; color: inherit;">
-                            {{ job.company.company_name }} - {{ job.title }}
-                        </a>
-                    </h5>
-                </div>
+            <div class="col">
+                <h5 style="font-weight: bold">
+                    <a href="{% url 'job_description' job.id %}" style="text-decoration: none; color: inherit;">
+                        {{ job.company.company_name }} - {{ job.title }}
+                    </a>
+                </h5>
             </div>
-            <div class="col-4 text-end">
-                <div class="mb-3">
-                    <p class="date" style="font-weight: bold; color: darkcyan">
-                        Expires: {{ job.exp_date|date:"d/m/Y" }}
-                    </p>
-                </div>
+        <div class="row">
+            <div class="col">
+                <p class="date" style="font-weight: bold; color: darkcyan">
+                    Expires: {{ job.exp_date|date:"d/m/Y" }}
+                </p>
             </div>
         </div>
+        </div>
         <div class="row">
-            <div class="col" style="height: 7rem; text-align: justify; padding: 1rem;">
+            <div class="col" style="height: 7rem; text-align: justify; padding-left: 1rem; padding-right: 1rem">
                 {{ job.description }}
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <div class="mb-3">
-                    <p style="border: 2px darkcyan; border-radius: 20%; color: darkcyan">{{ job.job_type }}</p>
-                </div>
+                <p class="d-inline-block border border-2 border-info" style="margin-right: 1rem; padding-right: .50rem; padding-left: .50rem; color: #0dcaf0; border-radius: 5rem">{{ job.job_type }}</p>
             </div>
         </div>
         <div class="row">
             <div class="col">
                 <div class="mb-3">
-                    <p>{{ job.address }}, {{ job.city }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="mb-3">
-                    <p>Categories:
-                        {% for category in job.categories.all %}
-                            <span>{{ category.name }}</span>{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    </p>
+                    {% if job.categories.all %}
+                        <p style="color: #0dcaf0"><strong>Categories:</strong>
+                            {% for category in job.categories.all %}
+                                <span>{{ category.name }}</span>{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+                    {% else %}
+                        <p style="color: #0dcaf0"><strong>Categories:</strong> No categories to show</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
