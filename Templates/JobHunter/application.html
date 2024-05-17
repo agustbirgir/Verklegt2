@@ -43,9 +43,9 @@
                                 <label for="country" class="form-label" style="font-weight: bold; color: darkcyan">Country</label>
                                 <select class="form-select" name="country" id="country" aria-label="Default select example">
                                     <option selected>Select country</option>
-                                    <option value="England">England</option>
-                                    <option value="Iceland">Iceland</option>
-                                    <option value="United States">United States</option>
+                                    {% for country in country_list %}
+                                    <option value="{{ country }}" {% if country == profile.country %}selected{% endif %}>{{ country }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             <!-- Cover Letter -->
