@@ -25,9 +25,9 @@ def company_page(request, company_id):
 
     user_type = None
     if request.user.is_authenticated:
-        if hasattr(request.user, 'is_company') and request.user.is_company():
+        if hasattr(request.user, 'is_company') and request.user.is_company:
             user_type = 'company'
-        elif hasattr(request.user, 'is_jobhunter') and request.user.is_jobhunter():
+        elif hasattr(request.user, 'is_jobhunter') and request.user.is_jobhunter:
             user_type = 'jobhunter'
 
     return render(request, 'Company/company_page.html', {'company': company, 'jobs': jobs, 'user_type': user_type})
