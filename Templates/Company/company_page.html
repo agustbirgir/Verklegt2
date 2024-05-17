@@ -2,8 +2,10 @@
 {% load static %}
 {% block content %}
 <div class="container">
-    <a href="{% url 'new_job' %}">New Job</a>
-    <a href="{% url 'applicants' 0 %}">View Applicants</a>
+    <div class="button-container" style="margin-bottom: 1rem;">
+        <a href="{% url 'new_job' %}" class="btn btn-success" style="background-color: green; border: none; padding: 10px 20px; color: white; text-decoration: none; border-radius: 5px;">New Job</a>
+        <a href="{% url 'logout' %}" class="btn btn-secondary" style="background-color: gray; border: none; padding: 10px 20px; color: white; text-decoration: none; border-radius: 5px; margin-left: 10px;">Logout</a>
+    </div>
     <div class="row" style="padding-bottom: 6rem; padding-top: 2rem">
         <div class="col-12">
             <div class="cover-photo-container" style="position: relative; width: 100%; height: 250px">

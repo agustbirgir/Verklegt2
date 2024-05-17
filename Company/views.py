@@ -42,7 +42,7 @@ def company_login(request):
         if user is not None:
             print(f"User id: {user.id} logged in")
             login(request, user)
-            return redirect('company_page')  # Redirect to a dashboard or appropriate page
+            return redirect('company_page')
         else:
             return render(request, 'Base/comp_login.html', {'error': 'Invalid login credentials'})
     return render(request, 'Base/comp_login.html')
@@ -92,8 +92,8 @@ def new_job(request):
         city = request.POST.get('city')
         exp_date = request.POST.get('expDate')
         job_type = request.POST.get('jobType', 'Part Time')
-        categories_ids = request.POST.getlist('categories')  # Get the categories from the form
-        categories = JobCategory.objects.filter(id__in=categories_ids)  # Get the category objects from the database
+        categories_ids = request.POST.getlist('categories')
+        categories = JobCategory.objects.filter(id__in=categories_ids)
 
         job = Job(
             company=request.user,
@@ -105,7 +105,7 @@ def new_job(request):
             job_type=job_type
         )
         job.save()
-        job.categories.set(categories)  # Save the categories to the job
+        job.categories.set(categories)
 
         return redirect('index')
 
@@ -117,7 +117,7 @@ def new_job(request):
 def view_applicants(request, job_id):
     job = get_object_or_404(Job, id=job_id)
     company = job.company
-    applicants = job.applications.all()  # Use the related_name here
+    applicants = job.applications.all()
     return render(request, 'Company/view_applicants.html', {'job': job, 'company': company, 'applicants': applicants})
 
 
