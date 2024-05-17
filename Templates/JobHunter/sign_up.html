@@ -10,29 +10,29 @@
                         {% csrf_token %}
                         <div class="mb-3">
                             <label for="firstNameInput" class="form-label">First Name</label>
-                            <input type="text" class="form-control" name="first_name" id="firstNameInput" required>
+                            <input type="text" class="form-control" name="first_name" id="firstNameInput" required placeholder="e.g. Chuck">
                         </div>
                         <div class="mb-3">
                             <label for="lastNameInput" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" name="last_name" id="lastNameInput">
+                            <input type="text" class="form-control" name="last_name" id="lastNameInput" placeholder="e.g. Norris">
                         </div>
                         <div class="mb-3">
                             <label for="emailInput" class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email" id="emailInput">
+                            <input type="email" class="form-control" name="email" id="emailInput" placeholder="e.g. Example@gmail.com">
                         </div>
                         <div class="mb-3">
                             <label for="passwordInput" class="form-label">Password</label>
-                            <input type="password" class="form-control" name="password" id="passwordInput">
+                            <input type="password" class="form-control" name="password" id="passwordInput" placeholder="e.g. Example123!">
                         </div>
                         <div class="mb-3">
                             <label for="confirmPasswordInput" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" name="confirm_password" id="confirmPasswordInput">
+                            <input type="password" class="form-control" name="confirm_password" id="confirmPasswordInput" placeholder="e.g. Example123!">
                         </div>
                         <div class="mb-3">
                             <label for="bioInput" class="form-label">Bio</label>
-                            <textarea class="form-control" name="bio" id="bioInput"></textarea>
+                            <textarea class="form-control" name="bio" id="bioInput" placeholder="e.g. I have a grizzly bear rug in his bedroom.
+It's not dead. It's just too scared to move..."></textarea>
                         </div>
-
                         <button type="submit" class="btn btn-primary">Sign Up</button>
                     </form>
 

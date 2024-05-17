@@ -12,8 +12,7 @@ from .forms import EditProfileForm
 from django.utils import timezone
 from django.db.models import Q
 import logging
-from django.shortcuts import render
-
+import pycountry
 
 User = get_user_model()
 
@@ -22,10 +21,17 @@ def index(request):
     categories = JobCategory.objects.all()
     companies = Company.objects.all()
 
+    query = request.GET.get('q', '')
     category_filter = request.GET.getlist('category')
     company_filter = request.GET.getlist('company')
     job_type_filter = request.GET.getlist('job_type')
     sort_filter = request.GET.get('sort')
+
+    if query:
+        jobs = jobs.filter(
+            Q(company__company_name__icontains=query) |
+            Q(title__icontains=query)
+        )
 
     if category_filter:
         jobs = jobs.filter(categories__id__in=category_filter)
@@ -46,6 +52,7 @@ def index(request):
         'jobs': jobs,
         'categories': categories,
         'companies': companies,
+        'query': query,
         'category_filter': category_filter,
         'company_filter': company_filter,
         'job_type_filter': job_type_filter,
@@ -54,8 +61,10 @@ def index(request):
 
     return render(request, 'JobHunter/index.html', context)
 
-
-
+# Function to generate country list
+def get_country_list():
+    countries = list(pycountry.countries)
+    return [country.name for country in countries]
 
 
 def card(request):
@@ -189,7 +198,7 @@ def user_profile_view(request):
         'house_number': user_profile.house_number,
         'postal_code': user_profile.postal_code,
         'country': user_profile.country,
-        'applications': applications_with_status,  # Add applications with status to the context
+        'applications': applications_with_status,
     }
 
     # Pass the context to the template
@@ -199,6 +208,8 @@ def user_profile_view(request):
 @login_required
 def profile_edit_view(request):
     # Retrieve the user's profile
+
+    country_list = get_country_list()
     user_profile = get_object_or_404(Profile, user=request.user)
 
     if request.method == 'POST':
@@ -222,6 +233,7 @@ def profile_edit_view(request):
     # Create a context dictionary to pass to the template
     context = {
         'form': form,
+        'country_list': country_list,
     }
 
     # Pass the context to the template
@@ -245,6 +257,8 @@ def application_view(request, job_id):
     job = get_object_or_404(Job, id=job_id)  # Ensure the job exists
     user = get_object_or_404(User, email=request.user.email)
     profile = get_object_or_404(Profile, user_id=user.id)
+
+    country_list = get_country_list()
     if request.method == 'POST':
         form_data = {
             'job_id': job_id,
@@ -267,78 +281,81 @@ def application_view(request, job_id):
             'rec_phone_numbers': request.POST.getlist('rec_phone_number[]'),
             'rec_can_contacts': request.POST.getlist('rec_can_contact[]')
         }
-        request.session['form_data'] = form_data
-        return redirect('review_page')
+
+        # Save the application
+        application = Application(
+            user=user,
+            job=job,
+            full_name=form_data['full_name'],
+            email=form_data['email'],
+            street_name=form_data['street_name'],
+            house_number=form_data['house_number'],
+            city=form_data['city'],
+            postal_code=form_data['postal_code'],
+            country=form_data['country'],
+            cover_letter=form_data['cover_letter'],
+            status='pending',
+            applied_on=timezone.now()
+        )
+        application.save()
+
+        # Save experiences
+        for i in range(len(form_data['places_of_work'])):
+            Experience.objects.create(
+                application=application,
+                place_of_work=form_data['places_of_work'][i],
+                role=form_data['roles'][i],
+                start_date=form_data['start_dates'][i],
+                end_date=form_data['end_dates'][i]
+            )
+
+        # Save recommendations
+        for i in range(len(form_data['rec_names'])):
+            Recommendation.objects.create(
+                application=application,
+                name=form_data['rec_names'][i],
+                role=form_data['rec_roles'][i],
+                email=form_data['rec_emails'][i],
+                phone_number=form_data['rec_phone_numbers'][i] if i < len(form_data['rec_phone_numbers']) else "",
+                can_contact=(form_data['rec_can_contacts'][i] == 'true') if i < len(
+                    form_data['rec_can_contacts']) else False
+            )
+
+        return redirect('review_page', applicant_id=application.id)
 
     context = {
         'job': job,
         'company_name': job.company.company_name,
         'title': job.title,
         'user': user,
-        'profile': profile
+        'profile': profile,
+        'country_list': country_list
     }
     return render(request, 'JobHunter/application.html', context)
 
+
 logger = logging.getLogger(__name__)
+
 @login_required
-def review_page(request):
-    form_data = request.session.get('form_data', None)
-    if not form_data:
-        return redirect('index')  # Redirect to index if no form data is found
+def review_page(request, applicant_id):
+    applicant = get_object_or_404(Application, id=applicant_id)
+    job = applicant.job
 
-    job_id = form_data.get('job_id')
-    job = get_object_or_404(Job, id=job_id)
-
-    has_cover = bool(form_data.get('cover_letter'))
-    has_experience = bool(form_data.get('places_of_work')) and any(form_data.get('places_of_work'))
-    has_recommendations = bool(form_data.get('rec_names')) and any(form_data.get('rec_names'))
+    # Check if the user is a company
+    is_company = isinstance(request.user, Company)
 
     if request.method == 'POST':
         try:
-            # Create and save the application
-            application = Application(
-                user=request.user,
-                job=job,
-                full_name=form_data.get('full_name'),
-                email=form_data.get('email'),
-                street_name=form_data.get('street_name'),
-                house_number=form_data.get('house_number'),
-                city=form_data.get('city'),
-                postal_code=form_data.get('postal_code'),
-                country=form_data.get('country'),
-                cover_letter=form_data.get('cover_letter'),
-                status='pending',
-                applied_on=timezone.now()
-            )
-            application.save()
-            logger.debug("Application saved: %s", application)
-
             # Save experiences
-            for i in range(len(form_data['places_of_work'])):
-                experience = Experience(
-                    application=application,
-                    place_of_work=form_data['places_of_work'][i],
-                    role=form_data['roles'][i],
-                    start_date=form_data['start_dates'][i],
-                    end_date=form_data['end_dates'][i]
-                )
+            for experience in applicant.experiences.all():
                 experience.save()
                 logger.debug("Experience saved: %s", experience)
 
             # Save recommendations
-            for i in range(len(form_data['rec_names'])):
-                recommendation = Recommendation(
-                    application=application,
-                    name=form_data['rec_names'][i],
-                    role=form_data['rec_roles'][i],
-                    email=form_data['rec_emails'][i],
-                    phone_number=form_data['rec_phone_numbers'][i] if i < len(form_data['rec_phone_numbers']) else "",
-                    can_contact=(form_data['rec_can_contacts'][i] == 'true') if i < len(form_data['rec_can_contacts']) else False
-                )
+            for recommendation in applicant.recommendations.all():
                 recommendation.save()
                 logger.debug("Recommendation saved: %s", recommendation)
 
-            request.session.pop('form_data', None)
             return redirect('index')  # Redirect to index after final submission
 
         except Exception as e:
@@ -346,31 +363,41 @@ def review_page(request):
             # Handle the error appropriately, e.g., show an error message to the user
 
     context = {
+        'applicant': applicant,
+        'is_company': is_company,
         'company_name': job.company.company_name,
         'title': job.title,
-        'full_name': form_data.get('full_name'),
-        'email': form_data.get('email'),
-        'street_name': form_data.get('street_name'),
-        'house_number': form_data.get('house_number'),
-        'city': form_data.get('city'),
-        'postal_code': form_data.get('postal_code'),
-        'country': form_data.get('country'),
-        'cover_letter': form_data.get('cover_letter'),
-        'has_cover': has_cover,
-        'has_experience': has_experience,
-        'has_recommendations': has_recommendations,
+        'full_name': applicant.full_name,
+        'email': applicant.email,
+        'street_name': applicant.street_name,
+        'house_number': applicant.house_number,
+        'city': applicant.city,
+        'postal_code': applicant.postal_code,
+        'country': applicant.country,
+        'cover_letter': applicant.cover_letter,
+        'has_cover': applicant.cover_letter is not None,
+        'has_experience': applicant.experiences.exists(),
+        'has_recommendations': applicant.recommendations.exists(),
     }
     return render(request, 'JobHunter/review_page.html', context)
 
 
+
 def search(request):
-    query = request.GET.get('search', '')
+    query = request.GET.get('q', '')
+    jobs = Job.objects.none()  # Default to an empty queryset
     if query:
         jobs = Job.objects.filter(
             Q(company__company_name__icontains=query) |
-            Q(job_title__icontains=query)
+            Q(title__icontains=query)
         )
-    else:
-        jobs = Job.objects.all()
+    categories = JobCategory.objects.all()
+    companies = Company.objects.all()
 
-    return render(request, 'JobHunter/index.html', {'jobs': jobs, 'query': query})
+    context = {
+        'jobs': jobs,
+        'query': query,
+        'categories': categories,
+        'companies': companies,
+    }
+    return render(request, 'JobHunter/index.html', context)

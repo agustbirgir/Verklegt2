@@ -8,7 +8,9 @@
         {% for applicant in applicants %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <span>
-                    {{ applicant.full_name }} - {{ applicant.email }}
+                    <button class="btn btn-link" onclick="window.location.href='{% url 'review_page' applicant.id %}'">
+                        {{ applicant.full_name }} - {{ applicant.email }}
+                    </button>
                 </span>
                 <span>
                     <button class="btn btn-success btn-sm mr-2" onclick="updateStatus('{{ applicant.id }}', 'accepted', this)">Accept</button>

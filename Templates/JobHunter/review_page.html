@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<form method="POST" action="{% url 'review_page' %}">
+<form method="POST" action="{% url 'review_page' applicant.id %}">
     {% csrf_token %}
     <div class="col-2">
         <button class="btn btn-link" type="button" onclick="window.history.back()">← Back</button>
@@ -76,10 +76,14 @@
                                     <p class="cover-letter" style="font-weight: bold">Cover Letter:</p>
                                 </div>
                                 <div class="col">
-                                    {% if has_cover %}
-                                        <img src="{% static 'Images/green_check_better.jpg' %}" alt="Green Check" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                    {% if is_company %}
+                                        <p class="cover-letter">{{ cover_letter }}</p>
                                     {% else %}
-                                        <img src="{% static 'Images/red_x.jpg' %}" alt="Red Cross" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                        {% if has_cover %}
+                                            <img src="{% static 'Images/green_check_better.jpg' %}" alt="Green Check" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                        {% else %}
+                                            <img src="{% static 'Images/red_x.jpg' %}" alt="Red Cross" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                             </div>
@@ -89,10 +93,18 @@
                                     <p class="experience" style="font-weight: bold">Experience:</p>
                                 </div>
                                 <div class="col">
-                                    {% if has_experience %}
-                                        <img src="{% static 'Images/green_check_better.jpg' %}" alt="Green Check" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                    {% if is_company %}
+                                        <ul>
+                                            {% for experience in applicant.experiences.all %}
+                                                <li>{{ experience.place_of_work }} - {{ experience.role }} ({{ experience.start_date }} to {{ experience.end_date }})</li>
+                                            {% endfor %}
+                                        </ul>
                                     {% else %}
-                                        <img src="{% static 'Images/red_x.jpg' %}" alt="Red Cross" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                        {% if has_experience %}
+                                            <img src="{% static 'Images/green_check_better.jpg' %}" alt="Green Check" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                        {% else %}
+                                            <img src="{% static 'Images/red_x.jpg' %}" alt="Red Cross" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                             </div>
@@ -101,10 +113,18 @@
                                     <p class="recommendations" style="font-weight: bold">Recommendations:</p>
                                 </div>
                                 <div class="col">
-                                    {% if has_recommendations %}
-                                        <img src="{% static 'Images/green_check_better.jpg' %}" alt="Green Check" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                    {% if is_company %}
+                                        <ul>
+                                            {% for recommendation in applicant.recommendations.all %}
+                                                <li>{{ recommendation.name }} - {{ recommendation.role }} ({{ recommendation.email }}{% if recommendation.phone_number %}, {{ recommendation.phone_number }}{% endif %}){% if recommendation.can_contact %} - Can Contact{% endif %}</li>
+                                            {% endfor %}
+                                        </ul>
                                     {% else %}
-                                        <img src="{% static 'Images/red_x.jpg' %}" alt="Red Cross" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                        {% if has_recommendations %}
+                                            <img src="{% static 'Images/green_check_better.jpg' %}" alt="Green Check" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                        {% else %}
+                                            <img src="{% static 'Images/red_x.jpg' %}" alt="Red Cross" style="border-radius: 50%; height: 2rem; width: 2rem">
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                             </div>
@@ -112,9 +132,11 @@
                     </div>
                 </div>
             </div>
-            <div class="d-grid gap-2 col-2 mx-auto">
-                <button class="btn btn-primary" type="submit">Submit Application</button>
-            </div>
+            {% if not is_company %}
+                <div class="d-grid gap-2 col-2 mx-auto">
+                    <button class="btn btn-primary" type="submit">Submit Application</button>
+                </div>
+            {% endif %}
         </div>
     </div>
 </form>
