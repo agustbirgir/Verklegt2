@@ -73,17 +73,13 @@ def card(request):
 
 @login_required
 def user_profile_view(request):
-    # Assuming the user is logged in, get their profile
     user_profile = get_object_or_404(Profile, user=request.user)
 
-    # Create a context dictionary to pass to the template
     context = {
         'user': request.user,
         'bio': user_profile.bio,
-        # Additional data can be included here if needed
     }
 
-    # Pass the context to the template
     return render(request, 'JobHunter/user_profile.html', context)
 
 def login_view(request):
@@ -91,7 +87,6 @@ def login_view(request):
         email = request.POST['email']
         password = request.POST['password']
 
-        # First, try to authenticate normally
         user = authenticate(request, username=email, password=password)
 
         if user:
@@ -152,7 +147,6 @@ def signup_view(request):
                 email=email,
                 password=hashed_password
             )
-            # Creating profile linked to the user
             Profile.objects.create(user=new_user, bio=bio)
             print("new user created: ", new_user)
             return redirect('login')
@@ -170,9 +164,8 @@ def job_description_view(request, job_id):
 def user_profile_view(request):
     # Retrieve the user's profile and check for applied jobs
     user_profile = get_object_or_404(Profile, user=request.user)
-    applications = Application.objects.filter(user=request.user).select_related('job')  # Fetch applications and related jobs
+    applications = Application.objects.filter(user=request.user).select_related('job')
 
-    # Create a list to store applications with their statuses and colors
     applications_with_status = []
     status_color_map = {
         'pending': 'orange',
@@ -188,7 +181,6 @@ def user_profile_view(request):
             'status_color': status_color,
         })
 
-    # Create a context dictionary to pass to the template
     context = {
         'user': request.user,
         'bio': user_profile.bio,
@@ -201,25 +193,20 @@ def user_profile_view(request):
         'applications': applications_with_status,
     }
 
-    # Pass the context to the template
     return render(request, 'JobHunter/user_profile.html', context)
 
 
 @login_required
 def profile_edit_view(request):
-    # Retrieve the user's profile
 
     country_list = get_country_list()
     user_profile = get_object_or_404(Profile, user=request.user)
 
     if request.method == 'POST':
-        # If the form has been submitted, update the user's profile
 
-        # Create a form instance with the POST data
         form = ProfileForm(request.POST, request.FILES, instance=user_profile)
 
         if form.is_valid():
-            # If the form is valid, save the changes and redirect to the user's profile page
             print(form.cleaned_data)  # Add this line
             form.save()
             return redirect('user_profile')
@@ -227,16 +214,13 @@ def profile_edit_view(request):
             print(form.errors)
 
     else:
-        # If the form has not been submitted, display the form with the user's current profile information
         form = ProfileForm(instance=user_profile)
 
-    # Create a context dictionary to pass to the template
     context = {
         'form': form,
         'country_list': country_list,
     }
 
-    # Pass the context to the template
     return render(request, 'JobHunter/profile_edit.html', context)
 
 
@@ -341,12 +325,10 @@ def review_page(request, applicant_id):
     applicant = get_object_or_404(Application, id=applicant_id)
     job = applicant.job
 
-    # Check if the user is a company
     is_company = isinstance(request.user, Company)
 
     if request.method == 'POST':
         try:
-            # Save experiences
             for experience in applicant.experiences.all():
                 experience.save()
                 logger.debug("Experience saved: %s", experience)
@@ -356,11 +338,10 @@ def review_page(request, applicant_id):
                 recommendation.save()
                 logger.debug("Recommendation saved: %s", recommendation)
 
-            return redirect('index')  # Redirect to index after final submission
+            return redirect('index')
 
         except Exception as e:
             logger.error("Error saving application: %s", e)
-            # Handle the error appropriately, e.g., show an error message to the user
 
     context = {
         'applicant': applicant,
@@ -385,7 +366,7 @@ def review_page(request, applicant_id):
 
 def search(request):
     query = request.GET.get('q', '')
-    jobs = Job.objects.none()  # Default to an empty queryset
+    jobs = Job.objects.none()
     if query:
         jobs = Job.objects.filter(
             Q(company__company_name__icontains=query) |
