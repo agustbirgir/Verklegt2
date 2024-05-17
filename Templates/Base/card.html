@@ -64,5 +64,12 @@
                 </div>
             </div>
         </div>
+        {% if status %}
+            <div class="row">
+                <div class="col">
+                    <p class="status" style="font-weight: bold; color: {{ status_color }};">Status: {{ status }}</p>
+                </div>
+            </div>
+        {% endif %}
     </div>
 </div>

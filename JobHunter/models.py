@@ -4,12 +4,12 @@ from django.conf import settings
 from Company.models import Job
 
 class User(AbstractUser):
-    username = None  # Disable the username field
+    username = None
     email = models.EmailField('email address', unique=True)
     profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []  # No need for email in REQUIRED_FIELDS since it's the USERNAME_FIELD
+    REQUIRED_FIELDS = []
 
     def is_jobHunter(self):
         return True

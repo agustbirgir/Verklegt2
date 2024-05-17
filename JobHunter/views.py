@@ -161,7 +161,23 @@ def job_description_view(request, job_id):
 def user_profile_view(request):
     # Retrieve the user's profile and check for applied jobs
     user_profile = get_object_or_404(Profile, user=request.user)
-    #applied_jobs = JobApplication.objects.filter(user=request.user)  # Assuming there's a JobApplication model
+    applications = Application.objects.filter(user=request.user).select_related('job')  # Fetch applications and related jobs
+
+    # Create a list to store applications with their statuses and colors
+    applications_with_status = []
+    status_color_map = {
+        'pending': 'orange',
+        'accepted': 'green',
+        'rejected': 'red',
+    }
+
+    for application in applications:
+        status_color = status_color_map.get(application.status, 'black')  # Default to black if status is unrecognized
+        applications_with_status.append({
+            'job': application.job,
+            'status': application.status,
+            'status_color': status_color,
+        })
 
     # Create a context dictionary to pass to the template
     context = {
@@ -173,10 +189,12 @@ def user_profile_view(request):
         'house_number': user_profile.house_number,
         'postal_code': user_profile.postal_code,
         'country': user_profile.country,
+        'applications': applications_with_status,  # Add applications with status to the context
     }
 
     # Pass the context to the template
     return render(request, 'JobHunter/user_profile.html', context)
+
 
 @login_required
 def profile_edit_view(request):

@@ -58,13 +58,19 @@
             <div class="row mb-4" style="background-color: #FFFFFF; border: 1px solid #ced4da; border-radius: 1rem; padding: 1rem">
                 <div class="col">
                     <h5>Applied Jobs</h5>
-                    <ul>
-                        {% for job in user.applied_jobs %}
-                            <li>{{ job.title }}</li>
-                        {% empty %}
-                            <li>No jobs applied for yet.</li>
-                        {% endfor %}
-                    </ul>
+                    <div class="container" style="padding-top: 1rem; padding-bottom: 2rem">
+                        {% if applications %}
+                            <div class="row">
+                                {% for application in applications %}
+                                    <div class="col-md-6 mb-4">
+                                        {% include "Base/card.html" with job=application.job status=application.status status_color=application.status_color user_type="jobhunter" %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p>No jobs applied for yet.</p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
