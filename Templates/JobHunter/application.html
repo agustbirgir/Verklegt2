@@ -93,7 +93,7 @@
             </div>
             <!-- Submission Button -->
             <div class="d-grid gap-2 col-2 mx-auto" style="padding: 2rem">
-                <button type="submit" class="btn btn-primary">Submit Application</button>
+                <button type="submit" class="btn btn-primary">Review</button>
             </div>
         </form>
     </div>
@@ -130,39 +130,49 @@
         `;
         document.getElementById('experienceForms').appendChild(newRow);
     }
+    </script>
 
-    function addRowRec() {
-        const newRow = document.createElement("div");
-        newRow.className = "row mb-3";
-        newRow.innerHTML = `
-            <div class="col-md-3">
-                <div class="mb-3">
-                    <input type="text" class="form-control" name="rec_name[]" placeholder="Name">
+    <script>
+        let rowCounter2 = 1;
+        function addRowRec() {
+
+            const newRow = document.createElement("div");
+            newRow.className = "row mb-3";
+            newRow.innerHTML = `
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="rec_name[]" id="recName${rowCounter2}" placeholder="Name">
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="mb-3">
-                    <input type="text" class="form-control" name="rec_role[]" placeholder="Role">
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="rec_role[]" id="recRole${rowCounter2}" placeholder="Role">
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="mb-3">
-                    <input type="email" class="form-control" name="rec_email[]" placeholder="Email">
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <input type="email" class="form-control" name="rec_email[]" id="recEmail${rowCounter2}" placeholder="Email">
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-2">
-                <div class="mb-3">
-                    <input type="number" class="form-control" name="rec_phone_number[]" placeholder="Phone Number">
+                <div class="col-md-2">
+                    <div class="mb-3">
+                        <input type="number" class="form-control" name="rec_phone_number[]" id="recPhoneNr${rowCounter2}" placeholder="Phone Number">
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-1">
-                <div class="mb-3" style="padding-top: 1rem">
-                    <input type="checkbox" class="btn-check" name="rec_can_contact[]" value="true" checked>
-                    <label class="btn btn-outline-primary">Can Contact</label>
+                <div class="col-md-5">
+                    <div class="mb-3" style="padding-top: 1rem">
+                        <div id="radioBtn${rowCounter2}" class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="btnradio${rowCounter2}" id="canContact${rowCounter2}" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="canContact${rowCounter2}">Can Contact</label>
+
+                            <input type="radio" class="btn-check" name="btnradio${rowCounter2}" id="cannotContact${rowCounter2}" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="cannotContact${rowCounter2}">Can NOT Contact</label>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        `;
-        document.getElementById('recommendationForms').appendChild(newRow);
-    }
-</script>
+            `;
+        rowCounter2 +=1;
+            document.getElementById('recommendationForms').appendChild(newRow);
+        }
+    </script>
 {% endblock %}
