@@ -20,7 +20,6 @@
                     <div class="col-8">
                         <h2>{{ user.first_name }} {{ user.last_name }}</h2>
                     </div>
-
                 </div>
                 <div class="row mb-4" style="padding: 1rem; background-color: #FFFFFF; border: 1px solid #ced4da; border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem;">
                     <h5 style="font-weight: bold; color: darkcyan">Information</h5>
@@ -28,13 +27,13 @@
                         <div class="row" style="padding-top: 1rem">
                             <div class="col">
                                 <label for="emailInput" class="form-label" style="color: darkcyan; font-weight: bold">Email</label>
-                                <input type="email" name="email" class="form-control" id="emailInput" value="{{ user.email }}">
+                                <input type="email" name="email" class="form-control" id="emailInput" value="{{ user.email }}" placeholder="e.g. Example@gmail.com">
                             </div>
                         </div>
                         <div class="row" style="padding-top: 1rem">
                             <div class="col">
                                 <label for="phoneNr" class="form-label" style="color: darkcyan; font-weight: bold">Phone</label>
-                                <input type="number" name="phone_number" class="form-control" id="phoneNr" value="{{ form.phone_number.value }}" placeholder="Phone number">
+                                <input type="number" name="phone_number" class="form-control" id="phoneNr" value="{{ form.phone_number.value }}" placeholder="e.g. 5812345">
                             </div>
                         </div>
                     </div>
@@ -42,27 +41,32 @@
                         <div class="row" style="padding-top: 1rem">
                             <div class="col">
                                 <label for="streetInput" class="form-label" style="color: darkcyan; font-weight: bold">Street</label>
-                                <input type="text" name="street_name" class="form-control" id="streetInput" value="{{ form.street_name.value }}" placeholder="Street">
+                                <input type="text" name="street_name" class="form-control" id="streetInput" value="{{ form.street_name.value }}" placeholder="e.g Menntavegur">
                             </div>
                         </div>
                         <div class="row" style="padding-top: 1rem">
                             <div class="col">
                                 <label for="houseNrInput" class="form-label" style="color: darkcyan; font-weight: bold">House Number</label>
-                                <input type="number" name="house_number" class="form-control" id="houseNrInput" value="{{ form.house_number.value }}" placeholder="House Number">
+                                <input type="number" name="house_number" class="form-control" id="houseNrInput" value="{{ form.house_number.value }}" placeholder="e.g 1">
                             </div>
                             <div class="col">
                                 <label for="postalCodeInput" class="form-label" style="color: darkcyan; font-weight: bold">Postal Code</label>
-                                <input type="text" name="postal_code" class="form-control" id="postalCodeInput" value="{{ form.postal_code.value }}" placeholder="Postal Code">
+                                <input type="text" name="postal_code" class="form-control" id="postalCodeInput" value="{{ form.postal_code.value }}" placeholder="e.g. 101">
                             </div>
                         </div>
                         <div class="row" style="padding-top: 1rem">
                             <div class="col">
                                 <label for="cityInput" class="form-label" style="color: darkcyan; font-weight: bold">City</label>
-                                <input type="text" name="city" class="form-control" id="cityInput" value="{{ form.city.value }}" placeholder="City">
+                                <input type="text" name="city" class="form-control" id="cityInput" value="{{ form.city.value }}" placeholder="e.g. Reykjavik">
                             </div>
                             <div class="col">
                                 <label for="countryInput" class="form-label" style="color: darkcyan; font-weight: bold">Country</label>
-                                <input type="text" name="country" class="form-control" id="countryInput" value="{{ form.country.value }}" placeholder="Country">
+                                <select class="form-select" name="country" id="countryInput" aria-label="Default select example">
+                                    <option selected>Select country</option>
+                                    {% for country in country_list %}
+                                    <option value="{{ country }}" {% if country == form.country.value %}selected{% endif %}>{{ country }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
                     </div>
