@@ -12,8 +12,7 @@ from .forms import EditProfileForm
 from django.utils import timezone
 from django.db.models import Q
 import logging
-from django.shortcuts import render
-
+import pycountry
 
 User = get_user_model()
 
@@ -22,10 +21,17 @@ def index(request):
     categories = JobCategory.objects.all()
     companies = Company.objects.all()
 
+    query = request.GET.get('q', '')
     category_filter = request.GET.getlist('category')
     company_filter = request.GET.getlist('company')
     job_type_filter = request.GET.getlist('job_type')
     sort_filter = request.GET.get('sort')
+
+    if query:
+        jobs = jobs.filter(
+            Q(company__company_name__icontains=query) |
+            Q(title__icontains=query)
+        )
 
     if category_filter:
         jobs = jobs.filter(categories__id__in=category_filter)
@@ -46,6 +52,7 @@ def index(request):
         'jobs': jobs,
         'categories': categories,
         'companies': companies,
+        'query': query,
         'category_filter': category_filter,
         'company_filter': company_filter,
         'job_type_filter': job_type_filter,
@@ -54,8 +61,10 @@ def index(request):
 
     return render(request, 'JobHunter/index.html', context)
 
-
-
+# Function to generate country list
+def get_country_list():
+    countries = list(pycountry.countries)
+    return [country.name for country in countries]
 
 
 def card(request):
@@ -189,7 +198,7 @@ def user_profile_view(request):
         'house_number': user_profile.house_number,
         'postal_code': user_profile.postal_code,
         'country': user_profile.country,
-        'applications': applications_with_status,  # Add applications with status to the context
+        'applications': applications_with_status,
     }
 
     # Pass the context to the template
@@ -199,6 +208,8 @@ def user_profile_view(request):
 @login_required
 def profile_edit_view(request):
     # Retrieve the user's profile
+
+    country_list = get_country_list()
     user_profile = get_object_or_404(Profile, user=request.user)
 
     if request.method == 'POST':
@@ -222,6 +233,7 @@ def profile_edit_view(request):
     # Create a context dictionary to pass to the template
     context = {
         'form': form,
+        'country_list': country_list,
     }
 
     # Pass the context to the template
@@ -246,6 +258,7 @@ def application_view(request, job_id):
     user = get_object_or_404(User, email=request.user.email)
     profile = get_object_or_404(Profile, user_id=user.id)
 
+    country_list = get_country_list()
     if request.method == 'POST':
         form_data = {
             'job_id': job_id,
@@ -315,7 +328,8 @@ def application_view(request, job_id):
         'company_name': job.company.company_name,
         'title': job.title,
         'user': user,
-        'profile': profile
+        'profile': profile,
+        'country_list': country_list
     }
     return render(request, 'JobHunter/application.html', context)
 
@@ -370,13 +384,20 @@ def review_page(request, applicant_id):
 
 
 def search(request):
-    query = request.GET.get('search', '')
+    query = request.GET.get('q', '')
+    jobs = Job.objects.none()  # Default to an empty queryset
     if query:
         jobs = Job.objects.filter(
             Q(company__company_name__icontains=query) |
-            Q(job_title__icontains=query)
+            Q(title__icontains=query)
         )
-    else:
-        jobs = Job.objects.all()
+    categories = JobCategory.objects.all()
+    companies = Company.objects.all()
 
-    return render(request, 'JobHunter/index.html', {'jobs': jobs, 'query': query})
+    context = {
+        'jobs': jobs,
+        'query': query,
+        'categories': categories,
+        'companies': companies,
+    }
+    return render(request, 'JobHunter/index.html', context)

@@ -18,38 +18,38 @@
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label" style="font-weight: bold; color: darkcyan">Email</label>
-                                <input type="email" class="form-control" name="email" id="email" placeholder="fx. example@example.com" value="{{user.email}}">
+                                <input type="email" class="form-control" name="email" id="email" placeholder="e.g. Example@gmail.com" value="{{user.email}}">
                             </div>
                             <!-- Address Details -->
                             <div class="mb-3">
                                 <label for="streetName" class="form-label" style="font-weight: bold; color: darkcyan">Street Name</label>
-                                <input type="text" class="form-control" name="streetName" id="streetName" placeholder="Enter here" value="{{profile.street_name}}">
+                                <input type="text" class="form-control" name="streetName" id="streetName" placeholder="e.g. Menntavegur" value="{{profile.street_name}}">
                             </div>
                             <div class="mb-3">
                                 <label for="houseNr" class="form-label" style="font-weight: bold; color: darkcyan">House Number</label>
-                                <input type="number" class="form-control" name="houseNr" id="houseNr" placeholder="fx. 122" value="{{profile.house_number}}">
+                                <input type="number" class="form-control" name="houseNr" id="houseNr" placeholder="e.g. 1" value="{{profile.house_number}}">
                             </div>
                             <div class="mb-3">
                                 <label for="city" class="form-label" style="font-weight: bold; color: darkcyan">City</label>
-                                <input type="text" class="form-control" name="city" id="city" placeholder="Enter here" value="{{profile.city}}">
+                                <input type="text" class="form-control" name="city" id="city" placeholder="Reykjavík" value="{{profile.city}}">
                             </div>
                             <div class="mb-3">
                                 <label for="postalCode" class="form-label" style="font-weight: bold; color: darkcyan">Postal Code</label>
-                                <input type="number" class="form-control" name="postalCode" id="postalCode" placeholder="fx. 122" value="{{profile.postal_code}}">
+                                <input type="number" class="form-control" name="postalCode" id="postalCode" placeholder="e.g. 101" value="{{profile.postal_code}}">
                             </div>
                             <div class="mb-3">
                                 <label for="country" class="form-label" style="font-weight: bold; color: darkcyan">Country</label>
                                 <select class="form-select" name="country" id="country" aria-label="Default select example">
                                     <option selected>Select country</option>
-                                    <option value="England">England</option>
-                                    <option value="Iceland">Iceland</option>
-                                    <option value="United States">United States</option>
+                                    {% for country in country_list %}
+                                    <option value="{{ country }}" {% if country == profile.country %}selected{% endif %}>{{ country }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             <!-- Cover Letter -->
                             <div class="mb-3" style="padding-bottom: .80rem">
                                 <label for="coverLetter" class="form-label" style="font-weight: bold; color: darkcyan">Cover Letter</label>
-                                <textarea class="form-control" name="coverLetter" id="coverLetter" rows="14" placeholder="Type here" style="resize: none"></textarea>
+                                <textarea class="form-control" name="coverLetter" id="coverLetter" rows="14" placeholder="Chuck Norris does´nt wear a watch. I decides what time it is..." style="resize: none"></textarea>
                             </div>
                         </div>
                     </div>
