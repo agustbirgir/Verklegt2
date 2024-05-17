@@ -11,8 +11,9 @@
                     {{ applicant.full_name }} - {{ applicant.email }}
                 </span>
                 <span>
-                    <button class="btn btn-success btn-sm mr-2" onclick="updateStatus('{{ applicant.id }}', 'accepted')">Accept</button>
-                    <button class="btn btn-danger btn-sm" onclick="updateStatus('{{ applicant.id }}', 'rejected')">Reject</button>
+                    <button class="btn btn-success btn-sm mr-2" onclick="updateStatus('{{ applicant.id }}', 'accepted', this)">Accept</button>
+                    <button class="btn btn-danger btn-sm" onclick="updateStatus('{{ applicant.id }}', 'rejected', this)">Reject</button>
+                    <span class="status-message" style="display:none;">Successful</span>
                 </span>
             </li>
         {% endfor %}
@@ -20,12 +21,12 @@
 </div>
 
 <script>
-    function updateStatus(applicantId, status) {
-        fetch('/Company/update_status/', {  // Adjusted the URL here
+    function updateStatus(applicantId, status, button) {
+        fetch('/Company/update_status/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': '{{ csrf_token }}'  // Add CSRF token for security
+                'X-CSRFToken': '{{ csrf_token }}'
             },
             body: JSON.stringify({
                 'applicant_id': applicantId,
@@ -35,8 +36,11 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Status updated successfully');
-                location.reload();  // Reload the page to reflect changes
+                // Hide the buttons and show the success message
+                const buttons = button.parentElement.querySelectorAll('button');
+                buttons.forEach(btn => btn.style.display = 'none');
+                const successMessage = button.parentElement.querySelector('.status-message');
+                successMessage.style.display = 'inline';
             } else {
                 alert('Failed to update status');
             }
