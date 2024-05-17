@@ -3,14 +3,12 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <!-- Filter Section -->
         <div class="col-md-3" style="border-right: 2px solid gray; padding-right: 1rem; margin-right: 2rem">
             <div class="filter">
                 <div class="title" style="text-align: center;">
                     <h2 class="filter" style="text-decoration-line: underline; padding-bottom: 1rem">Filter</h2>
                 </div>
                 <form method="GET" action="{% url 'index' %}">
-                    <!-- Sort By Section -->
                     <div class="filter-section" style="margin-bottom: 1rem; border-bottom: 1px solid lightgray; padding-bottom: 1rem;">
                         <div class="title" style="text-align: center;">
                             <h5 class="sort-by">Sort By:</h5>
@@ -30,7 +28,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Category Section -->
                     <div class="filter-section" style="margin-bottom: 1rem; border-bottom: 1px solid lightgray; padding-bottom: 1rem;">
                         <div class="title" style="text-align: center;">
                             <h5 class="category">Category:</h5>
@@ -46,7 +43,6 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <!-- Job Type Section -->
                     <div class="filter-section" style="margin-bottom: 1rem; border-bottom: 1px solid lightgray; padding-bottom: 1rem;">
                         <div class="title" style="text-align: center;">
                             <h5 class="job-type">Job Type:</h5>
@@ -66,7 +62,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Company Section -->
                     <div class="filter-section" style="margin-bottom: 1rem; border-bottom: 1px solid lightgray; padding-bottom: 1rem;">
                         <div class="title" style="text-align: center;">
                             <h5 class="company">Company:</h5>
@@ -89,7 +84,6 @@
             </div>
         </div>
 
-        <!-- Cards Section -->
         <div class="col-md-8" style="padding-left: 2rem;">
             <div class="row">
                 {% if query %}

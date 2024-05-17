@@ -11,7 +11,6 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                            <!-- Personal Details -->
                             <div class="mb-3">
                                 <label for="fullName" class="form-label" style="font-weight: bold; color: darkcyan">Full Name</label>
                                 <input type="text" class="form-control" name="fullName" id="fullName" placeholder="Enter your name here" value="{{user.first_name}} {{user.last_name}}">
@@ -20,7 +19,6 @@
                                 <label for="email" class="form-label" style="font-weight: bold; color: darkcyan">Email</label>
                                 <input type="email" class="form-control" name="email" id="email" placeholder="e.g. Example@gmail.com" value="{{user.email}}">
                             </div>
-                            <!-- Address Details -->
                             <div class="mb-3">
                                 <label for="streetName" class="form-label" style="font-weight: bold; color: darkcyan">Street Name</label>
                                 <input type="text" class="form-control" name="streetName" id="streetName" placeholder="e.g. Menntavegur" value="{{profile.street_name}}">
@@ -46,7 +44,6 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                            <!-- Cover Letter -->
                             <div class="mb-3" style="padding-bottom: .80rem">
                                 <label for="coverLetter" class="form-label" style="font-weight: bold; color: darkcyan">Cover Letter</label>
                                 <textarea class="form-control" name="coverLetter" id="coverLetter" rows="14" placeholder="Chuck Norris does´nt wear a watch. I decides what time it is..." style="resize: none"></textarea>
@@ -55,14 +52,12 @@
                     </div>
                 </div>
             </div>
-            <!-- Experience -->
             <div class="row" style="padding-bottom: 2rem">
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
                             <label for="experienceForms" class="form-label" style="font-weight: bold; color: darkcyan">Experience</label>
                             <div id="experienceForms">
-                                <!-- Dynamic experience fields added by JavaScript -->
                             </div>
                             <div class="row">
                                 <div class="col">
@@ -73,14 +68,12 @@
                     </div>
                 </div>
             </div>
-            <!-- Recommendations -->
             <div class="row" style="padding-bottom: 2rem">
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
                             <label for="recommendationForms" class="form-label" style="font-weight: bold; color: darkcyan">Recommendations</label>
                             <div id="recommendationForms">
-                                <!-- Dynamic recommendation fields added by JavaScript -->
                             </div>
                             <div class="row">
                                 <div class="col">
@@ -91,7 +84,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Submission Button -->
             <div class="d-grid gap-2 col-2 mx-auto" style="padding: 2rem">
                 <button type="submit" class="btn btn-primary">Review</button>
             </div>
