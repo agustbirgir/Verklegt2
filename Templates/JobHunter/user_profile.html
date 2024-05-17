@@ -5,14 +5,12 @@
 <div class="container">
     <div class="row">
         <div class="col py-4">
-            <!-- Profile Image Section -->
             <div class="row mb-0.5 align-items-center " style="padding: 1rem; background-color: #FFFFFF; border: 1px solid #ced4da; border-top-left-radius: 1rem; border-top-right-radius: 1rem">
                 <div class="col-2" style="height: 100%; display: flex; justify-content: center; align-items: center;">
                     <div style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden;">
                         {% if user.profile.profile_image %}
                             <img src="{{ user.profile.profile_image.url }}" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
                         {% else %}
-                            <!-- Display a default image if profile_image does not exist -->
                             <img src="{% static 'Images/default_picture.jpg' %}" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
                         {% endif %}
                     </div>
@@ -22,14 +20,11 @@
                     <h2 style="font-weight: bold">{{ user.first_name }} {{ user.last_name }}</h2>
                 </div>
                 <div class="col-2" style="display: flex; justify-content: flex-end; align-items: center;">
-                    <!-- Edit Button -->
                     <a href="{% url 'profile_edit' %}" class="btn btn-secondary">Edit</a>
-                    <!-- Logout Button -->
                     <a href="{% url 'logout' %}" class="btn btn-primary" style="margin-left: 0.5em">Logout</a>
                 </div>
             </div>
 
-            <!-- Information Section -->
             <div class="row mb-4" style="background-color: #FFFFFF; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem; padding: 1rem">
                 <h5 style="font-weight: bold">Information</h5>
                 <div class="col-md-6">
@@ -46,7 +41,6 @@
                 </div>
             </div>
 
-            <!-- Bio Section -->
             <div class="row mb-5" style="background-color: #FFFFFF; border: 1px solid #ced4da; border-radius: 1rem; padding: 1rem">
                 <div class="col">
                     <h5 style="font-weight: bold">About Me</h5>
@@ -54,7 +48,6 @@
                 </div>
             </div>
 
-            <!-- Applied Jobs Section -->
             <div class="row mb-4" style="background-color: #FFFFFF; border: 1px solid #ced4da; border-radius: 1rem; padding: 1rem">
                 <div class="col">
                     <h5>Applied Jobs</h5>
